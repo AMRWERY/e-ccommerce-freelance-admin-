@@ -81,6 +81,14 @@ const router = createRouter({
         title: "meta.login",
       },
     },
+    {
+      path: "/register-new-market",
+      name: "register-new-market",
+      component: () => import("../views/register-new-market.vue"),
+      meta: {
+        title: "meta.register_new_market",
+      },
+    },
 
     //error-404
     {
