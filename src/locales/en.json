@@ -1,0 +1,39 @@
+{
+  "form": {
+    "email": "Email",
+    "enter_your_email": "Enter your email",
+    "password": "Password",
+    "enter_your_password": "Enter your password",
+    "first_name": "First name",
+    "enter_your_first_name": "Enter your first name",
+    "last_name": "Last name",
+    "enter_your_last_name": "Enter your last name",
+    "market_name": "Market name",
+    "enter_your_market_name": "Enter your market name",
+    "attach_your_file_here": "Attach your file here",
+    "description": "Description",
+    "tell_us_about_your_market": "Tell us about your market",
+    "username": "Username",
+    "enter_your_username": "Enter your username",
+    "register_new_market": "Register new Market",
+    "market_info": "Market Info",
+    "personal_info": "Personal Info"
+  },
+  "btn": {
+    "login": "Login",
+    "create_an_account": "Create new account",
+    "next_step_personal_info": "Next Step: Personal Info",
+    "back": "Back",
+    "register_market": "Register Market"
+  },
+  "meta": {
+    "home": "Home",
+    "page_not_found": "Page not found",
+    "products": "Products",
+    "add_product": "Add product",
+    "edit_product": "Edit Product",
+    "login": "Login",
+    "sign_up": "Sign up",
+    "register_new_market": "Register new Market"
+  }
+}

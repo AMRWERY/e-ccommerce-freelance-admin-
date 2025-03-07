@@ -1,0 +1,37 @@
+{
+  "form": {
+    "email": "البريد الإلكتروني",
+    "enter_your_email": "أدخل بريدك الإلكتروني",
+    "password": "كلمة المرور",
+    "enter_your_password": "أدخل كلمة المرور الخاصة بك",
+    "first_name": "الأسم الأول",
+    "enter_your_first_name": "أدخل اسمك الأول",
+    "last_name": "الأسم الأخير",
+    "enter_your_last_name": "أدخل اسمك الأخير",
+    "market_name": "اسم المتجر",
+    "enter_your_market_name": "ادخل اسم المتجر الخاص بك",
+    "attach_your_file_here": "قم بإرفاق ملفك هنا",
+    "description": "الوصف",
+    "tell_us_about_your_market": "أخبرنا عن المتجر الخاص بك",
+    "register_new_market": "تسجيل متجر جديد",
+    "market_info": "بيانات المتجر",
+    "personal_info": "البيانات الشخصيه"
+  },
+  "btn": {
+    "login": "تسجيل الدخول",
+    "create_an_account": "إنشاء حساب جديد",
+    "next_step_personal_info": "الخطوة التالية: المعلومات الشخصية",
+    "back": "رجوع",
+    "register_market": "تسجيل المتجر"
+  },
+  "meta": {
+    "home": "الرئيسية",
+    "page_not_found": "الصفحه غير موجوده",
+    "products": "المنتجات",
+    "add_product": "اضافه منتج",
+    "edit_product": "تعديل منتج",
+    "login": "تسجيل الدخول",
+    "sign_up": "أنشاء حساب جديد",
+    "register_new_market": "تسجيل متجر جديد"
+  }
+}
