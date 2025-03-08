@@ -77,9 +77,13 @@
                             <td class="px-6 py-4">
                                 ${{ product.price }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="flex items-center justify-center px-6 py-4 space-x-4">
                                 <router-link to="/edit-product/2"
                                     class="font-medium text-blue-600 hover:underline">Edit</router-link>
+                                <router-link to="" role="button" class="font-medium text-red-600">
+                                    <iconify-icon icon="material-symbols:delete-forever" width="24"
+                                        height="24"></iconify-icon>
+                                </router-link>
                             </td>
                         </tr>
                     </tbody>
