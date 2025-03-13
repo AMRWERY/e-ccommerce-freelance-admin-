@@ -4,6 +4,7 @@
             <h2 class="mb-4 text-2xl font-medium text-center">
                 {{ isEdit ? $t('form.edit_product') : $t('form.add_product') }}
             </h2>
+
             <form @submit.prevent="handleSubmit">
                 <div class="mb-4">
                     <dynamic-inputs :label="t('form.product_title')" :placeholder="t('form.enter_your_product_title')"
@@ -87,7 +88,7 @@
 
                 <div class="mb-4">
                     <label for="availability" class="block mb-2 font-medium text-gray-700">{{ $t('form.availability')
-                    }}</label>
+                        }}</label>
                     <select id="availability" :name="t('form.availability')"
                         class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
                         <option value="" disabled>{{ $t('form.select_availability') }}</option>
@@ -99,7 +100,7 @@
                 <div class="mb-4">
                     <label for="country" class="block mb-2 font-medium text-gray-700">{{
                         $t('form.select_market_country')
-                        }}</label>
+                    }}</label>
                     <select id="country" :name="t('form.select_market_country')"
                         class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
                         <option value="" disabled>{{ $t('form.select_market_country') }}</option>
