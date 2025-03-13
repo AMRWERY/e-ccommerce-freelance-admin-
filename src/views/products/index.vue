@@ -94,9 +94,6 @@
 </template>
 
 <script setup>
-import { utils, write } from 'xlsx';
-import { saveAs } from 'file-saver';
-
 const products = ref([
     {
         id: 1,
@@ -114,52 +111,10 @@ const products = ref([
     }
 ]);
 
+// useExcelExport composables
+const { exportDataToExcel } = useExcelExport();
+
 const exportToExcel = () => {
-    // Create header row with styling
-    const header = [
-        { v: '#', s: { font: { bold: true, color: { rgb: 'FFFFFF' } }, fill: { fgColor: { rgb: '4F81BD' } } } },
-        { v: 'Product Name', s: { font: { bold: true, color: { rgb: 'FFFFFF' } }, fill: { fgColor: { rgb: '4F81BD' } } } },
-        { v: 'Color', s: { font: { bold: true, color: { rgb: 'FFFFFF' } }, fill: { fgColor: { rgb: '4F81BD' } } } },
-        { v: 'Category', s: { font: { bold: true, color: { rgb: 'FFFFFF' } }, fill: { fgColor: { rgb: '4F81BD' } } } },
-        { v: 'Price', s: { font: { bold: true, color: { rgb: 'FFFFFF' } }, fill: { fgColor: { rgb: '4F81BD' } } } }
-    ];
-
-    // Create data rows with styling
-    const dataRows = products.value.map(product => [
-        { v: product.id, s: { alignment: { horizontal: 'center' } } },
-        { v: product.name, s: { font: { name: 'Arial', sz: 12 } } },
-        { v: product.color, s: { fill: { fgColor: { rgb: 'F2F2F2' } } } },
-        { v: product.category },
-        {
-            v: product.price,
-            t: 'n', // Number type
-            z: '$#,##0.00', // Currency format
-            s: { font: { color: { rgb: '00AA00' }, bold: true } }
-        }
-    ]);
-
-    // Create worksheet
-    const worksheet = utils.aoa_to_sheet([header, ...dataRows]);
-
-    // Set column widths
-    worksheet['!cols'] = [
-        { wch: 5 },  // #
-        { wch: 25 }, // Product Name
-        { wch: 15 }, // Color
-        { wch: 20 }, // Category
-        { wch: 15 }  // Price
-    ];
-
-    // Create workbook
-    const workbook = utils.book_new();
-    utils.book_append_sheet(workbook, worksheet, "Products");
-
-    // Generate Excel file
-    const excelBuffer = write(workbook, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([excelBuffer], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    });
-
-    saveAs(blob, 'styled_products.xlsx');
+    exportDataToExcel(products.value, { filename: 'my_products.xlsx' });
 };
 </script>
