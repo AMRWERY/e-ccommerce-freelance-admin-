@@ -17,7 +17,29 @@
     "enter_your_username": "Enter your username",
     "register_new_market": "Register new Market",
     "market_info": "Market Info",
-    "personal_info": "Personal Info"
+    "personal_info": "Personal Info",
+    "product_title": "Product title",
+    "enter_your_product_title": "Enter your Product title",
+    "product_title_ar": "Product title ar",
+    "enter_your_product_title_ar": "Enter your Product title ar",
+    "attach_your_files_here": "Attach your files here",
+    "product_description": "Product description",
+    "enter_your_product_description": "Enter your Product description",
+    "product_description_ar": "Product description ar",
+    "enter_your_product_description_ar": "Enter your Product description ar",
+    "original_price": "Original price",
+    "enter_original_price": "Enter original price",
+    "discounted_price": "Discounted price",
+    "enter_discounted_price": "Enter discounted price",
+    "discount": "Discount",
+    "enter_the_discount_percentage": "Enter the discount percentage",
+    "availability": "Availability",
+    "select_availability": "Select availability",
+    "select_market_country": "Select market country",
+    "egypt": "Egypt",
+    "ksa": "Ksa",
+    "in_stock": "In stock",
+    "out_of_stock": "Out of stock"
   },
   "btn": {
     "login": "Login",
@@ -26,7 +48,8 @@
     "back": "Back",
     "register_market": "Register Market",
     "reset": "Reset",
-    "logout": "Logout"
+    "logout": "Logout",
+    "please_wait": "Please Wait"
   },
   "meta": {
     "home": "Home",
