@@ -82,50 +82,55 @@
                     <ul class="space-y-2 font-medium">
                         <li>
                             <router-link to="/products" exact-active-class="bg-gray-100 dark:bg-gray-700"
-                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                @click="closeSidebarOnMobile">
                                 <iconify-icon icon="mdi:shopping-basket" width="24" height="24" aria-hidden="true"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Products</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.products') }}</span>
                             </router-link>
                         </li>
                         <li v-if="userRole === 'admin'">
                             <router-link to="/categories" exact-active-class="bg-gray-100 dark:bg-gray-700"
-                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                @click="closeSidebarOnMobile">
                                 <iconify-icon icon="material-symbols:category" width="24" height="24" aria-hidden="true"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">></iconify-icon>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Categories</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.categories') }}</span>
                             </router-link>
                         </li>
                         <li v-if="userRole === 'admin'">
                             <router-link to="/orders" exact-active-class="bg-gray-100 dark:bg-gray-700"
-                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                @click="closeSidebarOnMobile">
                                 <iconify-icon icon="mdi:clipboard-list" width="24" height="24" aria-hidden="true"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Orders</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.orders') }}</span>
                             </router-link>
                         </li>
                         <li v-if="userRole === 'admin'">
                             <router-link to="/users" exact-active-class="bg-gray-100 dark:bg-gray-700"
-                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                @click="closeSidebarOnMobile">
                                 <iconify-icon icon="mdi:users-group" width="24" height="24" aria-hidden="true"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.users') }}</span>
                             </router-link>
                         </li>
                         <!-- <li v-if="userRole === 'admin'">
                             <router-link to=""
-                               exact-active-class="bg-gray-100 dark:bg-gray-700" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                               exact-active-class="bg-gray-100 dark:bg-gray-700" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" @click="closeSidebarOnMobile">
                                 <iconify-icon icon="mdi:mailbox-up" width="24" height="24" aria-hidden="true"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Messages</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.messages') }}</span>
                             </router-link>
                         </li> -->
                         <li v-if="userRole === 'admin'">
                             <router-link to="/markets" exact-active-class="bg-gray-100 dark:bg-gray-700"
-                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                @click="closeSidebarOnMobile">
                                 <iconify-icon icon="mdi:shop" width="24" height="24" aria-hidden="true"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Markets</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.markets') }}</span>
                             </router-link>
                         </li>
                     </ul>
@@ -134,7 +139,7 @@
                     class="sticky px-4 pt-4 mt-auto bg-white end-0 start-0 bottom-6 dark:bg-gray-800 dark:border-gray-700">
                     <router-link to="" role="button" @click="logout"
                         class="block w-full px-4 py-2 font-semibold text-center text-gray-700 transition-colors border border-gray-300 rounded-lg text-md bg-gray-50 hover:bg-gray-200">
-                        Logout
+                        {{ $t('btn.logout') }}
                     </router-link>
                 </div>
             </aside>
@@ -190,4 +195,13 @@ const userRole = computed(() => {
     }
     return null;
 });
+
+const closeSidebarOnMobile = () => {
+    if (window.innerWidth < 640) {
+        const toggleButton = document.querySelector('[data-drawer-toggle="logo-sidebar"]');
+        if (toggleButton) {
+            toggleButton.click();
+        }
+    }
+};
 </script>

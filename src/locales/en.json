@@ -25,7 +25,8 @@
     "next_step_personal_info": "Next Step: Personal Info",
     "back": "Back",
     "register_market": "Register Market",
-    "reset": "Reset"
+    "reset": "Reset",
+    "logout": "Logout"
   },
   "meta": {
     "home": "Home",
@@ -39,6 +40,15 @@
     "orders": "Orders",
     "users": "Users",
     "markets": "Markets",
-    "reset_password": "Reset Password"
+    "reset_password": "Reset Password",
+    "categories": "Categories"
+  },
+  "layout": {
+    "products": "Products",
+    "categories": "Categories",
+    "orders": "Orders",
+    "users": "Users",
+    "messages": "Messages",
+    "markets": "Markets"
   }
 }

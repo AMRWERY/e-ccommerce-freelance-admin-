@@ -23,7 +23,8 @@
     "next_step_personal_info": "الخطوة التالية: المعلومات الشخصية",
     "back": "رجوع",
     "register_market": "تسجيل المتجر",
-    "reset": "إعادة ضبط"
+    "reset": "إعادة ضبط",
+    "logout": "تسجيل الخروج"
   },
   "meta": {
     "home": "الرئيسية",
@@ -37,6 +38,15 @@
     "orders": "الطلبات",
     "users": "المستخدمون",
     "markets": "المتاجر",
-    "reset_password": "إعادة تعيين كلمة المرور"
+    "reset_password": "إعادة تعيين كلمة المرور",
+    "categories": "الفئات"
+  },
+  "layout": {
+    "products": "المنتجات",
+    "categories": "الفئات",
+    "orders": "الطلبات",
+    "users": "المستخدمون",
+    "messages": "الرسائل",
+    "markets": "المتاجر"
   }
 }
