@@ -39,7 +39,9 @@
     "egypt": "مصر",
     "ksa": "المملكة العربية السعودية",
     "in_stock": "متوفر",
-    "out_of_stock": "غير متوفر"
+    "out_of_stock": "غير متوفر",
+    "edit_product": "تعديل منتح",
+    "add_product": "أضافه منتج"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -49,7 +51,9 @@
     "register_market": "تسجيل المتجر",
     "reset": "إعادة ضبط",
     "logout": "تسجيل الخروج",
-    "please_wait": "انتظر من فضلك"
+    "please_wait": "انتظر من فضلك",
+    "edit_product": "تعديل منتح",
+    "add_product": "أضافه منتج"
   },
   "meta": {
     "home": "الرئيسية",

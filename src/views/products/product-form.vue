@@ -1,8 +1,9 @@
 <template>
     <div>
         <div class="max-w-2xl px-8 py-6 mx-auto my-8 bg-white border rounded-lg">
-            <h2 class="mb-4 text-2xl font-medium text-center">{{ $t('form.add_product')
-            }}</h2>
+            <h2 class="mb-4 text-2xl font-medium text-center">
+                {{ isEdit ? $t('form.edit_product') : $t('form.add_product') }}
+            </h2>
             <form @submit.prevent="handleSubmit">
                 <div class="mb-4">
                     <dynamic-inputs :label="t('form.product_title')" :placeholder="t('form.enter_your_product_title')"
@@ -114,7 +115,9 @@
                             <span class="text-center me-2">{{ $t('btn.please_wait') }}...</span>
                             <i class="fa-solid fa-spinner fa-spin-pulse"></i>
                         </div>
-                        <span v-else>{{ $t('btn.add_product') }}</span>
+                        <span v-else>
+                            {{ isEdit ? $t('btn.edit_product') : $t('btn.add_product') }}
+                        </span>
                     </button>
                 </div>
             </form>
@@ -124,7 +127,21 @@
 
 <script setup>
 const { t } = useI18n()
+const route = useRoute();
 const loading = ref(false);
+const isEdit = ref(false);
+const productId = ref(null);
+
+onMounted(async () => {
+    if (route.name === 'edit-product') {
+        isEdit.value = true;
+        productId.value = route.params.id;
+
+        // Fetch existing product data
+        // const response = await fetch(`/api/products/${productId.value}`);
+        // product.value = await response.json();
+    }
+});
 
 const handleSubmit = () => {
     console.log('form submitted!')

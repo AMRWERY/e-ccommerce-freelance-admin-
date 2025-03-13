@@ -32,9 +32,9 @@ const router = createRouter({
           },
         },
         {
-          path: "/add-product",
+          path: "/products/add",
           name: "add-product",
-          component: () => import("../views/products/add-product.vue"),
+          component: () => import("../views/products/product-form.vue"),
           meta: {
             title: "meta.add_product",
             requiresAuth: true,
@@ -42,14 +42,15 @@ const router = createRouter({
           },
         },
         {
-          path: "/edit-product/:id",
+          path: "/products/edit/:id",
           name: "edit-product",
-          component: () => import("../views/products/edit-product.vue"),
+          component: () => import("../views/products/product-form.vue"),
           meta: {
             title: "meta.edit_product",
             requiresAuth: true,
             allowedRoles: ["admin", "market_owner"],
           },
+          props: true,
         },
         {
           path: "/categories",

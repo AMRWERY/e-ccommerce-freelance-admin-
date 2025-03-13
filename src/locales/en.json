@@ -39,7 +39,9 @@
     "egypt": "Egypt",
     "ksa": "Ksa",
     "in_stock": "In stock",
-    "out_of_stock": "Out of stock"
+    "out_of_stock": "Out of stock",
+    "edit_product": "Edit Product",
+    "add_product":"Add product"
   },
   "btn": {
     "login": "Login",
@@ -49,7 +51,9 @@
     "register_market": "Register Market",
     "reset": "Reset",
     "logout": "Logout",
-    "please_wait": "Please Wait"
+    "please_wait": "Please Wait",
+    "edit_product":"Edit Product",
+    "add_product":"Add product"
   },
   "meta": {
     "home": "Home",
