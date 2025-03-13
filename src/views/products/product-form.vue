@@ -27,7 +27,6 @@
                                     class="relative flex items-center justify-center h-48 bg-gray-100 border-2 border-blue-700 border-dashed rounded-lg">
                                     <div class="absolute">
                                         <div class="flex flex-col items-center">
-                                            <!-- <i class="fa-solid fa-image fa-4x"></i> -->
                                             <iconify-icon icon="material-symbols:imagesmode" width="70" height="70"
                                                 class="text-gray-500"></iconify-icon>
                                             <span class="block font-normal text-gray-400">{{
@@ -88,7 +87,7 @@
 
                 <div class="mb-4">
                     <label for="availability" class="block mb-2 font-medium text-gray-700">{{ $t('form.availability')
-                        }}</label>
+                    }}</label>
                     <select id="availability" :name="t('form.availability')"
                         class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
                         <option value="" disabled>{{ $t('form.select_availability') }}</option>
@@ -100,7 +99,7 @@
                 <div class="mb-4">
                     <label for="country" class="block mb-2 font-medium text-gray-700">{{
                         $t('form.select_market_country')
-                    }}</label>
+                        }}</label>
                     <select id="country" :name="t('form.select_market_country')"
                         class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
                         <option value="" disabled>{{ $t('form.select_market_country') }}</option>

@@ -41,7 +41,13 @@
     "in_stock": "In stock",
     "out_of_stock": "Out of stock",
     "edit_product": "Edit Product",
-    "add_product":"Add product"
+    "add_product": "Add product",
+    "edit_category": "Edit Category",
+    "add_category": "Add Category",
+    "category_title": "Category title",
+    "enter_your_category_title": "Enter your Category title",
+    "category_title_ar": "Category title ar",
+    "enter_your_category_title_ar": "Enter your Category title ar"
   },
   "btn": {
     "login": "Login",
@@ -52,8 +58,10 @@
     "reset": "Reset",
     "logout": "Logout",
     "please_wait": "Please Wait",
-    "edit_product":"Edit Product",
-    "add_product":"Add product"
+    "edit_product": "Edit Product",
+    "add_product": "Add product",
+    "edit_category": "Edit Category",
+    "add_category": "Add Category"
   },
   "meta": {
     "home": "Home",
@@ -68,7 +76,9 @@
     "users": "Users",
     "markets": "Markets",
     "reset_password": "Reset Password",
-    "categories": "Categories"
+    "categories": "Categories",
+    "edit_category": "Edit Category",
+    "add_category": "Add Category"
   },
   "layout": {
     "products": "Products",

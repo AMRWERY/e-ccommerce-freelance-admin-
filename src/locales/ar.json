@@ -40,8 +40,14 @@
     "ksa": "المملكة العربية السعودية",
     "in_stock": "متوفر",
     "out_of_stock": "غير متوفر",
-    "edit_product": "تعديل منتح",
-    "add_product": "أضافه منتج"
+    "edit_product": "تعديل منتج",
+    "add_product": "أضافه منتج",
+    "edit_category": "تعديل فئه",
+    "add_category": "أضافه فئه",
+    "category_title": "اسم الفئه",
+    "enter_your_category_title": "ادخل اسم الفئه",
+    "category_title_ar": "اسم الفئه عربي",
+    "enter_your_category_title_ar": "ادخل اسم الفئه عربي"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -52,8 +58,10 @@
     "reset": "إعادة ضبط",
     "logout": "تسجيل الخروج",
     "please_wait": "انتظر من فضلك",
-    "edit_product": "تعديل منتح",
-    "add_product": "أضافه منتج"
+    "edit_product": "تعديل منتج",
+    "add_product": "أضافه منتج",
+    "edit_category": "تعديل فئه",
+    "add_category": "أضافه فئه"
   },
   "meta": {
     "home": "الرئيسية",
@@ -68,7 +76,9 @@
     "users": "المستخدمون",
     "markets": "المتاجر",
     "reset_password": "إعادة تعيين كلمة المرور",
-    "categories": "الفئات"
+    "categories": "الفئات",
+    "edit_category": "تعديل فئه",
+    "add_category": "أضافه فئه"
   },
   "layout": {
     "products": "المنتجات",

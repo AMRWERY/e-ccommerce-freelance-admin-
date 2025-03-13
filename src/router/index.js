@@ -21,6 +21,7 @@ const router = createRouter({
             allowedRoles: ["admin", "market_owner"],
           },
         },
+        //products routes
         {
           path: "/products",
           name: "products",
@@ -52,15 +53,37 @@ const router = createRouter({
           },
           props: true,
         },
+        //categories routes
         {
           path: "/categories",
           name: "categories",
-          component: () => import("../views/categories.vue"),
+          component: () => import("../views/categories/index.vue"),
           meta: {
             title: "meta.categories",
             requiresAuth: true,
-            allowedRoles: ["admin"],
+            allowedRoles: ["admin", "market_owner"],
           },
+        },
+        {
+          path: "/categories/add",
+          name: "add-category",
+          component: () => import("../views/categories/category-form.vue"),
+          meta: {
+            title: "meta.add_category",
+            requiresAuth: true,
+            allowedRoles: ["admin", "market_owner"],
+          },
+        },
+        {
+          path: "/categories/edit/:id",
+          name: "edit-category",
+          component: () => import("../views/categories/category-form.vue"),
+          meta: {
+            title: "meta.edit_category",
+            requiresAuth: true,
+            allowedRoles: ["admin", "market_owner"],
+          },
+          props: true,
         },
         {
           path: "/orders",
