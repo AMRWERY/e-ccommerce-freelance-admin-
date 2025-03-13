@@ -1,4 +1,3 @@
-// /composables/useExcelExport.js
 import { utils, write } from "xlsx";
 import { saveAs } from "file-saver";
 
