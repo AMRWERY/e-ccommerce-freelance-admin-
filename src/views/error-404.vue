@@ -12,7 +12,7 @@
                         <p class="mb-8 text-center text-gray-500 sm:text-left md:text-lg">The page you’re looking for
                             doesn’t exist.</p>
 
-                        <router-link to="/"
+                        <router-link to="/products"
                             class="inline-block px-8 py-3 text-sm font-semibold text-center text-gray-500 transition duration-100 bg-gray-200 rounded-lg outline-none ring-indigo-300 hover:bg-gray-300 focus-visible:ring active:text-gray-700 md:text-base">Go
                             home</router-link>
                     </div>

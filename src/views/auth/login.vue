@@ -55,7 +55,7 @@ const handleLogin = async () => {
     loading.value = true;
     try {
         await authStore.loginUser(email.value, password.value);
-        router.replace('/')
+        router.replace('/products')
     } catch (error) {
         console.error(error)
     } finally {
