@@ -77,15 +77,22 @@
                             <td class="px-6 py-4">
                                 ${{ product.price }}
                             </td>
-                            <td class="flex items-center justify-center px-6 py-4 space-x-4">
+                            <td class="flex items-center justify-center px-6 py-4 space-s-4">
                                 <router-link to="/edit-product/2"
                                     class="font-medium text-blue-600 hover:underline">Edit</router-link>
-                                <router-link to="" role="button" class="font-medium text-red-600">
+                                <router-link to="" role="button" @click="openDeleteDialog(product.id)"
+                                    class="font-medium text-red-600">
                                     <iconify-icon icon="material-symbols:delete-forever" width="24"
                                         height="24"></iconify-icon>
                                 </router-link>
                             </td>
                         </tr>
+
+                        <!-- delete-dialog component -->
+                        <delete-dialog v-model="showDeleteDialog"
+                            :message="`You are about to delete product #${selectedProductId}. This action cannot be undone.`"
+                            @confirm="handleDelete" />
+
                     </tbody>
                 </table>
             </div>
@@ -110,6 +117,25 @@ const products = ref([
         price: 2499
     }
 ]);
+
+const showDeleteDialog = ref(false);
+const selectedProductId = ref(null);
+
+const openDeleteDialog = (productId) => {
+    selectedProductId.value = productId;
+    showDeleteDialog.value = true;
+};
+
+const handleDelete = async () => {
+    try {
+        // Call your delete API here using selectedProductId.value
+        products.value = products.value.filter(p => p.id !== selectedProductId.value);
+    } catch (error) {
+        console.error('Delete failed:', error);
+    } finally {
+        selectedProductId.value = null;
+    }
+};
 
 // useExcelExport composable
 const { exportDataToExcel } = useExcelExport();
