@@ -111,7 +111,7 @@ const products = ref([
     }
 ]);
 
-// useExcelExport composables
+// useExcelExport composable
 const { exportDataToExcel } = useExcelExport();
 
 const exportToExcel = () => {
