@@ -112,6 +112,14 @@ const router = createRouter({
       },
     },
     {
+      path: "/auth/reset-password",
+      name: "reset-password",
+      component: () => import("../views/auth/reset-password.vue"),
+      meta: {
+        title: "meta.reset_password",
+      },
+    },
+    {
       path: "/register-new-market",
       name: "register-new-market",
       component: () => import("../views/register-new-market.vue"),

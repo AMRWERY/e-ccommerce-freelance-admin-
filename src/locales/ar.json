@@ -22,7 +22,8 @@
     "create_an_account": "إنشاء حساب جديد",
     "next_step_personal_info": "الخطوة التالية: المعلومات الشخصية",
     "back": "رجوع",
-    "register_market": "تسجيل المتجر"
+    "register_market": "تسجيل المتجر",
+    "reset": "إعادة ضبط"
   },
   "meta": {
     "home": "الرئيسية",
@@ -35,6 +36,7 @@
     "register_new_market": "تسجيل متجر جديد",
     "orders": "الطلبات",
     "users": "المستخدمون",
-    "markets": "المتاجر"
+    "markets": "المتاجر",
+    "reset_password": "إعادة تعيين كلمة المرور"
   }
 }

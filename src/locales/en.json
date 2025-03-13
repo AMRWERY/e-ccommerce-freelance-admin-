@@ -24,7 +24,8 @@
     "create_an_account": "Create new account",
     "next_step_personal_info": "Next Step: Personal Info",
     "back": "Back",
-    "register_market": "Register Market"
+    "register_market": "Register Market",
+    "reset": "Reset"
   },
   "meta": {
     "home": "Home",
@@ -37,6 +38,7 @@
     "register_new_market": "Register new Market",
     "orders": "Orders",
     "users": "Users",
-    "markets": "Markets"
+    "markets": "Markets",
+    "reset_password": "Reset Password"
   }
 }
