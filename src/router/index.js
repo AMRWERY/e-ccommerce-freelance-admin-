@@ -61,6 +61,36 @@ const router = createRouter({
             allowedRoles: ["admin"],
           },
         },
+        {
+          path: "/orders",
+          name: "orders",
+          component: () => import("../views/orders.vue"),
+          meta: {
+            title: "meta.orders",
+            requiresAuth: true,
+            allowedRoles: ["admin"],
+          },
+        },
+        {
+          path: "/users",
+          name: "users",
+          component: () => import("../views/users.vue"),
+          meta: {
+            title: "meta.users",
+            requiresAuth: true,
+            allowedRoles: ["admin"],
+          },
+        },
+        {
+          path: "/markets",
+          name: "markets",
+          component: () => import("../views/markets.vue"),
+          meta: {
+            title: "meta.markets",
+            requiresAuth: true,
+            allowedRoles: ["admin"],
+          },
+        },
       ],
     },
 

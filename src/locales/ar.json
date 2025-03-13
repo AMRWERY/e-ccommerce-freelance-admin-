@@ -32,6 +32,9 @@
     "edit_product": "تعديل منتج",
     "login": "تسجيل الدخول",
     "sign_up": "أنشاء حساب جديد",
-    "register_new_market": "تسجيل متجر جديد"
+    "register_new_market": "تسجيل متجر جديد",
+    "orders": "الطلبات",
+    "users": "المستخدمون",
+    "markets": "المتاجر"
   }
 }

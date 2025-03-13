@@ -34,6 +34,9 @@
     "edit_product": "Edit Product",
     "login": "Login",
     "sign_up": "Sign up",
-    "register_new_market": "Register new Market"
+    "register_new_market": "Register new Market",
+    "orders": "Orders",
+    "users": "Users",
+    "markets": "Markets"
   }
 }
