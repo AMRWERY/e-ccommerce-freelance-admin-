@@ -58,7 +58,8 @@ const handleSignup = async () => {
             firstName.value,
             lastName.value
         );
-        router.replace('/auth/login')
+        await authStore.logoutUser();
+        router.push('/auth/login');
     } catch (error) {
         console.error(error)
     } finally {
