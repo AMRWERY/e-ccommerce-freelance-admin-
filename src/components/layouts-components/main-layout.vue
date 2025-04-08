@@ -18,57 +18,12 @@
                             </router-link>
                         </div>
                         <div class="flex items-center">
-                            <router-link to="" class="font-semibold text-white me-4" role="button"
-                                v-if="localeStore.isRTL">
-                                <span class="[&>svg]:w-5" @click="setLocale('en')">
-                                    En
-                                </span>
-                            </router-link>
-                            <router-link to="" class="font-semibold text-white me-4" role="button" v-else>
-                                <span class="[&>svg]:w-5" @click="setLocale('ar')">
-                                    العربية
-                                </span>
-                            </router-link>
+                            <!-- toggle-locales component -->
+                            <toggle-locales />
 
                             <div class="flex items-center ms-3">
-                                <div>
-                                    <button type="button" class="flex text-sm bg-gray-800 rounded-full"
-                                        aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                                        <span class="sr-only">Open user menu</span>
-                                        <img class="w-8 h-8 rounded-full"
-                                            src="https://justfields.com/storage/projects/7M5rV059/images.jpg"
-                                            alt="user photo">
-                                    </button>
-                                </div>
-                                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600"
-                                    id="dropdown-user">
-                                    <div class="px-4 py-3" role="none">
-                                        <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                            Admin
-                                        </p>
-                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
-                                            role="none">
-                                            test@test.com
-                                        </p>
-                                    </div>
-                                    <ul class="py-1" role="none">
-                                        <li>
-                                            <router-link to=""
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                role="menuitem">Dashboard</router-link>
-                                        </li>
-                                        <li>
-                                            <router-link to=""
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                role="menuitem">Settings</router-link>
-                                        </li>
-                                        <li>
-                                            <router-link to=""
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                role="menuitem">Earnings</router-link>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <!-- user-menu component -->
+                                <user-menu />
                             </div>
                         </div>
                     </div>
@@ -154,24 +109,8 @@
 </template>
 
 <script setup>
-const localeStore = useLocaleStore();
 const authStore = useAuthStore();
 const router = useRouter()
-const { locale } = useI18n();
-
-onMounted(() => {
-    locale.value = localeStore.locale;
-});
-
-const setLocale = (value) => {
-    locale.value = value;
-    localeStore.updateLocale(value);
-};
-
-computed(() => {
-    const storedLocale = localeStore.locale;
-    setLocale(storedLocale);
-});
 
 const logout = async () => {
     try {
