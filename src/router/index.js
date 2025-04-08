@@ -32,27 +32,6 @@ const router = createRouter({
             allowedRoles: ["admin", "market_owner"],
           },
         },
-        {
-          path: "/products/add",
-          name: "add-product",
-          component: () => import("../views/products/product-form.vue"),
-          meta: {
-            title: "meta.add_product",
-            requiresAuth: true,
-            allowedRoles: ["admin", "market_owner"],
-          },
-        },
-        {
-          path: "/products/edit/:id",
-          name: "edit-product",
-          component: () => import("../views/products/product-form.vue"),
-          meta: {
-            title: "meta.edit_product",
-            requiresAuth: true,
-            allowedRoles: ["admin", "market_owner"],
-          },
-          props: true,
-        },
         //categories routes
         {
           path: "/categories",

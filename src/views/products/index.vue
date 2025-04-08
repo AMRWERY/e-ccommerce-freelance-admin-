@@ -14,11 +14,8 @@
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
 
-                    <router-link to="/products/add" role="button"
-                        class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 me-2">
-                        <iconify-icon icon="ic:baseline-plus" width="24" height="24" aria-hidden="true"></iconify-icon>
-                        {{ $t('btn.add_product') }}
-                    </router-link>
+                    <!-- product-form-dialog component -->
+                    <product-form-dialog  />
                 </div>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -78,7 +75,7 @@
                                 ${{ product.price }}
                             </td>
                             <td class="flex items-center justify-center px-6 py-4 space-s-4">
-                                <router-link :to="{ name: 'edit-product', params: { id: product.id } }"
+                                <router-link to="" role="button"
                                     class="font-medium text-blue-600 hover:underline">Edit</router-link>
                                 <router-link to="" role="button" @click="openDeleteDialog(product.id)"
                                     class="font-medium text-red-600">
@@ -92,7 +89,6 @@
                         <delete-dialog v-model="showDeleteDialog"
                             :message="`You are about to delete product #${selectedProductId}. This action cannot be undone.`"
                             @confirm="handleDelete" />
-
                     </tbody>
                 </table>
             </div>
@@ -120,11 +116,6 @@ const products = ref([
 
 const showDeleteDialog = ref(false);
 const selectedProductId = ref(null);
-
-const openDeleteDialog = (productId) => {
-    selectedProductId.value = productId;
-    showDeleteDialog.value = true;
-};
 
 const handleDelete = async () => {
     try {

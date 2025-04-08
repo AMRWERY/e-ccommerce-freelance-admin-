@@ -1,2 +1,16 @@
-@import './tailwind.css';
-@import './google-fonts.css';
+@import "./tailwind.css";
+@import "./google-fonts.css";
+
+.scrollable-dialog::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollable-dialog::-webkit-scrollbar-track {
+  background: #f7fafc;
+  border-radius: 8px;
+}
+
+.scrollable-dialog::-webkit-scrollbar-thumb {
+  background-color: #cbd5e0;
+  border-radius: 8px;
+}

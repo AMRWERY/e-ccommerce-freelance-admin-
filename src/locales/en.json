@@ -61,7 +61,8 @@
     "edit_product": "Edit Product",
     "add_product": "Add product",
     "edit_category": "Edit Category",
-    "add_category": "Add Category"
+    "add_category": "Add Category",
+    "next_step": "Next Step"
   },
   "meta": {
     "home": "Home",
