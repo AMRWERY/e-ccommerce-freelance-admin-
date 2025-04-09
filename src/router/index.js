@@ -145,11 +145,11 @@ const router = createRouter({
       },
     },
     {
-      path: "/register-new-market",
-      name: "register-new-market",
-      component: () => import("../views/register-new-market.vue"),
+      path: "/register-new-merchant",
+      name: "register-new-merchant",
+      component: () => import("../views/register-new-merchant.vue"),
       meta: {
-        title: "meta.register_new_market",
+        title: "meta.register_new_merchant",
       },
     },
 

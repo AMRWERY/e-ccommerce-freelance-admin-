@@ -1,8 +1,13 @@
-import { auth, db } from "@/firebase";
+import { auth, db, storage } from "@/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc, getDocs } from "firebase/firestore";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
-export const useNewMarketStore = defineStore("new-markets", {
+export const useNewMerchantStore = defineStore("new-merchants", {
   state: () => ({
     marketName: "",
     imageFile: null,
@@ -12,6 +17,10 @@ export const useNewMarketStore = defineStore("new-markets", {
     password: "",
     loading: false,
     error: null,
+    merchants: [],
+    paginatedMerchants: [],
+    currentPage: 1,
+    merchantsPerPage: 10,
   }),
 
   actions: {
@@ -19,16 +28,27 @@ export const useNewMarketStore = defineStore("new-markets", {
       this.loading = true;
       this.error = null;
       try {
+        let imageUrl = null;
+        if (this.imageFile) {
+          const fileRef = storageRef(
+            storage,
+            `market-images/${Date.now()}_${this.imageFile.name}`
+          );
+          await uploadBytes(fileRef, this.imageFile);
+          imageUrl = await getDownloadURL(fileRef);
+        }
         const randomNumber = Math.floor(Math.random() * 1000) + 1;
         const marketId = `market_${randomNumber}`;
         const marketData = {
           name: this.marketName,
           description: this.description,
           marketId,
+          imageUrl,
+          username: this.username,
           createdAt: new Date(),
         };
         const marketDocRef = await addDoc(
-          collection(db, "new-markets"),
+          collection(db, "new-merchants"),
           marketData
         );
         const userCredential = await createUserWithEmailAndPassword(
@@ -66,6 +86,40 @@ export const useNewMarketStore = defineStore("new-markets", {
         this.loading = false;
       }
     },
+
+    async fetchAllMerchants() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const merchantsCollection = collection(db, "new-merchants");
+        const merchantsSnapshot = await getDocs(merchantsCollection);
+        this.merchants = merchantsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt?.toDate() || new Date(),
+        }));
+        this.updatePagination();
+      } catch (err) {
+        this.error = err.message || "Failed to fetch merchants";
+        throw err;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    updatePagination() {
+      this.paginatedMerchants = this.merchants.slice(
+        (this.currentPage - 1) * this.merchantsPerPage,
+        this.currentPage * this.merchantsPerPage
+      );
+    },
+
+    changePage(page) {
+      if (page > 0 && page <= this.totalPages) {
+        this.currentPage = page;
+        this.updatePagination();
+      }
+    },
   },
 
   getters: {
@@ -77,5 +131,9 @@ export const useNewMarketStore = defineStore("new-markets", {
       email: state.email,
       password: state.password,
     }),
+
+    totalPages() {
+      return Math.ceil(this.merchants.length / this.merchantsPerPage);
+    },
   },
 });

@@ -3,7 +3,7 @@
         <div class="px-4 py-6 bg-white sm:py-8 lg:py-16">
             <div class="max-w-2xl p-4 mx-auto border border-gray-100 rounded-lg shadow-lg md:p-8">
                 <h2 class="mt-3 mb-6 text-3xl font-bold tracking-tight text-center text-gray-900">
-                    {{ $t('form.register_new_market') }}
+                    {{ $t('form.register_new_merchant') }}
                 </h2>
 
                 <ol
@@ -35,7 +35,7 @@
                     <div class="grid gap-4 mb-4 sm:grid-cols-1" v-if="step === 1">
                         <dynamic-inputs :label="t('form.market_name')" :placeholder="t('form.enter_your_market_name')"
                             type="text" :name="t('form.market_name')" :rules="'required|alpha_spaces'" :required="true"
-                            prefixIcon="mingcute:shop-line" v-model="newMarketStore.marketName" />
+                            prefixIcon="mingcute:shop-line" v-model="newMerchantStore.marketName" />
 
                         <div class="mx-auto overflow-hidden rounded-lg">
                             <div class="md:flex">
@@ -64,7 +64,7 @@
                         <dynamic-inputs :label="t('form.description')"
                             :placeholder="t('form.tell_us_about_your_market')" type="textarea"
                             :name="t('form.description')" prefixIcon="material-symbols:chat-outline"
-                            v-model="newMarketStore.description" />
+                            v-model="newMerchantStore.description" />
 
                         <div class="flex flex-wrap gap-4 mt-8">
                             <button role="button" @click="nextStep"
@@ -77,15 +77,15 @@
 
                 <Transition name="fade">
                     <div v-if="step === 2" class="grid gap-4 mb-4 sm:grid-cols-1">
-                        <dynamic-inputs v-model="newMarketStore.username" :label="t('form.username')"
+                        <dynamic-inputs v-model="newMerchantStore.username" :label="t('form.username')"
                             :name="t('form.username')" :placeholder="t('form.enter_your_username')" type="text"
                             :rules="'required|alpha_spaces'" prefixIcon="material-symbols:account-box" />
 
-                        <dynamic-inputs v-model="newMarketStore.email" :label="t('form.email')" :name="t('form.email')"
+                        <dynamic-inputs v-model="newMerchantStore.email" :label="t('form.email')" :name="t('form.email')"
                             :placeholder="t('form.enter_your_email')" type="email" :rules="'required|email'"
                             prefixIcon="material-symbols:alternate-email" />
 
-                        <dynamic-inputs v-model="newMarketStore.password" :label="t('form.password')"
+                        <dynamic-inputs v-model="newMerchantStore.password" :label="t('form.password')"
                             :name="t('form.password')" :placeholder="t('form.enter_your_password')" type="password"
                             :rules="'required|minLength:7'" prefixIcon="ri:lock-password-fill" />
 
@@ -111,8 +111,8 @@
 
 <script setup>
 const { t } = useI18n()
-const router = useRouter()
-const newMarketStore = useNewMarketStore()
+// const router = useRouter()
+const newMerchantStore = useNewMerchantStore()
 const step = ref(1);
 const previewImage = ref("");
 const loading = ref(false);
@@ -127,7 +127,7 @@ const prevStep = () => {
 
 const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    newMarketStore.imageFile = file;
+    newMerchantStore.imageFile = file;
     if (file) {
         previewImage.value = URL.createObjectURL(file);
     } else {
@@ -138,8 +138,8 @@ const handleFileUpload = (event) => {
 const handleSubmit = async () => {
     loading.value = true;
     try {
-        await newMarketStore.registerMarket()
-        router.replace('/auth/login')
+        await newMerchantStore.registerMarket()
+        // router.push('/auth/login')
     } catch (err) {
         console.error(err)
     } finally {
