@@ -1,6 +1,14 @@
 import { auth, db, storage } from "@/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc, doc, setDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  getDocs,
+  updateDoc,
+  getDoc,
+} from "firebase/firestore";
 import {
   ref as storageRef,
   uploadBytes,
@@ -21,6 +29,7 @@ export const useNewMerchantStore = defineStore("new-merchants", {
     paginatedMerchants: [],
     currentPage: 1,
     merchantsPerPage: 10,
+    acceptLoading: false,
   }),
 
   actions: {
@@ -45,6 +54,7 @@ export const useNewMerchantStore = defineStore("new-merchants", {
           marketId,
           imageUrl,
           username: this.username,
+          status: "pending",
           createdAt: new Date(),
         };
         const marketDocRef = await addDoc(
@@ -63,6 +73,7 @@ export const useNewMerchantStore = defineStore("new-merchants", {
           email: this.email,
           marketId,
           role: "market_owner",
+          status: "pending",
           createdAt: new Date(),
         };
         await setDoc(doc(db, "users", user.uid), userData);
@@ -79,7 +90,6 @@ export const useNewMerchantStore = defineStore("new-merchants", {
         localStorage.setItem("new-market", JSON.stringify(storageData));
         return { marketId, marketDocId: marketDocRef.id, userId: user.uid };
       } catch (err) {
-        // console.error(err);
         this.error = err.message || "An error occurred";
         throw err;
       } finally {
@@ -104,6 +114,46 @@ export const useNewMerchantStore = defineStore("new-merchants", {
         throw err;
       } finally {
         this.loading = false;
+      }
+    },
+
+    async acceptMerchant(merchantId) {
+      this.acceptLoading = true;
+      try {
+        const merchantRef = doc(db, "new-merchants", merchantId);
+        const merchantDoc = await getDoc(merchantRef);
+        if (!merchantDoc.exists()) {
+          throw new Error("Merchant not found");
+        }
+        const merchantData = merchantDoc.data();
+        await updateDoc(merchantRef, {
+          status: "approved",
+          approvedAt: new Date(),
+        });
+        const usersCollection = collection(db, "users");
+        const usersSnapshot = await getDocs(usersCollection);
+        const userDoc = usersSnapshot.docs.find(
+          (doc) => doc.data().marketId === merchantData.marketId
+        );
+        if (userDoc) {
+          await updateDoc(doc(db, "users", userDoc.id), {
+            status: "approved",
+            approvedAt: new Date(),
+          });
+        }
+        const merchantIndex = this.merchants.findIndex(
+          (m) => m.id === merchantId
+        );
+        if (merchantIndex !== -1) {
+          this.merchants[merchantIndex].status = "approved";
+          this.merchants[merchantIndex].approvedAt = new Date();
+          this.updatePagination();
+        }
+      } catch (err) {
+        this.error = err.message || "Failed to accept merchant";
+        throw err;
+      } finally {
+        this.acceptLoading = false;
       }
     },
 

@@ -17,7 +17,7 @@
                         </div>
                         <input type="text" id="table-search"
                             class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Search for items...">
+                            placeholder="Search for merchants...">
                     </div>
                 </div>
 
@@ -38,6 +38,9 @@
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Merchant ID
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Status
                             </th>
                             <th scope="col" class="px-6 py-3">
                             </th>
@@ -67,27 +70,33 @@
                             <td class="px-6 py-4">
                                 {{ merchant.marketId }}
                             </td>
-                            <td class="flex items-center justify-center px-6 py-4 space-s-4">
-                                <router-link to="" role="button"
-                                    class="font-medium text-blue-600 hover:underline">Edit</router-link>
-                                <!-- <router-link to="" role="button" @click="openDeleteDialog(merchant.id)"
-                                    class="font-medium text-red-600">
-                                    <iconify-icon icon="material-symbols:delete-forever" width="24"
-                                        height="24"></iconify-icon>
-                                </router-link> -->
+                            <td class="px-6 py-4">
+                                <span :class="{
+                                    'bg-yellow-100 text-yellow-800': merchant.status === 'pending',
+                                    'bg-green-100 text-green-800': merchant.status === 'approved'
+                                }" class="px-2.5 py-0.5 rounded-full text-xs font-medium">
+                                    {{ merchant.status }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <button v-if="merchant.status === 'pending'" @click="handleAccept(merchant.id)"
+                                    class="font-medium text-blue-600 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+                                    :disabled="loadingMerchant === merchant.id">
+                                    <span v-if="loadingMerchant === merchant.id" class="flex items-center">
+                                        <iconify-icon icon="line-md:loading-loop" width="20" height="20"
+                                            class="me-1"></iconify-icon>
+                                        Accepting...
+                                    </span>
+                                    <span v-else>Accept</span>
+                                </button>
                             </td>
                         </tr>
-
-                        <!-- delete-dialog component -->
-                        <!-- <delete-dialog v-model="showDeleteDialog"
-                            :message="`You are about to delete product #${selectedProductId}. This action cannot be undone.`"
-                            @confirm="handleDelete" /> -->
                     </tbody>
                 </table>
             </div>
 
-            <div class="mt-12">
-                <!-- pagination -->
+            <!-- pagination -->
+            <div class="flex items-end justify-end mt-12">
                 <div class="flex items-center px-4 py-3" v-if="newMerchantStore.paginatedMerchants.length > 0">
                     <div class="flex mt-3 space-s-1 ms-auto">
                         <button role="button" @click="newMerchantStore.changePage(newMerchantStore.currentPage - 1)"
@@ -118,9 +127,20 @@
 </template>
 
 <script setup>
-const newMerchantStore = useNewMerchantStore()
+const newMerchantStore = useNewMerchantStore();
+const loadingMerchant = ref(null);
+
+const handleAccept = async (merchantId) => {
+    loadingMerchant.value = merchantId;
+    try {
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await newMerchantStore.acceptMerchant(merchantId);
+    } finally {
+        loadingMerchant.value = null;
+    }
+};
 
 onMounted(() => {
-    newMerchantStore.fetchAllMerchants()
-})
+    newMerchantStore.fetchAllMerchants();
+});
 </script>
