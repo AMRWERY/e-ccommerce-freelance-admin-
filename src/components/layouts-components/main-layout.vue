@@ -44,7 +44,7 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.products_stocks') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole === 'admin' || userRole === 'employee'">
+                        <li v-if="userRole.role === 'admin' || userRole.role === 'employee'">
                             <router-link to="/categories" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -53,7 +53,7 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.categories') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole === 'admin' || userRole === 'employee'">
+                        <li v-if="userRole.role === 'admin' || userRole.role === 'employee'">
                             <router-link to="/orders" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -62,7 +62,7 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.orders') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole === 'admin'">
+                        <li v-if="userRole.role === 'admin'">
                             <router-link to="/users" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -71,7 +71,7 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.users') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole === 'admin'">
+                        <li v-if="userRole.role === 'admin'">
                             <router-link to="/users" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -80,7 +80,7 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.messages') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole === 'admin'">
+                        <li v-if="userRole.role === 'admin'">
                             <router-link to="/new-merchants" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -122,19 +122,8 @@ const logout = async () => {
     }
 };
 
-const userRole = computed(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-        try {
-            const parsed = JSON.parse(storedUser);
-            return parsed.role;
-        } catch (err) {
-            console.error("Error parsing user from localStorage:", err);
-            return null;
-        }
-    }
-    return null;
-});
+//userRole composable
+const { userRole } = useUserRole()
 
 const closeSidebarOnMobile = () => {
     if (window.innerWidth < 640) {
