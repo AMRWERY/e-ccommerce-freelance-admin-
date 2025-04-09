@@ -8,7 +8,15 @@ import {
   setPersistence,
   browserLocalPersistence,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -61,7 +69,6 @@ export const useAuthStore = defineStore("auth", {
       if (!["admin", "employee", "user"].includes(role)) {
         throw new Error("Invalid role specified");
       }
-
       // Only allow admins to create other admins/employees
       if (this.role !== "admin" && role !== "user") {
         throw new Error("Unauthorized role assignment");
@@ -109,15 +116,38 @@ export const useAuthStore = defineStore("auth", {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           this.role = userData?.role || "user";
-          const saveUserData = {
-            uid: userData.uid,
-            email: userData.email,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            role: userData.role,
-            loginType: userData.loginType,
-          };
-          localStorage.setItem("user", JSON.stringify(saveUserData));
+          // Handle merchant (market_owner) login differently
+          if (userData.role === "market_owner") {
+            const merchantsRef = collection(db, "new-merchants");
+            const q = query(
+              merchantsRef,
+              where("marketId", "==", userData.marketId)
+            );
+            const merchantSnapshot = await getDocs(q);
+            if (!merchantSnapshot.empty) {
+              const merchantData = merchantSnapshot.docs[0].data();
+              const saveUserData = {
+                email: userData.email,
+                name: merchantData.name,
+                username: merchantData.username,
+                role: userData.role,
+                uid: userData.uid,
+                imageUrl: merchantData.imageUrl || null,
+                marketId: userData.marketId,
+              };
+              localStorage.setItem("user", JSON.stringify(saveUserData));
+            }
+          } else {
+            const saveUserData = {
+              uid: userData.uid,
+              email: userData.email,
+              firstName: userData.firstName,
+              lastName: userData.lastName,
+              role: userData.role,
+              loginType: userData.loginType,
+            };
+            localStorage.setItem("user", JSON.stringify(saveUserData));
+          }
         } else {
           this.role = "user";
         }

@@ -14,6 +14,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
+import { defineStore } from "pinia";
 
 export const useNewMerchantStore = defineStore("new-merchants", {
   state: () => ({
@@ -30,6 +31,7 @@ export const useNewMerchantStore = defineStore("new-merchants", {
     currentPage: 1,
     merchantsPerPage: 10,
     acceptLoading: false,
+    selectedStatus: "all",
   }),
 
   actions: {
@@ -88,6 +90,8 @@ export const useNewMerchantStore = defineStore("new-merchants", {
           },
         };
         localStorage.setItem("new-market", JSON.stringify(storageData));
+        // Reset form after successful registration
+        this.resetForm();
         return { marketId, marketDocId: marketDocRef.id, userId: user.uid };
       } catch (err) {
         this.error = err.message || "An error occurred";
@@ -95,6 +99,16 @@ export const useNewMerchantStore = defineStore("new-merchants", {
       } finally {
         this.loading = false;
       }
+    },
+
+    resetForm() {
+      this.marketName = "";
+      this.imageFile = null;
+      this.description = "";
+      this.username = "";
+      this.email = "";
+      this.password = "";
+      this.error = null;
     },
 
     async fetchAllMerchants() {
@@ -157,8 +171,58 @@ export const useNewMerchantStore = defineStore("new-merchants", {
       }
     },
 
+    async rejectMerchant(merchantId) {
+      this.acceptLoading = true;
+      try {
+        const merchantRef = doc(db, "new-merchants", merchantId);
+        const merchantDoc = await getDoc(merchantRef);
+        if (!merchantDoc.exists()) {
+          throw new Error("Merchant not found");
+        }
+        const merchantData = merchantDoc.data();
+        await updateDoc(merchantRef, {
+          status: "rejected",
+          rejectedAt: new Date(),
+        });
+        const usersCollection = collection(db, "users");
+        const usersSnapshot = await getDocs(usersCollection);
+        const userDoc = usersSnapshot.docs.find(
+          (doc) => doc.data().marketId === merchantData.marketId
+        );
+        if (userDoc) {
+          await updateDoc(doc(db, "users", userDoc.id), {
+            status: "rejected",
+            rejectedAt: new Date(),
+          });
+        }
+        const merchantIndex = this.merchants.findIndex(
+          (m) => m.id === merchantId
+        );
+        if (merchantIndex !== -1) {
+          this.merchants[merchantIndex].status = "rejected";
+          this.merchants[merchantIndex].rejectedAt = new Date();
+          this.updatePagination();
+        }
+      } catch (err) {
+        this.error = err.message || "Failed to reject merchant";
+        throw err;
+      } finally {
+        this.acceptLoading = false;
+      }
+    },
+
+    setStatusFilter(status) {
+      this.selectedStatus = status;
+      this.currentPage = 1;
+      this.updatePagination();
+    },
+
     updatePagination() {
-      this.paginatedMerchants = this.merchants.slice(
+      const filteredMerchants =
+        this.selectedStatus === "all"
+          ? this.merchants
+          : this.merchants.filter((m) => m.status === this.selectedStatus);
+      this.paginatedMerchants = filteredMerchants.slice(
         (this.currentPage - 1) * this.merchantsPerPage,
         this.currentPage * this.merchantsPerPage
       );
@@ -183,7 +247,18 @@ export const useNewMerchantStore = defineStore("new-merchants", {
     }),
 
     totalPages() {
-      return Math.ceil(this.merchants.length / this.merchantsPerPage);
+      const filteredCount =
+        this.selectedStatus === "all"
+          ? this.merchants.length
+          : this.merchants.filter((m) => m.status === this.selectedStatus)
+              .length;
+      return Math.ceil(filteredCount / this.merchantsPerPage);
+    },
+
+    filteredMerchants() {
+      return this.selectedStatus === "all"
+        ? this.merchants
+        : this.merchants.filter((m) => m.status === this.selectedStatus);
     },
   },
 });
