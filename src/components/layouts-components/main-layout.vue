@@ -71,21 +71,22 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.users') }}</span>
                             </router-link>
                         </li>
-                        <!-- <li v-if="userRole === 'admin'">
-                            <router-link to=""
-                               exact-active-class="bg-gray-100 dark:bg-gray-700" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" @click="closeSidebarOnMobile">
-                                <iconify-icon icon="mdi:mailbox-up" width="24" height="24" aria-hidden="true"
+                        <li v-if="userRole === 'admin'">
+                            <router-link to="/users" exact-active-class="bg-gray-100 dark:bg-gray-700"
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                @click="closeSidebarOnMobile">
+                                <iconify-icon icon="mdi:users-group" width="24" height="24" aria-hidden="true"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.messages') }}</span>
                             </router-link>
-                        </li> -->
+                        </li>
                         <li v-if="userRole === 'admin'">
-                            <router-link to="/markets" exact-active-class="bg-gray-100 dark:bg-gray-700"
+                            <router-link to="/new-merchants" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
                                 <iconify-icon icon="mdi:shop" width="24" height="24" aria-hidden="true"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
-                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.markets') }}</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.new_merchants') }}</span>
                             </router-link>
                         </li>
                     </ul>

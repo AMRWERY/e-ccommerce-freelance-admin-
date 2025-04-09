@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>markets</p>
+        <p>new merchants</p>
     </div>
 </template>
 

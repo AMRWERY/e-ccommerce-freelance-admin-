@@ -85,11 +85,11 @@ const router = createRouter({
           },
         },
         {
-          path: "/markets",
-          name: "markets",
-          component: () => import("../views/markets.vue"),
+          path: "/new-merchants",
+          name: "new-merchants",
+          component: () => import("../views/new-merchants.vue"),
           meta: {
-            title: "meta.markets",
+            title: "meta.new_merchants",
             requiresAuth: true,
             allowedRoles: ["admin"],
           },

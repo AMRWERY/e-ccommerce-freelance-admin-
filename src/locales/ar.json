@@ -62,7 +62,8 @@
     "add_product": "أضافه منتج",
     "edit_category": "تعديل فئه",
     "add_category": "أضافه فئه",
-    "next_step": "الخطوة التالية"
+    "next_step": "الخطوة التالية",
+    "go_home": "العوده إلى الصفحة الرئيسية"
   },
   "meta": {
     "home": "الرئيسية",
@@ -75,7 +76,7 @@
     "register_new_market": "تسجيل متجر جديد",
     "orders": "الطلبات",
     "users": "المستخدمون",
-    "markets": "المتاجر",
+    "new_merchants": "التجار الجدد",
     "reset_password": "إعادة تعيين كلمة المرور",
     "categories": "الفئات",
     "edit_category": "تعديل فئه",
@@ -89,10 +90,15 @@
     "orders": "الطلبات",
     "users": "المستخدمون",
     "messages": "الرسائل",
-    "markets": "المتاجر"
+    "new_merchants": "التجار الجدد"
   },
   "profile_menu": {
     "profile": "الصفحه الشخصية",
     "earnings": "الأرباح"
+  },
+  "error_page": {
+    "error_404": "خطأ 404!",
+    "page_not_found": "الصفحه غير موجوده",
+    "the_page_you_are_looking_for_does_not_exist": "الصفحة التي تبحث عنها غير موجودة."
   }
 }
