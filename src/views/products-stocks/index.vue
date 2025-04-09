@@ -117,6 +117,11 @@ const products = ref([
 const showDeleteDialog = ref(false);
 const selectedProductId = ref(null);
 
+const openDeleteDialog = (productId) => {
+    selectedProductId.value = productId;
+    showDeleteDialog.value = true;
+};
+
 const handleDelete = async () => {
     try {
         // Call your delete API here using selectedProductId.value

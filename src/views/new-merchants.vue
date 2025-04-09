@@ -15,19 +15,6 @@
                 </div>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <div class="flex justify-end pb-4">
-                    <label for="table-search" class="sr-only">Search</label>
-                    <div class="relative mt-1">
-                        <div class="absolute inset-y-0 flex items-center pointer-events-none end-0 pe-3">
-                            <iconify-icon icon="material-symbols-light:search" width="20" height="20"
-                                class="text-gray-500" aria-hidden="true"></iconify-icon>
-                        </div>
-                        <input type="text" id="table-search"
-                            class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Search for merchants...">
-                    </div>
-                </div>
-
                 <table class="w-full text-sm text-gray-500 text-start">
                     <thead class="text-xs text-gray-700 capitalize bg-gray-50">
                         <tr>
@@ -47,7 +34,7 @@
                             <td class="w-4 p-4">
                                 <div class="flex items-center">
                                     {{ (newMerchantStore.currentPage - 1) * newMerchantStore.merchantsPerPage + index +
-                                    1 }}
+                                        1 }}
                                 </div>
                             </td>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
@@ -69,7 +56,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="flex gap-4" v-if="merchant.status === 'pending'">
+                                <div class="flex gap-2" v-if="merchant.status === 'pending'">
                                     <button @click="handleAccept(merchant.id)"
                                         class="font-medium text-blue-600 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
                                         :disabled="loadingMerchant === merchant.id">
@@ -93,6 +80,22 @@
                                         <span v-else>Reject</span>
                                     </button>
                                 </div>
+                                <button v-else-if="merchant.status === 'rejected'"
+                                    @click="openDeleteDialog(merchant.id)"
+                                    class="flex items-center font-medium text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    :disabled="loadingMerchant === merchant.id">
+                                    <span v-if="loadingMerchant === merchant.id && loadingAction === 'delete'"
+                                        class="flex items-center">
+                                        <iconify-icon icon="line-md:loading-loop" width="20" height="20"
+                                            class="me-1"></iconify-icon>
+                                        Deleting...
+                                    </span>
+                                    <span v-else class="flex items-center">
+                                        <iconify-icon icon="material-symbols:delete" width="20" height="20"
+                                            class="me-1"></iconify-icon>
+                                        Delete
+                                    </span>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -127,16 +130,21 @@
                 </div>
             </div>
         </div>
+
+        <!-- delete-dialog component -->
+        <delete-dialog v-model="showDeleteDialog"
+            :message="`Are you sure you want to delete this merchant? This action cannot be undone.`"
+            @confirm="handleDelete" />
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useNewMerchantStore } from '@/stores/newMerchantStore';
 
 const newMerchantStore = useNewMerchantStore();
 const loadingMerchant = ref(null);
 const loadingAction = ref(null);
+const showDeleteDialog = ref(false);
+const selectedMerchantId = ref(null);
 
 const handleAccept = async (merchantId) => {
     loadingMerchant.value = merchantId;
@@ -157,6 +165,26 @@ const handleReject = async (merchantId) => {
     } finally {
         loadingMerchant.value = null;
         loadingAction.value = null;
+    }
+};
+
+const openDeleteDialog = (merchantId) => {
+    selectedMerchantId.value = merchantId;
+    showDeleteDialog.value = true;
+};
+
+const handleDelete = async () => {
+    if (!selectedMerchantId.value) return;
+
+    loadingMerchant.value = selectedMerchantId.value;
+    loadingAction.value = 'delete';
+    try {
+        await newMerchantStore.deleteMerchant(selectedMerchantId.value);
+        showDeleteDialog.value = false;
+    } finally {
+        loadingMerchant.value = null;
+        loadingAction.value = null;
+        selectedMerchantId.value = null;
     }
 };
 

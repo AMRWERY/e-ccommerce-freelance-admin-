@@ -1,5 +1,5 @@
 import { auth, db, storage } from "@/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser } from "firebase/auth";
 import {
   collection,
   addDoc,
@@ -10,11 +10,14 @@ import {
   getDoc,
   query,
   where,
+  deleteDoc,
 } from "firebase/firestore";
 import {
   ref as storageRef,
   uploadBytes,
   getDownloadURL,
+  ref,
+  deleteObject,
 } from "firebase/storage";
 import { defineStore } from "pinia";
 
@@ -103,9 +106,7 @@ export const useNewMerchantStore = defineStore("new-merchants", {
           status: "pending",
           createdAt: new Date(),
         };
-
         await setDoc(doc(db, "users", user.uid), userData);
-
         const storageData = {
           marketData: {
             ...marketData,
@@ -117,7 +118,6 @@ export const useNewMerchantStore = defineStore("new-merchants", {
             createdAt: userData.createdAt.toISOString(),
           },
         };
-
         localStorage.setItem("user", JSON.stringify(storageData));
         this.resetForm();
         return { marketId, marketDocId: marketDocRef.id, userId: user.uid };
@@ -236,6 +236,52 @@ export const useNewMerchantStore = defineStore("new-merchants", {
         throw err;
       } finally {
         this.acceptLoading = false;
+      }
+    },
+
+    async deleteMerchant(merchantId) {
+      this.loading = true;
+      try {
+        // Get merchant data first
+        const merchantRef = doc(db, "new-merchants", merchantId);
+        const merchantDoc = await getDoc(merchantRef);
+        if (!merchantDoc.exists()) {
+          throw new Error("Merchant not found");
+        }
+        const merchantData = merchantDoc.data();
+        // Get user document using userId
+        const userRef = doc(db, "users", merchantData.userId);
+        const userDoc = await getDoc(userRef);
+        if (!userDoc.exists()) {
+          throw new Error("User not found");
+        }
+        // Delete from Authentication
+        try {
+          await deleteUser(merchantData.userId);
+        } catch (error) {
+          console.error("Error deleting user from Auth:", error);
+        }
+        // Delete merchant image from storage if exists
+        if (merchantData.imageUrl) {
+          try {
+            const imageRef = ref(storage, merchantData.imageUrl);
+            await deleteObject(imageRef);
+          } catch (error) {
+            console.error("Error deleting image:", error);
+          }
+        }
+        // Delete from Firestore
+        await deleteDoc(merchantRef);
+        await deleteDoc(userRef);
+        // Remove from local state
+        this.merchants = this.merchants.filter((m) => m.id !== merchantId);
+        this.updatePagination();
+        return true;
+      } catch (err) {
+        this.error = err.message || "Failed to delete merchant";
+        throw err;
+      } finally {
+        this.loading = false;
       }
     },
 
