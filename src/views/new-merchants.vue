@@ -4,9 +4,9 @@
             <div class="flex items-center justify-between my-10 flex-nowrap">
                 <p class="text-3xl font-semibold text-gray-700">Merchants</p>
                 <div class="flex items-center justify-center gap-4">
-                    <select v-model="newMerchantStore.selectedStatus" 
-                            @change="newMerchantStore.setStatusFilter(newMerchantStore.selectedStatus)"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                    <select v-model="newMerchantStore.selectedStatus"
+                        @change="newMerchantStore.setStatusFilter(newMerchantStore.selectedStatus)"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
                         <option value="all">All Status</option>
                         <option value="pending">Pending</option>
                         <option value="approved">Approved</option>
@@ -34,10 +34,11 @@
                             <th scope="col" class="px-6 py-3">#</th>
                             <th scope="col" class="px-6 py-3">Merchant Logo</th>
                             <th scope="col" class="px-6 py-3">Merchant Name</th>
+                            <th scope="col" class="px-6 py-3">Email</th>
                             <th scope="col" class="px-6 py-3">Username</th>
                             <th scope="col" class="px-6 py-3">Merchant ID</th>
                             <th scope="col" class="px-6 py-3">Status</th>
-                            <th scope="col" class="px-6 py-3">Actions</th>
+                            <th scope="col" class="px-6 py-3"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,13 +46,16 @@
                             v-for="(merchant, index) in newMerchantStore.paginatedMerchants" :key="merchant.id">
                             <td class="w-4 p-4">
                                 <div class="flex items-center">
-                                    {{ (newMerchantStore.currentPage - 1) * newMerchantStore.merchantsPerPage + index + 1 }}
+                                    {{ (newMerchantStore.currentPage - 1) * newMerchantStore.merchantsPerPage + index +
+                                    1 }}
                                 </div>
                             </td>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                <img :src="merchant.imageUrl || '/default-market.png'" alt="merchant-logo" class="w-12 h-12 rounded-lg object-cover">
+                                <img :src="merchant.imageUrl || '/default-market.png'" alt="merchant-logo"
+                                    class="object-cover w-12 h-12 rounded-lg">
                             </th>
                             <td class="px-6 py-4">{{ merchant.name }}</td>
+                            <td class="px-6 py-4">{{ merchant.email }}</td>
                             <td class="px-6 py-4">{{ merchant.username }}</td>
                             <td class="px-6 py-4">{{ merchant.marketId }}</td>
                             <td class="px-6 py-4">
@@ -65,11 +69,12 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="flex gap-2" v-if="merchant.status === 'pending'">
+                                <div class="flex gap-4" v-if="merchant.status === 'pending'">
                                     <button @click="handleAccept(merchant.id)"
                                         class="font-medium text-blue-600 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
                                         :disabled="loadingMerchant === merchant.id">
-                                        <span v-if="loadingMerchant === merchant.id && loadingAction === 'accept'" class="flex items-center">
+                                        <span v-if="loadingMerchant === merchant.id && loadingAction === 'accept'"
+                                            class="flex items-center">
                                             <iconify-icon icon="line-md:loading-loop" width="20" height="20"
                                                 class="me-1"></iconify-icon>
                                             Accepting...
@@ -79,7 +84,8 @@
                                     <button @click="handleReject(merchant.id)"
                                         class="font-medium text-red-600 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
                                         :disabled="loadingMerchant === merchant.id">
-                                        <span v-if="loadingMerchant === merchant.id && loadingAction === 'reject'" class="flex items-center">
+                                        <span v-if="loadingMerchant === merchant.id && loadingAction === 'reject'"
+                                            class="flex items-center">
                                             <iconify-icon icon="line-md:loading-loop" width="20" height="20"
                                                 class="me-1"></iconify-icon>
                                             Rejecting...

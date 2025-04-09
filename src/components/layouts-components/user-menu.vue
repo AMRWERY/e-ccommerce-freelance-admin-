@@ -15,7 +15,8 @@
             <div class="z-50 hidden w-40 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600"
                 id="dropdown-user">
                 <ul class="py-1" role="none">
-                    <li v-if="userRole && (userRole.role === 'admin' || userRole.role === 'employee')">
+                    <li
+                        v-if="userRole && (userRole.role === 'admin' || userRole.role === 'employee' || userRole.role === 'market_owner')">
                         <router-link to="/profile"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                             role="menuitem">{{ $t('profile_menu.profile') }}</router-link>

@@ -15,7 +15,7 @@
                             <iconify-icon icon="material-symbols:looks-one-outline" width="60" height="60"
                                 aria-hidden="true"></iconify-icon>
                             <span class="hidden sm:inline-flex sm:ms-2 whitespace-nowrap">{{ $t('form.market_info')
-                            }}</span>
+                                }}</span>
                         </span>
                     </li>
 
@@ -26,7 +26,7 @@
                             <iconify-icon icon="material-symbols:looks-two-outline" width="60" height="60"
                                 aria-hidden="true"></iconify-icon>
                             <span class="hidden sm:inline-flex sm:ms-2 whitespace-nowrap">{{ $t('form.personal_info')
-                            }}</span>
+                                }}</span>
                         </span>
                     </li>
                 </ol>
@@ -81,9 +81,9 @@
                             :name="t('form.username')" :placeholder="t('form.enter_your_username')" type="text"
                             :rules="'required|alpha_spaces'" prefixIcon="material-symbols:account-box" />
 
-                        <dynamic-inputs v-model="newMerchantStore.email" :label="t('form.email')" :name="t('form.email')"
-                            :placeholder="t('form.enter_your_email')" type="email" :rules="'required|email'"
-                            prefixIcon="material-symbols:alternate-email" />
+                        <dynamic-inputs v-model="newMerchantStore.email" :label="t('form.email')"
+                            :name="t('form.email')" :placeholder="t('form.enter_your_email')" type="email"
+                            :rules="'required|email'" prefixIcon="material-symbols:alternate-email" />
 
                         <dynamic-inputs v-model="newMerchantStore.password" :label="t('form.password')"
                             :name="t('form.password')" :placeholder="t('form.enter_your_password')" type="password"

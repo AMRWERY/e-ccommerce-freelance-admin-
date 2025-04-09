@@ -8,6 +8,8 @@ import {
   getDocs,
   updateDoc,
   getDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import {
   ref as storageRef,
@@ -39,6 +41,20 @@ export const useNewMerchantStore = defineStore("new-merchants", {
       this.loading = true;
       this.error = null;
       try {
+        // Check if user already exists
+        const usersRef = collection(db, "users");
+        const userQuery = query(usersRef, where("email", "==", this.email));
+        const userSnapshot = await getDocs(userQuery);
+        if (!userSnapshot.empty) {
+          throw new Error("User with this email already exists");
+        }
+        // Create user first
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          this.email,
+          this.password
+        );
+        const user = userCredential.user;
         let imageUrl = null;
         if (this.imageFile) {
           const fileRef = storageRef(
@@ -50,12 +66,25 @@ export const useNewMerchantStore = defineStore("new-merchants", {
         }
         const randomNumber = Math.floor(Math.random() * 1000) + 1;
         const marketId = `market_${randomNumber}`;
+        // Check if merchant already exists
+        const merchantsRef = collection(db, "new-merchants");
+        const merchantQuery = query(
+          merchantsRef,
+          where("email", "==", this.email)
+        );
+        const merchantSnapshot = await getDocs(merchantQuery);
+        if (!merchantSnapshot.empty) {
+          throw new Error("Merchant with this email already exists");
+        }
+        // Create merchant data with email
         const marketData = {
           name: this.marketName,
           description: this.description,
           marketId,
           imageUrl,
           username: this.username,
+          email: this.email,
+          userId: user.uid,
           status: "pending",
           createdAt: new Date(),
         };
@@ -63,25 +92,24 @@ export const useNewMerchantStore = defineStore("new-merchants", {
           collection(db, "new-merchants"),
           marketData
         );
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          this.email,
-          this.password
-        );
-        const user = userCredential.user;
+        // Create user data with merchant reference
         const userData = {
           uid: user.uid,
           username: this.username,
           email: this.email,
           marketId,
+          marketDocId: marketDocRef.id,
           role: "market_owner",
           status: "pending",
           createdAt: new Date(),
         };
+
         await setDoc(doc(db, "users", user.uid), userData);
+
         const storageData = {
           marketData: {
             ...marketData,
+            id: marketDocRef.id,
             createdAt: marketData.createdAt.toISOString(),
           },
           userData: {
@@ -89,8 +117,8 @@ export const useNewMerchantStore = defineStore("new-merchants", {
             createdAt: userData.createdAt.toISOString(),
           },
         };
-        localStorage.setItem("new-market", JSON.stringify(storageData));
-        // Reset form after successful registration
+
+        localStorage.setItem("user", JSON.stringify(storageData));
         this.resetForm();
         return { marketId, marketDocId: marketDocRef.id, userId: user.uid };
       } catch (err) {

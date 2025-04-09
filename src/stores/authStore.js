@@ -111,6 +111,7 @@ export const useAuthStore = defineStore("auth", {
         );
         const user = userCredential.user;
         this.user = user;
+        // Check if user exists in Firestore
         const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
@@ -138,6 +139,8 @@ export const useAuthStore = defineStore("auth", {
               localStorage.setItem("user", JSON.stringify(saveUserData));
             }
           } else {
+            // For non-merchant users, only save if data changed
+            const existingData = localStorage.getItem("user");
             const saveUserData = {
               uid: userData.uid,
               email: userData.email,
@@ -146,10 +149,24 @@ export const useAuthStore = defineStore("auth", {
               role: userData.role,
               loginType: userData.loginType,
             };
-            localStorage.setItem("user", JSON.stringify(saveUserData));
+
+            if (
+              !existingData ||
+              JSON.stringify(saveUserData) !== existingData
+            ) {
+              localStorage.setItem("user", JSON.stringify(saveUserData));
+            }
           }
         } else {
           this.role = "user";
+          // If user doesn't exist in Firestore, create basic user data
+          const basicUserData = {
+            uid: user.uid,
+            email: user.email,
+            role: "user",
+            createdAt: new Date(),
+          };
+          await setDoc(userDocRef, basicUserData);
         }
         await this.fetchUserData(user.uid);
         this.error = null;
