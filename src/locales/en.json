@@ -67,7 +67,7 @@
   "meta": {
     "home": "Home",
     "page_not_found": "Page not found",
-    "products": "Products",
+    "products_stocks": "Products Stocks",
     "add_product": "Add product",
     "edit_product": "Edit Product",
     "login": "Login",
@@ -82,7 +82,7 @@
     "add_category": "Add Category"
   },
   "layout": {
-    "products": "Products",
+    "products_stocks": "Products Stocks",
     "categories": "Categories",
     "orders": "Orders",
     "users": "Users",

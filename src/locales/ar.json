@@ -67,7 +67,7 @@
   "meta": {
     "home": "الرئيسية",
     "page_not_found": "الصفحه غير موجوده",
-    "products": "المنتجات",
+    "products_stocks": "مخزون المنتجات",
     "add_product": "اضافه منتج",
     "edit_product": "تعديل منتج",
     "login": "تسجيل الدخول",
@@ -82,7 +82,7 @@
     "add_category": "أضافه فئه"
   },
   "layout": {
-    "products": "المنتجات",
+    "products_stocks": "مخزون المنتجات",
     "categories": "الفئات",
     "orders": "الطلبات",
     "users": "المستخدمون",

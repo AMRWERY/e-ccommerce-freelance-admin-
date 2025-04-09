@@ -23,13 +23,13 @@ const router = createRouter({
         },
         //products routes
         {
-          path: "/products",
-          name: "products",
-          component: () => import("../views/products/index.vue"),
+          path: "/products-stocks",
+          name: "products-stocks",
+          component: () => import("../views/products-stocks/index.vue"),
           meta: {
-            title: "meta.products",
+            title: "meta.products_stocks",
             requiresAuth: true,
-            allowedRoles: ["admin", "market_owner"],
+            allowedRoles: ["admin", "market_owner", "employee"],
           },
         },
         //categories routes
@@ -40,7 +40,7 @@ const router = createRouter({
           meta: {
             title: "meta.categories",
             requiresAuth: true,
-            allowedRoles: ["admin", "market_owner"],
+            allowedRoles: ["admin", "market_owner", "employee"],
           },
         },
         {
@@ -50,7 +50,7 @@ const router = createRouter({
           meta: {
             title: "meta.add_category",
             requiresAuth: true,
-            allowedRoles: ["admin", "market_owner"],
+            allowedRoles: ["admin", "market_owner", "employee"],
           },
         },
         {
@@ -60,7 +60,7 @@ const router = createRouter({
           meta: {
             title: "meta.edit_category",
             requiresAuth: true,
-            allowedRoles: ["admin", "market_owner"],
+            allowedRoles: ["admin", "market_owner", "employee"],
           },
           props: true,
         },
@@ -71,7 +71,7 @@ const router = createRouter({
           meta: {
             title: "meta.orders",
             requiresAuth: true,
-            allowedRoles: ["admin"],
+            allowedRoles: ["admin", "employee"],
           },
         },
         {
@@ -174,7 +174,7 @@ router.beforeEach(async (to, from, next) => {
         }
       }
       if (to.name === "home" && userRole === "market_owner") {
-        next("/products");
+        next("/products-stocks");
         return;
       }
       if (!requiredRoles.includes(userRole)) {

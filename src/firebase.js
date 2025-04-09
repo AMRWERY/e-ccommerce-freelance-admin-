@@ -5,12 +5,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyABO6yob_NV2ljSfunjGsvpu8RFFNncEyI",
-  authDomain: "lugar-store-99182.firebaseapp.com",
-  projectId: "lugar-store-99182",
-  storageBucket: "lugar-store-99182.firebasestorage.app",
-  messagingSenderId: "336487255017",
-  appId: "1:336487255017:web:3bba0f07984c5bc4a19978",
+  apiKey: "AIzaSyBTlIUxtXq-f0_ADqT2UsK4mZlz8GFyQMQ",
+  authDomain: "todo-362dc.firebaseapp.com",
+  projectId: "todo-362dc",
+  storageBucket: "todo-362dc.appspot.com",
+  messagingSenderId: "532045916013",
+  appId: "1:532045916013:web:e6fe2436225403804a5c64",
 };
 
 // Initialize Firebase

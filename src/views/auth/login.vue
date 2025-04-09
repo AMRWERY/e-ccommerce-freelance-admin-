@@ -25,7 +25,8 @@
 
                     <div class="mt-4 space-y-2 text-center">
                         <div>
-                            <router-link to="/auth/reset-password" class="hover:underline">Forgot password?</router-link>
+                            <router-link to="/auth/reset-password" class="hover:underline">Forgot
+                                password?</router-link>
                         </div>
                         <div>
                             <span> Don't have an account? </span>
@@ -55,7 +56,7 @@ const handleLogin = async () => {
     loading.value = true;
     try {
         await authStore.loginUser(email.value, password.value);
-        router.replace('/products')
+        router.replace('/products-stocks')
     } catch (error) {
         console.error(error)
     } finally {
