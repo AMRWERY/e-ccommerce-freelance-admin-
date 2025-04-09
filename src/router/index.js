@@ -94,6 +94,28 @@ const router = createRouter({
             allowedRoles: ["admin"],
           },
         },
+
+        //dropdowm manu routes
+        {
+          path: "/profile",
+          name: "profile",
+          component: () => import("../views/profile.vue"),
+          meta: {
+            title: "meta.profile",
+            requiresAuth: true,
+            allowedRoles: ["admin", "market_owner", "employee"],
+          },
+        },
+        {
+          path: "/earnings",
+          name: "earnings",
+          component: () => import("../views/earnings.vue"),
+          meta: {
+            title: "meta.earnings",
+            requiresAuth: true,
+            allowedRoles: ["admin"],
+          },
+        },
       ],
     },
 

@@ -79,7 +79,9 @@
     "reset_password": "Reset Password",
     "categories": "Categories",
     "edit_category": "Edit Category",
-    "add_category": "Add Category"
+    "add_category": "Add Category",
+    "profile": "Profile",
+    "earnings": "Earnings"
   },
   "layout": {
     "products_stocks": "Products Stocks",
@@ -88,5 +90,9 @@
     "users": "Users",
     "messages": "Messages",
     "markets": "Markets"
+  },
+  "profile_menu": {
+    "profile": "Profile",
+    "earnings": "Earnings"
   }
 }

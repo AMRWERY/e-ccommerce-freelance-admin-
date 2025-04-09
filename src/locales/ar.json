@@ -79,7 +79,9 @@
     "reset_password": "إعادة تعيين كلمة المرور",
     "categories": "الفئات",
     "edit_category": "تعديل فئه",
-    "add_category": "أضافه فئه"
+    "add_category": "أضافه فئه",
+    "profile": "الصفحه الشخصية",
+    "earnings": "الأرباح"
   },
   "layout": {
     "products_stocks": "مخزون المنتجات",
@@ -88,5 +90,9 @@
     "users": "المستخدمون",
     "messages": "الرسائل",
     "markets": "المتاجر"
+  },
+  "profile_menu": {
+    "profile": "الصفحه الشخصية",
+    "earnings": "الأرباح"
   }
 }
