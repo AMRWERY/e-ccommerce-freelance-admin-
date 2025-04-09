@@ -7,6 +7,8 @@ export function useUserRole() {
         return {
           role: parsed.role || "Unknown role",
           email: parsed.email || "No email",
+          name: parsed.name || "No name",
+          imageUrl: parsed.imageUrl || "No imageUrl",
         };
       } catch (err) {
         console.error("Error parsing user from localStorage:", err);

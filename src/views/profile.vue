@@ -7,7 +7,7 @@
                     <div class="w-full pe-4 sm:w-2/3">
                         <form action="" class="space-y-8">
                             <div class="grid grid-cols-1 mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                <div class="sm:col-span-3">
+                                <div class="sm:col-span-3" v-if="userRole.role !== 'market_owner'">
                                     <label for="first-name"
                                         class="block text-sm font-medium leading-6 text-gray-900">First
                                         name</label>
@@ -17,7 +17,7 @@
                                     </div>
                                 </div>
 
-                                <div class="sm:col-span-3">
+                                <div class="sm:col-span-3" v-if="userRole.role !== 'market_owner'">
                                     <label for="last-name"
                                         class="block text-sm font-medium leading-6 text-gray-900">Last
                                         name</label>
@@ -76,12 +76,16 @@
                             </div>
                             <div
                                 class="relative w-32 h-32 mx-auto -mt-16 overflow-hidden border-4 border-white rounded-full">
-                                <img class="object-cover object-center h-32"
-                                    src="https://justfields.com/storage/projects/7M5rV059/images.jpg"
-                                    alt="user-avatar" />
+                                <img v-if="userRole.role === 'market_owner' && userRole.imageUrl"
+                                    :src="userRole.imageUrl" class="object-cover object-center w-full h-32"
+                                    alt="merchant-avatar" />
+                                <img v-else src="https://justfields.com/storage/projects/7M5rV059/images.jpg"
+                                    class="object-cover object-center w-full h-32" alt="user-avatar" />
                             </div>
                             <div class="pb-4 mt-2 text-center">
-                                <h2 class="font-semibold">{{ userRole.role }}</h2>
+                                <h2 class="font-semibold">
+                                    {{ userRole.role === 'market_owner' ? userRole.name : userRole.role }}
+                                </h2>
                                 <p class="text-gray-500">{{ userRole.email }}</p>
                             </div>
                         </div>

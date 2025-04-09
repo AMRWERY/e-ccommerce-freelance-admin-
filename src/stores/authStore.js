@@ -116,27 +116,29 @@ export const useAuthStore = defineStore("auth", {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           this.role = userData?.role || "user";
-
           // Handle merchant (market_owner) login differently
           if (userData.role === "market_owner") {
             const merchantsRef = collection(db, "new-merchants");
-            const q = query(merchantsRef, where("marketId", "==", userData.marketId));
+            const q = query(
+              merchantsRef,
+              where("marketId", "==", userData.marketId)
+            );
             const merchantSnapshot = await getDocs(q);
-            
             if (!merchantSnapshot.empty) {
               const merchantData = merchantSnapshot.docs[0].data();
-              
               // Check merchant status
               if (merchantData.status === "rejected") {
                 await this.logoutUser();
-                throw new Error("Your merchant account has been rejected. Please contact support for more information.");
+                throw new Error(
+                  "Your merchant account has been rejected. Please contact support for more information."
+                );
               }
-
               if (merchantData.status === "pending") {
                 await this.logoutUser();
-                throw new Error("Your merchant account is pending approval. Please wait for admin approval.");
+                throw new Error(
+                  "Your merchant account is pending approval. Please wait for admin approval."
+                );
               }
-
               // Store merchant data in localStorage
               const saveUserData = {
                 email: userData.email,
@@ -145,7 +147,7 @@ export const useAuthStore = defineStore("auth", {
                 role: userData.role,
                 uid: userData.uid,
                 imageUrl: merchantData.imageUrl || null,
-                marketId: userData.marketId
+                marketId: userData.marketId,
               };
               localStorage.setItem("user", JSON.stringify(saveUserData));
             }
