@@ -47,7 +47,8 @@
     "category_title": "Category title",
     "enter_your_category_title": "Enter your Category title",
     "category_title_ar": "Category title ar",
-    "enter_your_category_title_ar": "Enter your Category title ar"
+    "enter_your_category_title_ar": "Enter your Category title ar",
+    "search_for_items": "Search for items..."
   },
   "btn": {
     "login": "Login",
@@ -113,5 +114,11 @@
     "successfully_accept_merchant": "Successfully accept merchant",
     "successfully_reject_merchant": "Successfully reject merchant",
     "successfully_delete_merchant": "Successfully delete merchant"
+  },
+  "dashboard": {
+    "products_stocks":"Products Stocks"
+  },
+  "tooltip": {
+    "download_excel": "Download Excel"
   }
 }

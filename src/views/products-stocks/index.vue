@@ -2,7 +2,7 @@
     <div>
         <div v-flowbite>
             <div class="flex items-center justify-between my-10 flex-nowrap">
-                <p class="text-3xl font-semibold text-gray-700">Products</p>
+                <p class="text-3xl font-semibold text-gray-700">{{ $t('dashboard.products_stocks') }}</p>
                 <div class="flex items-center justify-center gap-4">
                     <button @click="exportToExcel" data-tooltip-target="tooltip-default" data-tooltip-placement="bottom"
                         class="inline-flex items-center px-5 py-2.5 text-blue-700 border border-blue-700 rounded-lg hover:bg-blue-100">
@@ -10,12 +10,12 @@
                     </button>
                     <div id="tooltip-default" role="tooltip"
                         class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                        Export Excel
+                        {{ $t('tooltip.download_excel') }}
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
 
                     <!-- product-form-dialog component -->
-                    <product-form-dialog  />
+                    <product-form-dialog />
                 </div>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -28,7 +28,7 @@
                         </div>
                         <input type="text" id="table-search"
                             class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Search for items...">
+                            :placeholder="$t('form.search_for_items')">
                     </div>
                 </div>
 

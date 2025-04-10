@@ -47,7 +47,8 @@
     "category_title": "اسم الفئه",
     "enter_your_category_title": "ادخل اسم الفئه",
     "category_title_ar": "اسم الفئه عربي",
-    "enter_your_category_title_ar": "ادخل اسم الفئه عربي"
+    "enter_your_category_title_ar": "ادخل اسم الفئه عربي",
+    "search_for_items": "البحث عن المنتجات..."
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -113,5 +114,11 @@
     "successfully_accept_merchant": "تم قبول التاجر بنجاح",
     "successfully_reject_merchant": "تم رفض التاجر بنجاح",
     "successfully_delete_merchant": "تم حذف التاجر بنجاح"
+  },
+  "dashboard": {
+    "products_stocks":"مخزون المنتجات"
+  },
+  "tooltip": {
+    "download_excel": "تنزيل إكسل"
   }
 }
