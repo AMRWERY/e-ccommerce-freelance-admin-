@@ -48,7 +48,11 @@
     "enter_your_category_title": "Enter your Category title",
     "category_title_ar": "Category title ar",
     "enter_your_category_title_ar": "Enter your Category title ar",
-    "search_for_items": "Search for items..."
+    "search_for_items": "Search for items...",
+    "number_of_stock": "Number of stock",
+    "enter_number_of_stock": "Enter number of stock",
+    "images": "Images",
+    "upload_file": "Upload file"
   },
   "btn": {
     "login": "Login",
@@ -113,7 +117,10 @@
     "failed_upload_img": "Failed upload image",
     "successfully_accept_merchant": "Successfully accept merchant",
     "successfully_reject_merchant": "Successfully reject merchant",
-    "successfully_delete_merchant": "Successfully delete merchant"
+    "successfully_delete_merchant": "Successfully delete merchant",
+    "successfully_remove_img": "Successfully remove image",
+    "product_added_successfully": "Product added successfully",
+    "failed_add_product": "Failed add product"
   },
   "dashboard": {
     "products_stocks":"Products Stocks"

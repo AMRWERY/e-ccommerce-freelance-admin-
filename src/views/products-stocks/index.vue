@@ -18,20 +18,21 @@
                     <product-form-dialog />
                 </div>
             </div>
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <div class="flex justify-end pb-4">
-                    <label for="table-search" class="sr-only">Search</label>
-                    <div class="relative mt-1">
-                        <div class="absolute inset-y-0 flex items-center pointer-events-none end-0 pe-3">
-                            <iconify-icon icon="material-symbols-light:search" width="20" height="20"
-                                class="text-gray-500"></iconify-icon>
-                        </div>
-                        <input type="text" id="table-search"
-                            class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                            :placeholder="$t('form.search_for_items')">
-                    </div>
-                </div>
 
+            <div class="flex justify-end pb-4">
+                <label for="table-search" class="sr-only">Search</label>
+                <div class="relative mt-1">
+                    <div class="absolute inset-y-0 flex items-center pointer-events-none end-0 pe-3">
+                        <iconify-icon icon="material-symbols-light:search" width="20" height="20"
+                            class="text-gray-500"></iconify-icon>
+                    </div>
+                    <input type="text" id="table-search"
+                        class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                        :placeholder="$t('form.search_for_items')">
+                </div>
+            </div>
+
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-gray-500 text-start">
                     <thead class="text-xs text-gray-700 capitalize bg-gray-50">
                         <tr>
@@ -39,49 +40,82 @@
                                 #
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Product img
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 Product name
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Color
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Category
+                                Target Market
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Price
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Discount
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Availability
                             </th>
                             <th scope="col" class="px-6 py-3">
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b border-gray-200 hover:bg-gray-50" v-for="product in products"
-                            :key="product.id">
+                        <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"
+                            v-for="(product, index) in productStore.paginatedProducts" :key="product.id">
                             <td class="w-4 p-4">
                                 <div class="flex items-center">
-                                    {{ product.id }}
+                                    {{ (productStore.currentPage -
+                                        1) *
+                                        productStore.productsPerPage +
+                                        index +
+                                        1 }}
                                 </div>
                             </td>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {{ product.name }}
+                                <img :src="product.imageUrl1" alt="product-logo"
+                                    class="object-cover w-12 h-12 rounded-lg">
+                            </th>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                {{ $i18n.locale ===
+                                    'ar' ? product.titleAr :
+                                    product.title }}
                             </th>
                             <td class="px-6 py-4">
-                                {{ product.color }}
+                                {{ product.targetMarket }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ product.category }}
+                                <div class="flex flex-col">
+                                    <p class="text-sm font-semibold text-gray-900">
+                                        {{ product.discountedPrice }}egp
+                                    </p>
+                                    <p class="text-xs text-gray-500 line-through">
+                                        {{ product.originalPrice }}egp
+                                    </p>
+                                </div>
                             </td>
                             <td class="px-6 py-4">
-                                ${{ product.price }}
+                                {{ product.discount }}%
                             </td>
-                            <td class="flex items-center justify-center px-6 py-4 space-s-4">
-                                <router-link to="" role="button"
-                                    class="font-medium text-blue-600 hover:underline">Edit</router-link>
-                                <router-link to="" role="button" @click="openDeleteDialog(product.id)"
-                                    class="font-medium text-red-600">
-                                    <iconify-icon icon="material-symbols:delete-forever" width="24"
-                                        height="24"></iconify-icon>
-                                </router-link>
+                            <td class="px-6 py-4">
+                                {{ product.numberOfStock }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex gap-3">
+                                    <router-link to="" role="button"
+                                        class="font-medium text-blue-600 hover:underline">Edit</router-link>
+                                    <!-- <span class="flex items-center">
+                                        <iconify-icon icon="line-md:loading-loop" width="20" height="20"
+                                            class="me-1"></iconify-icon>
+                                        Deleting...
+                                    </span> -->
+                                    <span class="flex items-center" @click="openDeleteDialog(product.id)">
+                                        <iconify-icon icon="material-symbols:delete" width="20" height="20"
+                                            class="me-1"></iconify-icon>
+                                        Delete
+                                    </span>
+                                </div>
                             </td>
                         </tr>
 
@@ -92,27 +126,44 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- pagination -->
+            <div class="flex items-end justify-end mt-12">
+                <div class="flex items-center px-4 py-3" v-if="productStore.paginatedProducts.length > 0">
+                    <div class="flex mt-3 space-s-1 ms-auto">
+                        <button role="button" @click="productStore.changePage(productStore.currentPage - 1)"
+                            :disabled="productStore.currentPage === 1"
+                            class="flex items-center justify-center bg-gray-100 rounded-md shrink-0 w-9 h-9 disabled:opacity-50">
+                            <iconify-icon icon="material-symbols:keyboard-arrow-left" width="24" height="24"
+                                class="text-gray-400 rtl:rotate-180"></iconify-icon>
+                        </button>
+                        <button v-for="page in productStore.totalPages" :key="page"
+                            @click="newMerchantStore.changePage(page)" :class="{
+                                'bg-slate-300 text-gray-800': page === productStore.currentPage,
+                                'bg-slate-100 text-gray-600': page !== productStore.currentPage,
+                            }"
+                            class="flex items-center justify-center shrink-0 border hover:border-blue-500 cursor-pointer text-base font-medium text-spate-900 px-[13px] h-9 rounded-md">
+                            {{ page }}
+                        </button>
+                        <button role="button" @click="productStore.changePage(productStore.currentPage + 1)"
+                            :disabled="productStore.currentPage === productStore.totalPages"
+                            class="flex items-center justify-center border rounded-md cursor-pointer shrink-0 hover:border-blue-500 w-9 h-9 disabled:opacity-50">
+                            <iconify-icon icon="material-symbols:keyboard-arrow-right" width="24" height="24"
+                                class="text-gray-400 rtl:rotate-180"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-const products = ref([
-    {
-        id: 1,
-        name: 'Microsoft Surface Pro',
-        color: 'White',
-        category: 'Laptop PC',
-        price: 1999
-    },
-    {
-        id: 2,
-        name: 'MacBook Pro',
-        color: 'Space Gray',
-        category: 'Laptop',
-        price: 2499
-    }
-]);
+const productStore = useProductsStore()
+
+onMounted(() => {
+    productStore.fetchProducts()
+});
 
 const showDeleteDialog = ref(false);
 const selectedProductId = ref(null);

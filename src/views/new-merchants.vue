@@ -56,7 +56,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="flex gap-2" v-if="merchant.status === 'pending'">
+                                <div class="flex gap-3" v-if="merchant.status === 'pending'">
                                     <button @click="handleAccept(merchant.id)"
                                         class="font-medium text-blue-600 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
                                         :disabled="loadingMerchant === merchant.id">

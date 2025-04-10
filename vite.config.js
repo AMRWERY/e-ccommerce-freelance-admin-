@@ -37,6 +37,7 @@ export default defineConfig({
             "alpha_spaces",
             "minLength",
             "confirmed",
+            "numeric",
           ],
           // For @vee-validate/i18n
           "@vee-validate/i18n": ["localize", "setLocale"],
@@ -56,7 +57,7 @@ export default defineConfig({
           type: true,
         },
       ],
-      dirs: ["./hooks", "src/composables", "src/composables", "src/stores"],
+      dirs: ["./hooks", "src/composables", "src/composables", "src/stores", "src/stores/**"],
     }),
   ],
   resolve: {

@@ -59,7 +59,7 @@ import { Field, Form } from 'vee-validate';
 
 const props = defineProps({
     modelValue: {
-        type: String,
+        type: [String, Number],
     },
     label: {
         type: String,

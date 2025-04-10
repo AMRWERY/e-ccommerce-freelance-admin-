@@ -10,7 +10,7 @@
 
             <!-- Main modal -->
             <div id="default-modal" tabindex="-1"
-                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 end-0 start-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <!-- Overlay -->
                 <div class="fixed inset-0 transition-opacity bg-black/50"></div>
                 <div class="relative w-full max-w-2xl max-h-full p-4">
@@ -34,24 +34,24 @@
                                     class="after:border-1 flex items-center after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
                                     <span
                                         class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
-                                        <iconify-icon icon="material-symbols:looks-one-outline" width="60" height="60"
-                                           ></iconify-icon>
+                                        <iconify-icon icon="material-symbols:looks-one-outline" width="60"
+                                            height="60"></iconify-icon>
                                     </span>
                                 </li>
                                 <li :class="step === 2 ? 'text-blue-600' : 'text-gray-400'"
                                     class="after:border-1 flex items-center after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
                                     <span
                                         class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
-                                        <iconify-icon icon="material-symbols:looks-two-outline" width="60" height="60"
-                                           ></iconify-icon>
+                                        <iconify-icon icon="material-symbols:looks-two-outline" width="60"
+                                            height="60"></iconify-icon>
                                     </span>
                                 </li>
                                 <li class="flex items-center shrink-0"
                                     :class="step === 3 ? 'text-blue-600' : 'text-gray-400'">
                                     <span
                                         class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
-                                        <iconify-icon icon="material-symbols:looks-3-outline" width="60" height="60"
-                                           ></iconify-icon>
+                                        <iconify-icon icon="material-symbols:looks-3-outline" width="60"
+                                            height="60"></iconify-icon>
                                     </span>
                                 </li>
                             </ol>
@@ -62,53 +62,128 @@
                                         <dynamic-inputs :label="t('form.product_title')"
                                             :placeholder="t('form.enter_your_product_title')" type="text"
                                             :name="t('form.product_title')" :rules="'required'" :required="true"
-                                            prefixIcon="tabler:brand-producthunt" />
+                                            prefixIcon="tabler:brand-producthunt" v-model="formData.title" />
                                     </div>
 
                                     <div class="mb-4">
                                         <dynamic-inputs :label="t('form.product_title_ar')"
                                             :placeholder="t('form.enter_your_product_title_ar')" type="text"
                                             :name="t('form.product_title_ar')" :rules="'required'" :required="true"
-                                            prefixIcon="tabler:brand-producthunt" />
+                                            prefixIcon="tabler:brand-producthunt" v-model="formData.titleAr" />
                                     </div>
 
                                     <div class="mb-4">
-                                        <div class="mx-auto overflow-hidden rounded-lg">
-                                            <div class="md:flex">
-                                                <div class="w-full">
-                                                    <div
-                                                        class="relative flex items-center justify-center h-48 bg-gray-100 border-2 border-blue-700 border-dashed rounded-lg">
-                                                        <div class="absolute">
-                                                            <div class="flex flex-col items-center">
-                                                                <iconify-icon icon="material-symbols:imagesmode"
-                                                                    width="70" height="70"
-                                                                    class="text-gray-500"></iconify-icon>
-                                                                <span class="block font-normal text-gray-400">{{
-                                                                    $t('form.attach_your_files_here') }}</span>
-                                                            </div>
-                                                        </div>
-                                                        <input type="file" class="w-full h-full opacity-0" multiple>
-                                                    </div>
+                                        <label class="block mb-2 text-sm font-medium text-gray-700">
+                                            {{ $t('form.images') }}
+                                        </label>
+                                        <div class="grid grid-cols-2 gap-6 px-4 mx-auto mt-3 md:grid-cols-4 lg:px-6">
+                                            <!-- img 1 -->
+                                            <div class="flex flex-col items-center">
+                                                <div v-if="imagePreview.imageUrl1" class="relative mb-2 w-28 h-28">
+                                                    <img :src="imagePreview.imageUrl1"
+                                                        class="object-cover w-full h-full rounded-lg" />
+                                                    <button type="button" @click="removeImagePreview('imageUrl1')"
+                                                        class="absolute p-0.5 text-white bg-red-500 rounded-full -top-2 -end-2 hover:bg-red-600 flex items-center">
+                                                        <iconify-icon icon="material-symbols:close-small-rounded"
+                                                            width="20" height="20"></iconify-icon>
+                                                    </button>
                                                 </div>
+                                                <div v-else
+                                                    class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
+                                                    <label for="imageUrl1"
+                                                        class="flex flex-col items-center justify-center h-full gap-2 cursor-pointer">
+                                                        <iconify-icon icon="material-symbols:photo" width="30"
+                                                            height="30" class="text-indigo-600"></iconify-icon>
+                                                        <p class="font-medium text-center text-gray-600">{{
+                                                            $t('form.upload_file')
+                                                        }}</p>
+                                                    </label>
+                                                </div>
+                                                <input id="imageUrl1" type="file" class="hidden" accept="image/*"
+                                                    @change="handleSingleImageUpload($event, 'imageUrl1')" />
+                                            </div>
+
+                                            <!-- img 2 -->
+                                            <div class="flex flex-col items-center">
+                                                <div v-if="imagePreview.imageUrl2" class="relative mb-2 w-28 h-28">
+                                                    <img :src="imagePreview.imageUrl2"
+                                                        class="object-cover w-full h-full rounded-lg" />
+                                                    <button type="button" @click="removeImagePreview('imageUrl2')"
+                                                        class="absolute p-0.5 text-white bg-red-500 rounded-full -top-2 -end-2 hover:bg-red-600 flex items-center">
+                                                        <iconify-icon icon="material-symbols:close-small-rounded"
+                                                            width="20" height="20"></iconify-icon>
+                                                    </button>
+                                                </div>
+                                                <div v-else
+                                                    class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
+                                                    <label for="imageUrl2"
+                                                        class="flex flex-col items-center justify-center h-full gap-2 cursor-pointer">
+                                                        <iconify-icon icon="material-symbols:photo" width="30"
+                                                            height="30" class="text-indigo-600"></iconify-icon>
+                                                        <p class="font-medium text-center text-gray-600">{{
+                                                            $t('form.upload_file')
+                                                        }}</p>
+                                                    </label>
+                                                </div>
+                                                <input id="imageUrl2" type="file" class="hidden" accept="image/*"
+                                                    @change="handleSingleImageUpload($event, 'imageUrl2')" />
+                                            </div>
+
+                                            <!-- img 3 -->
+                                            <div class="flex flex-col items-center">
+                                                <div v-if="imagePreview.imageUrl3" class="relative mb-2 w-28 h-28">
+                                                    <img :src="imagePreview.imageUrl3"
+                                                        class="object-cover w-full h-full rounded-lg" />
+                                                    <button type="button" @click="removeImagePreview('imageUrl3')"
+                                                        class="absolute p-0.5 text-white bg-red-500 rounded-full -top-2 -end-2 hover:bg-red-600 flex items-center">
+                                                        <iconify-icon icon="material-symbols:close-small-rounded"
+                                                            width="20" height="20"></iconify-icon>
+                                                    </button>
+                                                </div>
+                                                <div v-else
+                                                    class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
+                                                    <label for="imageUrl3"
+                                                        class="flex flex-col items-center justify-center h-full gap-2 cursor-pointer">
+                                                        <iconify-icon icon="material-symbols:photo" width="30"
+                                                            height="30" class="text-indigo-600"></iconify-icon>
+                                                        <p class="font-medium text-center text-gray-600">{{
+                                                            $t('form.upload_file')
+                                                        }}</p>
+                                                    </label>
+                                                </div>
+                                                <input id="imageUrl3" type="file" class="hidden" accept="image/*"
+                                                    @change="handleSingleImageUpload($event, 'imageUrl3')" />
+                                            </div>
+
+                                            <!-- img 4 -->
+                                            <div class="flex flex-col items-center">
+                                                <div v-if="imagePreview.imageUrl4" class="relative mb-2 w-28 h-28">
+                                                    <img :src="imagePreview.imageUrl4"
+                                                        class="object-cover w-full h-full rounded-lg" />
+                                                    <button type="button" @click="removeImagePreview('imageUrl4')"
+                                                        class="absolute p-0.5 text-white bg-red-500 rounded-full -top-2 -end-2 hover:bg-red-600 flex items-center">
+                                                        <iconify-icon icon="material-symbols:close-small-rounded"
+                                                            width="20" height="20"></iconify-icon>
+                                                    </button>
+                                                </div>
+                                                <div v-else
+                                                    class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
+                                                    <label for="imageUrl4"
+                                                        class="flex flex-col items-center justify-center h-full gap-2 cursor-pointer">
+                                                        <iconify-icon icon="material-symbols:photo" width="30"
+                                                            height="30" class="text-indigo-600"></iconify-icon>
+                                                        <p class="font-medium text-center text-gray-600">{{
+                                                            $t('form.upload_file')
+                                                        }}</p>
+                                                    </label>
+                                                </div>
+                                                <input id="imageUrl4" type="file" class="hidden" accept="image/*"
+                                                    @change="handleSingleImageUpload($event, 'imageUrl4')" />
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="flex items-center justify-center mb-4 space-s-6">
-                                            <div v-if="product.imgOne" class="mt-4 border border-gray-200">
-                                                <img :src="product.imgOne" class="w-48 h-32 rounded-lg">
-                                            </div>
-                                            <div v-if="product.imgTwo" class="mt-4 border border-gray-200">
-                                                <img :src="product.imgTwo" class="w-48 h-32 rounded-lg">
-                                            </div>
-                                            <div v-if="product.imgThree" class="mt-4 border border-gray-200">
-                                                <img :src="product.imgThree" class="w-48 h-32 rounded-lg">
-                                            </div>
-                                            <div v-if="product.imgFour" class="mt-4 border border-gray-200">
-                                                <img :src="product.imgFour" class="w-48 h-32 rounded-lg">
-                                            </div>
-                                        </div> -->
 
-                                    <div class="flex flex-wrap gap-4 mt-8">
+                                    <div class="flex flex-wrap items-center justify-end gap-4 mt-8">
                                         <button role="button" @click="nextStep"
                                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                             {{ $t('btn.next_step') }}
@@ -123,30 +198,32 @@
                                         <dynamic-inputs :label="t('form.product_description')"
                                             :placeholder="t('form.enter_your_product_description')" type="textarea"
                                             :name="t('form.product_description')" :rules="'required'" :required="true"
-                                            prefixIcon="tabler:file-description" />
+                                            prefixIcon="tabler:file-description" v-model="formData.description" />
                                     </div>
 
                                     <div class="mb-4">
                                         <dynamic-inputs :label="t('form.product_description_ar')"
                                             :placeholder="t('form.enter_your_product_description_ar')" type="textarea"
                                             :name="t('form.product_description_ar')" :rules="'required'"
-                                            :required="true" prefixIcon="tabler:file-description" />
+                                            :required="true" prefixIcon="tabler:file-description"
+                                            v-model="formData.descriptionAr" />
                                     </div>
 
                                     <div class="mb-4">
                                         <dynamic-inputs :label="t('form.original_price')"
                                             :placeholder="t('form.enter_original_price')" type="number"
-                                            :name="t('form.original_price')" prefixIcon="mdi:money" />
+                                            :name="t('form.original_price')" prefixIcon="mdi:money"
+                                            v-model="formData.originalPrice" />
                                     </div>
 
                                     <div class="mb-4">
                                         <dynamic-inputs :label="t('form.discounted_price')"
                                             :placeholder="t('form.enter_discounted_price')" type="number"
                                             :name="t('form.discounted_price')" :rules="'required'" :required="true"
-                                            prefixIcon="mdi:money" />
+                                            prefixIcon="mdi:money" v-model="formData.discountedPrice" />
                                     </div>
 
-                                    <div class="flex flex-wrap gap-4 mt-8">
+                                    <div class="flex flex-wrap items-center justify-end gap-4 mt-8">
                                         <button v-if="step > 1" @click="prevStep" type="button"
                                             class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
                                             {{ $t('btn.back') }}
@@ -164,26 +241,37 @@
                                     <div class="mb-4">
                                         <dynamic-inputs :label="t('form.discount')"
                                             :placeholder="t('form.enter_the_discount_percentage')" type="number"
-                                            :name="t('form.discount')" prefixIcon="mdi:discount-circle-outline" />
+                                            :name="t('form.discount')" prefixIcon="mdi:discount-circle-outline"
+                                            v-model="formData.discount" />
                                     </div>
 
                                     <div class="mb-4">
                                         <label for="availability" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.availability')
-                                        }}</label>
+                                            }}</label>
                                         <select id="availability" :name="t('form.availability')"
+                                            v-model="formData.availability"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
                                             <option value="" disabled>{{ $t('form.select_availability') }}</option>
-                                            <option>{{ $t('form.in_stock') }}</option>
-                                            <option>{{ $t('form.out_of_stock') }}</option>
+                                            <option value="in_stock">{{ $t('form.in_stock') }}</option>
+                                            <option value="out_of_stock">{{ $t('form.out_of_stock') }}</option>
                                         </select>
+                                    </div>
+
+                                    <div class="mb-4" v-if="formData.availability === 'in_stock'">
+                                        <dynamic-inputs :label="t('form.number_of_stock')"
+                                            :placeholder="t('form.enter_number_of_stock')" type="number" name="stock"
+                                            :rules="'required|numeric'" :required="true"
+                                            prefixIcon="lsicon:management-stockout-filled"
+                                            v-model="formData.numberOfStock" />
                                     </div>
 
                                     <div class="mb-4">
                                         <label for="country" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.select_market_country')
-                                        }}</label>
+                                            }}</label>
                                         <select id="country" :name="t('form.select_market_country')"
+                                            v-model="formData.targetMarket"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
                                             <option value="" disabled>{{ $t('form.select_market_country') }}
                                             </option>
@@ -192,7 +280,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="flex flex-wrap gap-4 mt-8">
+                                    <div class="flex flex-wrap items-center justify-end gap-4 mt-8">
                                         <button @click="prevStep" type="button"
                                             class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
                                             {{ $t('btn.back') }}
@@ -217,18 +305,179 @@
                 </div>
             </div>
         </div>
+
+        <!-- dynamic-toast component  -->
+        <div
+            class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 const { t } = useI18n()
 const route = useRoute();
+const productsStore = useProductsStore();
 const loading = ref(false);
 const step = ref(1);
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 
-const handleSubmit = () => {
-    console.log('form submitted!')
-}
+const props = defineProps({
+    isEdit: {
+        type: Boolean,
+        default: false
+    },
+    editProductData: {
+        type: Object,
+        default: null
+    }
+});
+
+onMounted(() => {
+    if (props.isEdit && props.editProductData) {
+        formData.value = { ...props.editProductData };
+        // Also need to handle image previews for existing images
+    }
+});
+
+const formData = ref({
+    title: '',
+    titleAr: '',
+    description: '',
+    descriptionAr: '',
+    originalPrice: null,
+    discountedPrice: null,
+    discount: null,
+    stock: null,
+    availability: null,
+    numberOfStock: null,
+    targetMarket: null
+});
+
+const imageFiles = ref({
+    imageUrl1: null,
+    imageUrl2: null,
+    imageUrl3: null,
+    imageUrl4: null
+});
+
+const imagePreview = ref({
+    imageUrl1: '',
+    imageUrl2: '',
+    imageUrl3: '',
+    imageUrl4: ''
+});
+
+const removeImagePreview = (imageKey) => {
+    imagePreview.value[imageKey] = '';
+    imageFiles.value[imageKey] = null;
+    const fileInput = document.getElementById(imageKey);
+    triggerToast({
+        message: t('toast.successfully_remove_img'),
+        type: 'success',
+        icon: 'material-symbols:check-circle',
+    });
+    if (fileInput) fileInput.value = '';
+};
+
+const handleSingleImageUpload = (event, imageKey) => {
+    const file = event.target.files[0];
+    if (!file) {
+        triggerToast({
+            message: t('toast.failed_upload_img'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
+        return;
+    }
+    imageFiles.value[imageKey] = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        imagePreview.value[imageKey] = e.target.result;
+        triggerToast({
+            message: t('toast.successfully_upload_img'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
+    };
+    reader.onerror = () => {
+        triggerToast({
+            message: t('toast.failed_upload_img'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
+        imageFiles.value[imageKey] = null;
+    };
+    reader.readAsDataURL(file);
+};
+
+const handleSubmit = async () => {
+    loading.value = true;
+    try {
+        await productsStore.createProduct({
+            title: formData.value.title,
+            titleAr: formData.value.titleAr,
+            description: formData.value.description,
+            descriptionAr: formData.value.descriptionAr,
+            originalPrice: Number(formData.value.originalPrice),
+            discountedPrice: Number(formData.value.discountedPrice),
+            discount: Number(formData.value.discount),
+            stock: Number(formData.value.stock),
+            availability: formData.value.availability,
+            numberOfStock: formData.value.numberOfStock,
+            targetMarket: formData.value.targetMarket
+        }, imageFiles.value);
+        triggerToast({
+            message: t('toast.product_added_successfully'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
+        const modal = document.getElementById('default-modal');
+        modal.classList.add('hidden');
+        resetForm();
+        imageFiles.value = [];
+        await productsStore.fetchProducts();
+    } catch (error) {
+        triggerToast({
+            message: t('toast.failed_add_product'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
+    } finally {
+        loading.value = false;
+    }
+};
+
+const resetForm = () => {
+    formData.value = {
+        title: '',
+        titleAr: '',
+        description: '',
+        descriptionAr: '',
+        originalPrice: null,
+        discountedPrice: null,
+        discount: null,
+        stock: null,
+        availability: null,
+        numberOfStock: null,
+        targetMarket: null
+    };
+    imageFiles.value = {
+        imageUrl1: null,
+        imageUrl2: null,
+        imageUrl3: null,
+        imageUrl4: null
+    };
+    imagePreview.value = {
+        imageUrl1: '',
+        imageUrl2: '',
+        imageUrl3: '',
+        imageUrl4: ''
+    };
+};
 
 const nextStep = () => {
     if (step.value < 3) {

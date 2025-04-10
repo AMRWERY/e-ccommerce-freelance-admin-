@@ -48,7 +48,11 @@
     "enter_your_category_title": "ادخل اسم الفئه",
     "category_title_ar": "اسم الفئه عربي",
     "enter_your_category_title_ar": "ادخل اسم الفئه عربي",
-    "search_for_items": "البحث عن المنتجات..."
+    "search_for_items": "البحث عن المنتجات...",
+    "number_of_stock": "عدد المخزون",
+    "enter_number_of_stock": "أدخل عدد المخزون",
+    "images": "الصور",
+    "upload_file": "تحميل الملف"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -113,7 +117,10 @@
     "failed_upload_img": "فشل تحميل الصورة",
     "successfully_accept_merchant": "تم قبول التاجر بنجاح",
     "successfully_reject_merchant": "تم رفض التاجر بنجاح",
-    "successfully_delete_merchant": "تم حذف التاجر بنجاح"
+    "successfully_delete_merchant": "تم حذف التاجر بنجاح",
+    "successfully_remove_img": "تمت إزالة الصورة بنجاح",
+    "product_added_successfully": "تمت إضافة المنتج بنجاح",
+    "failed_add_product": "فشل إضافة المنتج"
   },
   "dashboard": {
     "products_stocks":"مخزون المنتجات"
