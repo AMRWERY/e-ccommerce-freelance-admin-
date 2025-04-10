@@ -13,7 +13,7 @@
                         <span
                             class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
                             <iconify-icon icon="material-symbols:looks-one-outline" width="60" height="60"
-                                aria-hidden="true"></iconify-icon>
+                                ></iconify-icon>
                             <span class="hidden sm:inline-flex sm:ms-2 whitespace-nowrap">{{ $t('form.market_info')
                                 }}</span>
                         </span>
@@ -24,7 +24,7 @@
                         <span
                             class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
                             <iconify-icon icon="material-symbols:looks-two-outline" width="60" height="60"
-                                aria-hidden="true"></iconify-icon>
+                                ></iconify-icon>
                             <span class="hidden sm:inline-flex sm:ms-2 whitespace-nowrap">{{ $t('form.personal_info')
                                 }}</span>
                         </span>
@@ -106,6 +106,15 @@
                 </Transition>
             </div>
         </div>
+
+        <!-- dynamic-toast component  -->
+        <div
+            class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -116,6 +125,7 @@ const newMerchantStore = useNewMerchantStore()
 const step = ref(1);
 const previewImage = ref("");
 const loading = ref(false);
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 
 const nextStep = () => {
     step.value = 2;
@@ -130,8 +140,18 @@ const handleFileUpload = (event) => {
     newMerchantStore.imageFile = file;
     if (file) {
         previewImage.value = URL.createObjectURL(file);
+        triggerToast({
+            message: t('toast.successfully_upload_img'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
     } else {
         previewImage.value = "";
+        triggerToast({
+            message: t('toast.failed_upload_img'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
     }
 };
 
@@ -139,9 +159,18 @@ const handleSubmit = async () => {
     loading.value = true;
     try {
         await newMerchantStore.registerMarket()
+        triggerToast({
+            message: t('toast.successfully_register_new_merchant'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
         // router.push('/auth/login')
     } catch (err) {
-        console.error(err)
+        triggerToast({
+            message: t('toast.failed_register_new_merchant'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
     } finally {
         loading.value = false;
     }

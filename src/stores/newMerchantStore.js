@@ -259,7 +259,7 @@ export const useNewMerchantStore = defineStore("new-merchants", {
         try {
           await deleteUser(merchantData.userId);
         } catch (error) {
-          console.error("Error deleting user from Auth:", error);
+          // console.error("Error deleting user from Auth:", error);
         }
         // Delete merchant image from storage if exists
         if (merchantData.imageUrl) {

@@ -10,7 +10,7 @@
                                 aria-controls="logo-sidebar" type="button"
                                 class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                                 <span class="sr-only">Open sidebar</span>
-                                <iconify-icon icon="mdi:menu" width="24" height="24" aria-hidden="true"></iconify-icon>
+                                <iconify-icon icon="mdi:menu" width="24" height="24"></iconify-icon>
                             </button>
                             <router-link to="" class="flex ms-2 md:me-24">
                                 <span
@@ -39,7 +39,7 @@
                             <router-link to="/products-stocks" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
-                                <iconify-icon icon="mdi:shopping-basket" width="24" height="24" aria-hidden="true"
+                                <iconify-icon icon="mdi:shopping-basket" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.products_stocks') }}</span>
                             </router-link>
@@ -48,7 +48,7 @@
                             <router-link to="/categories" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
-                                <iconify-icon icon="material-symbols:category" width="24" height="24" aria-hidden="true"
+                                <iconify-icon icon="material-symbols:category" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.categories') }}</span>
                             </router-link>
@@ -57,7 +57,7 @@
                             <router-link to="/orders" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
-                                <iconify-icon icon="mdi:clipboard-list" width="24" height="24" aria-hidden="true"
+                                <iconify-icon icon="mdi:clipboard-list" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.orders') }}</span>
                             </router-link>
@@ -66,7 +66,7 @@
                             <router-link to="/users" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
-                                <iconify-icon icon="mdi:users-group" width="24" height="24" aria-hidden="true"
+                                <iconify-icon icon="mdi:users-group" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.users') }}</span>
                             </router-link>
@@ -75,7 +75,7 @@
                             <router-link to="/users" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
-                                <iconify-icon icon="mdi:users-group" width="24" height="24" aria-hidden="true"
+                                <iconify-icon icon="mdi:users-group" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.messages') }}</span>
                             </router-link>
@@ -84,7 +84,7 @@
                             <router-link to="/new-merchants" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
-                                <iconify-icon icon="mdi:shop" width="24" height="24" aria-hidden="true"
+                                <iconify-icon icon="mdi:shop" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.new_merchants') }}</span>
                             </router-link>

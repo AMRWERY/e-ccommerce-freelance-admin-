@@ -60,7 +60,6 @@ import { Field, Form } from 'vee-validate';
 const props = defineProps({
     modelValue: {
         type: String,
-        // required: true
     },
     label: {
         type: String,

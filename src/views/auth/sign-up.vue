@@ -33,6 +33,15 @@
                 </div>
             </div>
         </div>
+
+        <!-- dynamic-toast component  -->
+        <div
+            class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -45,10 +54,16 @@ const lastName = ref('');
 const email = ref('');
 const password = ref('');
 const loading = ref(false);
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 
 const handleSignup = async () => {
     if (!email.value || !password.value || !firstName.value || !lastName.value) {
-        return
+        triggerToast({
+            message: t('toast.failed_sign_up'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
+        return;
     }
     loading.value = true;
     try {
@@ -58,10 +73,18 @@ const handleSignup = async () => {
             firstName.value,
             lastName.value
         );
-        await authStore.logoutUser();
-        router.push('/auth/login');
+        triggerToast({
+            message: t('toast.successfully_sign_up'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
+        setTimeout(() => { router.push('/auth/login') }, 3000)
     } catch (error) {
-        console.error(error)
+        triggerToast({
+            message: t('toast.failed_sign_up'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
     } finally {
         loading.value = false;
     }

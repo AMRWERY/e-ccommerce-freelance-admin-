@@ -24,7 +24,7 @@
                     <div class="relative mt-1">
                         <div class="absolute inset-y-0 flex items-center pointer-events-none end-0 pe-3">
                             <iconify-icon icon="material-symbols-light:search" width="20" height="20"
-                                class="text-gray-500" aria-hidden="true"></iconify-icon>
+                                class="text-gray-500"></iconify-icon>
                         </div>
                         <input type="text" id="table-search"
                             class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"

@@ -100,5 +100,18 @@
     "error_404": "Error 404!",
     "page_not_found": "Page not found",
     "the_page_you_are_looking_for_does_not_exist": "The page you’re looking for doesn’t exist."
+  },
+  "toast": {
+    "successfully_logged_in": "Successfully logged in",
+    "failed_logged_in": "Failed logged in",
+    "successfully_sign_up": "Successfully sign up",
+    "failed_sign_up": "Failed sign up",
+    "successfully_register_new_merchant": "Successfully register new merchant. Your request is pending approval",
+    "failed_register_new_merchant": "Failed register new merchant",
+    "successfully_upload_img": "Successfully upload image",
+    "failed_upload_img": "Failed upload image",
+    "successfully_accept_merchant": "Successfully accept merchant",
+    "successfully_reject_merchant": "Successfully reject merchant",
+    "successfully_delete_merchant": "Successfully delete merchant"
   }
 }

@@ -135,22 +135,37 @@
         <delete-dialog v-model="showDeleteDialog"
             :message="`Are you sure you want to delete this merchant? This action cannot be undone.`"
             @confirm="handleDelete" />
+
+        <!-- dynamic-toast component  -->
+        <div
+            class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
-
+const { t } = useI18n()
 const newMerchantStore = useNewMerchantStore();
 const loadingMerchant = ref(null);
 const loadingAction = ref(null);
 const showDeleteDialog = ref(false);
 const selectedMerchantId = ref(null);
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 
 const handleAccept = async (merchantId) => {
     loadingMerchant.value = merchantId;
     loadingAction.value = 'accept';
     try {
         await newMerchantStore.acceptMerchant(merchantId);
+        triggerToast({
+            message: t('toast.successfully_accept_merchant'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
     } finally {
         loadingMerchant.value = null;
         loadingAction.value = null;
@@ -162,6 +177,11 @@ const handleReject = async (merchantId) => {
     loadingAction.value = 'reject';
     try {
         await newMerchantStore.rejectMerchant(merchantId);
+        triggerToast({
+            message: t('toast.successfully_reject_merchant'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
     } finally {
         loadingMerchant.value = null;
         loadingAction.value = null;
@@ -175,11 +195,15 @@ const openDeleteDialog = (merchantId) => {
 
 const handleDelete = async () => {
     if (!selectedMerchantId.value) return;
-
     loadingMerchant.value = selectedMerchantId.value;
     loadingAction.value = 'delete';
     try {
         await newMerchantStore.deleteMerchant(selectedMerchantId.value);
+        triggerToast({
+            message: t('toast.successfully_delete_merchant'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
         showDeleteDialog.value = false;
     } finally {
         loadingMerchant.value = null;

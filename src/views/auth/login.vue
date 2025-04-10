@@ -38,6 +38,15 @@
                 </div>
             </div>
         </div>
+
+        <!-- dynamic-toast component  -->
+        <div
+            class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -48,17 +57,25 @@ const router = useRouter()
 const email = ref('');
 const password = ref('');
 const loading = ref(false);
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 
 const handleLogin = async () => {
-    if (!email.value || !password.value) {
-        return
-    }
+    if (!email.value || !password.value) return
     loading.value = true;
     try {
         await authStore.loginUser(email.value, password.value);
-        router.replace('/products-stocks')
+        triggerToast({
+            message: t('toast.successfully_logged_in'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
+        setTimeout(() => { router.push('/products-stocks') }, 3000)
     } catch (error) {
-        console.error(error)
+        triggerToast({
+            message: t('toast.failed_logged_in'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
     } finally {
         loading.value = false;
     }

@@ -4,12 +4,12 @@
             <!-- Modal toggle -->
             <router-link to="" role="button" data-modal-target="default-modal" data-modal-toggle="default-modal"
                 class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
-                <iconify-icon icon="ic:baseline-plus" width="24" height="24" aria-hidden="true"></iconify-icon>
+                <iconify-icon icon="ic:baseline-plus" width="24" height="24"></iconify-icon>
                 {{ $t('btn.add_product') }}
             </router-link>
 
             <!-- Main modal -->
-            <div id="default-modal" tabindex="-1" aria-hidden="true"
+            <div id="default-modal" tabindex="-1"
                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <!-- Overlay -->
                 <div class="fixed inset-0 transition-opacity bg-black/50"></div>
@@ -35,7 +35,7 @@
                                     <span
                                         class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
                                         <iconify-icon icon="material-symbols:looks-one-outline" width="60" height="60"
-                                            aria-hidden="true"></iconify-icon>
+                                           ></iconify-icon>
                                     </span>
                                 </li>
                                 <li :class="step === 2 ? 'text-blue-600' : 'text-gray-400'"
@@ -43,7 +43,7 @@
                                     <span
                                         class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
                                         <iconify-icon icon="material-symbols:looks-two-outline" width="60" height="60"
-                                            aria-hidden="true"></iconify-icon>
+                                           ></iconify-icon>
                                     </span>
                                 </li>
                                 <li class="flex items-center shrink-0"
@@ -51,7 +51,7 @@
                                     <span
                                         class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
                                         <iconify-icon icon="material-symbols:looks-3-outline" width="60" height="60"
-                                            aria-hidden="true"></iconify-icon>
+                                           ></iconify-icon>
                                     </span>
                                 </li>
                             </ol>
