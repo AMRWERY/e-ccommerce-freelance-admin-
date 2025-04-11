@@ -120,10 +120,12 @@
     "successfully_delete_merchant": "تم حذف التاجر بنجاح",
     "successfully_remove_img": "تمت إزالة الصورة بنجاح",
     "product_added_successfully": "تمت إضافة المنتج بنجاح",
-    "failed_add_product": "فشل إضافة المنتج"
+    "failed_add_product": "فشل إضافة المنتج",
+    "product_updated_successfully": "تم تحديث المنتج بنجاح",
+    "error_occurred": "حدث خطأ"
   },
   "dashboard": {
-    "products_stocks":"مخزون المنتجات"
+    "products_stocks": "مخزون المنتجات"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"

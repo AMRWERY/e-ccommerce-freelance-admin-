@@ -3,7 +3,7 @@
         <div v-flowbite>
             <div class="flex items-center justify-between my-10 flex-nowrap">
                 <p class="text-3xl font-semibold text-gray-700">{{ $t('dashboard.products_stocks') }}</p>
-                <div class="flex items-center justify-center gap-4">
+                <div class="flex items-center justify-center gap-4 ms-auto">
                     <button @click="exportToExcel" data-tooltip-target="tooltip-default" data-tooltip-placement="bottom"
                         class="inline-flex items-center px-5 py-2.5 text-blue-700 border border-blue-700 rounded-lg hover:bg-blue-100">
                         <iconify-icon icon="tabler:file-excel" width="24" height="24"></iconify-icon>
@@ -14,8 +14,15 @@
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
 
+                    <router-link to="" role="button" @click="openAddProductDialog"
+                        class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
+                        <iconify-icon icon="ic:baseline-plus" width="24" height="24"></iconify-icon>
+                        {{ $t('btn.add_product') }}
+                    </router-link>
+
                     <!-- product-form-dialog component -->
-                    <product-form-dialog />
+                    <product-form-dialog :is-dialog-open="isDialogOpen" :product-id="selectedProductId"
+                        @close="handleDialogClose" />
                 </div>
             </div>
 
@@ -103,7 +110,7 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex gap-3">
-                                    <router-link to="" role="button"
+                                    <router-link to="" role="button" @click="openEditDialog(product.id)"
                                         class="font-medium text-blue-600 hover:underline">Edit</router-link>
                                     <!-- <span class="flex items-center">
                                         <iconify-icon icon="line-md:loading-loop" width="20" height="20"
@@ -165,8 +172,25 @@ onMounted(() => {
     productStore.fetchProducts()
 });
 
-const showDeleteDialog = ref(false);
+const isDialogOpen = ref(false);
 const selectedProductId = ref(null);
+
+const openAddProductDialog = () => {
+    selectedProductId.value = null;
+    isDialogOpen.value = true;
+};
+
+const openEditDialog = (productId) => {
+    selectedProductId.value = productId;
+    isDialogOpen.value = true;
+};
+
+const handleDialogClose = () => {
+    isDialogOpen.value = false;
+    selectedProductId.value = null;
+};
+
+const showDeleteDialog = ref(false);
 
 const openDeleteDialog = (productId) => {
     selectedProductId.value = productId;

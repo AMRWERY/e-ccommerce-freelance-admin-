@@ -41,36 +41,32 @@ export const useProductsStore = defineStore("new-products", {
         });
     },
 
-    createProduct(productData, imageFiles) {
-      const filesArray = Object.values(imageFiles).filter((file) => file);
-      if (!imageFiles || imageFiles.length < 1) {
-        return Promise.reject("No image files provided.");
+    async createProduct(productData, imageFiles) {
+      try {
+        const filesArray = Object.values(imageFiles).filter((file) => file);
+        if (filesArray.length === 0) {
+          throw new Error("No image files provided.");
+        }
+        const imageUrls = await Promise.all(
+          filesArray.map(async (file) => {
+            const storagePath = `/products/${file.name}`;
+            const storageRef = ref(storage, storagePath);
+            await uploadBytes(storageRef, file);
+            return getDownloadURL(storageRef);
+          })
+        );
+        const imageUrlsObj = imageUrls.reduce((acc, url, index) => {
+          acc[`imageUrl${index + 1}`] = url;
+          return acc;
+        }, {});
+        const newProductData = { ...productData, ...imageUrlsObj };
+        const docRef = await addDoc(collection(db, "products"), newProductData);
+        await this.fetchProducts();
+        return docRef.id;
+      } catch (error) {
+        console.error("Create error:", error);
+        throw error;
       }
-      const imageUrls = [];
-      const uploadPromises = filesArray.map((file) => {
-        const storagePath = "/products/" + file.name;
-        const storageRef = ref(storage, storagePath);
-        return uploadBytes(storageRef, file)
-          .then((snapshot) => getDownloadURL(snapshot.ref))
-          .then((url) => {
-            imageUrls.push(url);
-          });
-      });
-      return Promise.all(uploadPromises)
-        .then(() => {
-          const imageUrlsObj = imageUrls.reduce((acc, url, index) => {
-            acc[`imageUrl${index + 1}`] = url;
-            return acc;
-          }, {});
-          const newProductData = { ...productData, ...imageUrlsObj };
-          return addDoc(collection(db, "products"), newProductData);
-        })
-        .then(() => {
-          this.updatePagination();
-        })
-        .catch((error) => {
-          throw error;
-        });
     },
 
     fetchProductDetail(productId) {
@@ -90,25 +86,42 @@ export const useProductsStore = defineStore("new-products", {
           }
         })
         .catch((error) => {
-          // console.error("Error fetching product details:", error);
           return null;
         });
     },
 
-    updateProduct(productId, updatedData) {
-      const productRef = doc(db, "products", productId);
-      return updateDoc(productRef, updatedData)
-        .then(() => {
-          const index = this.products.findIndex(
-            (product) => product.id === productId
-          );
-          if (index !== -1) {
-            this.products[index] = { ...this.products[index], ...updatedData };
-          }
-        })
-        .catch((error) => {
-          return error;
-        });
+    async updateProduct(productId, updatedData, imageFiles) {
+      try {
+        const filesArray = Object.values(imageFiles).filter((file) => file);
+        const imageUrls = await Promise.all(
+          filesArray.map(async (file) => {
+            const storagePath = `/products/${file.name}`;
+            const storageRef = ref(storage, storagePath);
+            await uploadBytes(storageRef, file);
+            return getDownloadURL(storageRef);
+          })
+        );
+        const imageUrlsObj = imageUrls.reduce((acc, url, index) => {
+          acc[`imageUrl${index + 1}`] = url;
+          return acc;
+        }, {});
+        const finalData = {
+          ...updatedData,
+          ...imageUrlsObj,
+          originalPrice: Number(updatedData.originalPrice),
+          discountedPrice: Number(updatedData.discountedPrice),
+        };
+        const productRef = doc(db, "products", productId);
+        await updateDoc(productRef, finalData);
+        const index = this.products.findIndex((p) => p.id === productId);
+        if (index !== -1) {
+          this.products[index] = { ...this.products[index], ...finalData };
+        }
+        await this.fetchProducts();
+      } catch (error) {
+        console.error("Update error:", error);
+        throw error;
+      }
     },
 
     // deleteProduct(productId) {

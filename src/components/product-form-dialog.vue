@@ -1,27 +1,19 @@
 <template>
     <div>
-        <div v-flowbite>
-            <!-- Modal toggle -->
-            <router-link to="" role="button" data-modal-target="default-modal" data-modal-toggle="default-modal"
-                class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
-                <iconify-icon icon="ic:baseline-plus" width="24" height="24"></iconify-icon>
-                {{ $t('btn.add_product') }}
-            </router-link>
-
-            <!-- Main modal -->
-            <div id="default-modal" tabindex="-1"
-                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 end-0 start-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div>
+            <div v-if="isOpen"
+                class="overflow-y-auto overflow-x-hidden fixed top-0 end-0 start-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <!-- Overlay -->
                 <div class="fixed inset-0 transition-opacity bg-black/50"></div>
                 <div class="relative w-full max-w-2xl max-h-full p-4">
                     <div class="relative flex flex-col h-full bg-white rounded-lg shadow-md">
                         <div class="flex items-center justify-between p-2 border-b border-gray-200 rounded-t md:p-3">
                             <h3 class="text-xl font-semibold text-gray-900">
-                                {{ $t('form.add_product') }}
+                                {{ isEdit ? $t('form.edit_product') : $t('form.add_product') }}
                             </h3>
                             <button type="button"
                                 class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto"
-                                data-modal-hide="default-modal">
+                                @click="closeDialog">
                                 <iconify-icon icon="material-symbols:close-small-rounded" width="24"
                                     height="24"></iconify-icon>
                                 <span class="sr-only">Close modal</span>
@@ -325,22 +317,46 @@ const step = ref(1);
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 
 const props = defineProps({
-    isEdit: {
+    isDialogOpen: {
         type: Boolean,
         default: false
     },
-    editProductData: {
-        type: Object,
+    productId: {
+        type: String,
         default: null
     }
 });
 
-onMounted(() => {
-    if (props.isEdit && props.editProductData) {
-        formData.value = { ...props.editProductData };
-        // Also need to handle image previews for existing images
+const product = ref(null)
+
+const emit = defineEmits(['close']);
+
+watch(() => props.productId, async (newId) => {
+    if (newId) {
+        await productsStore.fetchProductDetail(newId);
+        product.value = { ...productsStore.selectedProduct };
+        formData.value = { ...productsStore.selectedProduct };
+        imagePreview.value.imageUrl1 = product.value.imageUrl1 || '';
+        imagePreview.value.imageUrl2 = product.value.imageUrl2 || '';
+        imagePreview.value.imageUrl3 = product.value.imageUrl3 || '';
+        imagePreview.value.imageUrl4 = product.value.imageUrl4 || '';
+    } else {
+        resetForm();
     }
 });
+
+const isOpen = computed({
+    get: () => props.isDialogOpen,
+    set: (value) => emit("update:isOpen", value),
+})
+
+const closeDialog = () => {
+    resetForm();
+    step.value = 1;
+    emit('close');
+};
+
+const isEdit = computed(() => props.productId && props.productId !== 'add-product');
 
 const formData = ref({
     title: '',
@@ -416,32 +432,39 @@ const handleSingleImageUpload = (event, imageKey) => {
 const handleSubmit = async () => {
     loading.value = true;
     try {
-        await productsStore.createProduct({
-            title: formData.value.title,
-            titleAr: formData.value.titleAr,
-            description: formData.value.description,
-            descriptionAr: formData.value.descriptionAr,
+        const productData = {
+            ...formData.value,
             originalPrice: Number(formData.value.originalPrice),
             discountedPrice: Number(formData.value.discountedPrice),
             discount: Number(formData.value.discount),
             stock: Number(formData.value.stock),
-            availability: formData.value.availability,
-            numberOfStock: formData.value.numberOfStock,
-            targetMarket: formData.value.targetMarket
-        }, imageFiles.value);
-        triggerToast({
-            message: t('toast.product_added_successfully'),
-            type: 'success',
-            icon: 'material-symbols:check-circle',
-        });
-        const modal = document.getElementById('default-modal');
-        modal.classList.add('hidden');
-        resetForm();
-        imageFiles.value = [];
+            numberOfStock: Number(formData.value.numberOfStock)
+        };
+        if (isEdit.value) {
+            await productsStore.updateProduct(
+                props.productId,
+                productData,
+                imageFiles.value
+            );
+            triggerToast({
+                message: t('toast.product_updated_successfully'),
+                type: 'success',
+                icon: 'material-symbols:check-circle',
+            });
+        } else {
+            await productsStore.createProduct(productData, imageFiles.value);
+            triggerToast({
+                message: t('toast.product_added_successfully'),
+                type: 'success',
+                icon: 'material-symbols:check-circle',
+            });
+        }
+        closeDialog();
         await productsStore.fetchProducts();
     } catch (error) {
+        console.error('Operation error:', error);
         triggerToast({
-            message: t('toast.failed_add_product'),
+            message: t('toast.error_occurred'),
             type: 'error',
             icon: 'material-symbols:error-rounded',
         });

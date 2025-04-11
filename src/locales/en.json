@@ -120,7 +120,9 @@
     "successfully_delete_merchant": "Successfully delete merchant",
     "successfully_remove_img": "Successfully remove image",
     "product_added_successfully": "Product added successfully",
-    "failed_add_product": "Failed add product"
+    "failed_add_product": "Failed add product",
+    "product_updated_successfully": "Product updated successfully",
+    "error_occurred": "Error occurred"
   },
   "dashboard": {
     "products_stocks":"Products Stocks"
