@@ -73,37 +73,6 @@ export const useProductsStore = defineStore("new-products", {
         });
     },
 
-    // updateProduct(productId, updatedData) {
-    //   const productRef = doc(db, "products", productId);
-    //   return updateDoc(productRef, updatedData)
-    //     .then(() => {
-    //       const index = this.products.findIndex(
-    //         (product) => product.id === productId
-    //       );
-    //       if (index !== -1) {
-    //         this.products[index] = { ...this.products[index], ...updatedData };
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       return error;
-    //     });
-    // },
-
-    // deleteProduct(productId) {
-    //   if (!productId) return;
-    //   const productRef = doc(db, "products", productId);
-    //   deleteDoc(productRef)
-    //     .then(() => {
-    //       this.products = this.products.filter(
-    //         (product) => product.id !== productId
-    //       );
-    //       this.updatePagination();
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error deleting product:", error);
-    //     });
-    // },
-
     fetchProductDetail(productId) {
       if (!productId) {
         return null;
@@ -125,6 +94,37 @@ export const useProductsStore = defineStore("new-products", {
           return null;
         });
     },
+
+    updateProduct(productId, updatedData) {
+      const productRef = doc(db, "products", productId);
+      return updateDoc(productRef, updatedData)
+        .then(() => {
+          const index = this.products.findIndex(
+            (product) => product.id === productId
+          );
+          if (index !== -1) {
+            this.products[index] = { ...this.products[index], ...updatedData };
+          }
+        })
+        .catch((error) => {
+          return error;
+        });
+    },
+
+    // deleteProduct(productId) {
+    //   if (!productId) return;
+    //   const productRef = doc(db, "products", productId);
+    //   deleteDoc(productRef)
+    //     .then(() => {
+    //       this.products = this.products.filter(
+    //         (product) => product.id !== productId
+    //       );
+    //       this.updatePagination();
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error deleting product:", error);
+    //     });
+    // },
 
     setSearchTerm(term) {
       this.searchProductByTitle = term.toLowerCase();
