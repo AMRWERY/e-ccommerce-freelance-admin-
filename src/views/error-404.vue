@@ -14,7 +14,7 @@
 
                         <router-link to="/products-stocks"
                             class="inline-block px-8 py-3 text-sm font-semibold text-center text-gray-500 transition duration-100 bg-gray-200 rounded-lg outline-none ring-indigo-300 hover:bg-gray-300 focus-visible:ring active:text-gray-700 md:text-base">{{
-                            $t('btn.go_home') }}</router-link>
+                                $t('btn.go_home') }}</router-link>
                     </div>
 
                     <div class="relative overflow-hidden bg-gray-100 rounded-lg shadow-lg h-80 md:h-auto">

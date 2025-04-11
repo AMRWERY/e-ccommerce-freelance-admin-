@@ -12,7 +12,7 @@
                                 <span class="sr-only">Open sidebar</span>
                                 <iconify-icon icon="mdi:menu" width="24" height="24"></iconify-icon>
                             </button>
-                            <router-link to="" class="flex ms-2 md:me-24">
+                            <router-link to="/products-stocks" class="flex ms-2 md:me-24 logo-label">
                                 <span
                                     class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">e-ccommerce</span>
                             </router-link>

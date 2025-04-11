@@ -16,7 +16,7 @@
                     </slot>
 
                     <h4 class="mt-4 text-base font-semibold text-gray-800">
-                        <slot name="title">Are you sure you want to delete this?</slot>
+                        <slot name="title">{{ $t('dashboard.are_you_sure_you_want_to_delete_this') }}</slot>
                     </h4>
 
                     <p v-if="message" class="mt-2 text-gray-600">{{ message }}</p>
@@ -24,11 +24,11 @@
                     <div class="mt-8 text-center space-s-4">
                         <button @click="close" type="button"
                             class="px-4 py-2 text-sm text-gray-800 bg-gray-200 rounded-lg hover:bg-gray-300 active:bg-gray-200">
-                            Cancel
+                            {{ $t('btn.cancel') }}
                         </button>
                         <button @click="confirmDelete" type="button"
                             class="px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                            Delete
+                            {{ $t('btn.delete') }}
                         </button>
                     </div>
                 </div>

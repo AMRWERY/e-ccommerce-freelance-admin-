@@ -68,7 +68,9 @@
     "edit_category": "تعديل فئه",
     "add_category": "أضافه فئه",
     "next_step": "الخطوة التالية",
-    "go_home": "العوده إلى الصفحة الرئيسية"
+    "go_home": "العوده إلى الصفحة الرئيسية",
+    "delete": "حذف",
+    "cancel": "إلغاء"
   },
   "meta": {
     "home": "الرئيسية",
@@ -122,10 +124,14 @@
     "product_added_successfully": "تمت إضافة المنتج بنجاح",
     "failed_add_product": "فشل إضافة المنتج",
     "product_updated_successfully": "تم تحديث المنتج بنجاح",
-    "error_occurred": "حدث خطأ"
+    "error_occurred": "حدث خطأ",
+    "product_deleted": "تم حذف المنتج بنجاح",
+    "delete_failed": "فشل الحذف"
   },
   "dashboard": {
-    "products_stocks": "مخزون المنتجات"
+    "products_stocks": "مخزون المنتجات",
+    "are_you_sure_you_want_to_delete_this": "هل أنت متأكد أنك تريد حذف هذا؟",
+    "delete_confirmation": "أنت على وشك حذف هذا المنتج. لا يمكن التراجع عن هذا الإجراء."
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"

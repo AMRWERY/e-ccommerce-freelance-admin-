@@ -26,14 +26,14 @@
                 </div>
             </div>
 
-            <div class="flex justify-end pb-4">
+            <div class="flex justify-end pb-4 mb-4">
                 <label for="table-search" class="sr-only">Search</label>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 flex items-center pointer-events-none end-0 pe-3">
                         <iconify-icon icon="material-symbols-light:search" width="20" height="20"
                             class="text-gray-500"></iconify-icon>
                     </div>
-                    <input type="text" id="table-search"
+                    <input type="text" id="table-search" v-model="searchProduct"
                         class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                         :placeholder="$t('form.search_for_items')">
                 </div>
@@ -110,25 +110,22 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex gap-3">
-                                    <router-link to="" role="button" @click="openEditDialog(product.id)"
-                                        class="font-medium text-blue-600 hover:underline">Edit</router-link>
-                                    <!-- <span class="flex items-center">
-                                        <iconify-icon icon="line-md:loading-loop" width="20" height="20"
-                                            class="me-1"></iconify-icon>
-                                        Deleting...
-                                    </span> -->
-                                    <span class="flex items-center" @click="openDeleteDialog(product.id)">
-                                        <iconify-icon icon="material-symbols:delete" width="20" height="20"
-                                            class="me-1"></iconify-icon>
-                                        Delete
-                                    </span>
+                                    <button role="button" @click.stop="openEditDialog(product.id)"
+                                        class="font-medium text-blue-600 hover:underline">Edit</button>
+
+                                    <button role="button">
+                                        <span class="flex items-center" @click.stop="openDeleteDialog(product)">
+                                            <iconify-icon icon="material-symbols:delete" width="20" height="20"
+                                                class="me-1"></iconify-icon>
+                                            {{ $t('btn.delete') }}
+                                        </span>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
 
                         <!-- delete-dialog component -->
-                        <delete-dialog v-model="showDeleteDialog"
-                            :message="`You are about to delete product #${selectedProductId}. This action cannot be undone.`"
+                        <delete-dialog v-model="showDeleteDialog" :message="$t('dashboard.delete_confirmation')"
                             @confirm="handleDelete" />
                     </tbody>
                 </table>
@@ -162,11 +159,22 @@
                 </div>
             </div>
         </div>
+
+        <!-- dynamic-toast component  -->
+        <div
+            class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
+const { t } = useI18n()
 const productStore = useProductsStore()
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 
 onMounted(() => {
     productStore.fetchProducts()
@@ -191,22 +199,40 @@ const handleDialogClose = () => {
 };
 
 const showDeleteDialog = ref(false);
+const deletingProducts = ref({});
 
-const openDeleteDialog = (productId) => {
-    selectedProductId.value = productId;
+const openDeleteDialog = (product) => {
+    selectedProductId.value = product.id;
     showDeleteDialog.value = true;
 };
 
 const handleDelete = async () => {
+    if (!selectedProductId.value) return;
+    deletingProducts.value[selectedProductId.value] = true;
+    showDeleteDialog.value = false;
     try {
-        // Call your delete API here using selectedProductId.value
-        products.value = products.value.filter(p => p.id !== selectedProductId.value);
+        await productStore.deleteProduct(selectedProductId.value);
+        triggerToast({
+            message: t('toast.product_deleted'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
     } catch (error) {
-        console.error('Delete failed:', error);
+        triggerToast({
+            message: t('toast.delete_failed'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
     } finally {
+        deletingProducts.value[selectedProductId.value] = false;
         selectedProductId.value = null;
     }
 };
+
+const searchProduct = computed({
+    get: () => productStore.searchProductByTitle,
+    set: (value) => productStore.setSearchTerm(value)
+});
 
 // useExcelExport composable
 const { exportDataToExcel } = useExcelExport();

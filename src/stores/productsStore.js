@@ -124,20 +124,20 @@ export const useProductsStore = defineStore("new-products", {
       }
     },
 
-    // deleteProduct(productId) {
-    //   if (!productId) return;
-    //   const productRef = doc(db, "products", productId);
-    //   deleteDoc(productRef)
-    //     .then(() => {
-    //       this.products = this.products.filter(
-    //         (product) => product.id !== productId
-    //       );
-    //       this.updatePagination();
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error deleting product:", error);
-    //     });
-    // },
+    deleteProduct(productId) {
+      if (!productId) return;
+      const productRef = doc(db, "products", productId);
+      deleteDoc(productRef)
+        .then(() => {
+          this.products = this.products.filter(
+            (product) => product.id !== productId
+          );
+          this.updatePagination();
+        })
+        .catch((error) => {
+          console.error("Error deleting product:", error);
+        });
+    },
 
     setSearchTerm(term) {
       this.searchProductByTitle = term.toLowerCase();

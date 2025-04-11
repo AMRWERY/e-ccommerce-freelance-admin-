@@ -68,7 +68,9 @@
     "edit_category": "Edit Category",
     "add_category": "Add Category",
     "next_step": "Next Step",
-    "go_home": "Go home"
+    "go_home": "Go home",
+    "delete": "Delete",
+    "cancel": "Cancel"
   },
   "meta": {
     "home": "Home",
@@ -122,10 +124,14 @@
     "product_added_successfully": "Product added successfully",
     "failed_add_product": "Failed add product",
     "product_updated_successfully": "Product updated successfully",
-    "error_occurred": "Error occurred"
+    "error_occurred": "Error occurred",
+    "product_deleted": "Product deleted successfully",
+    "delete_failed": "Delete failed"
   },
   "dashboard": {
-    "products_stocks":"Products Stocks"
+    "products_stocks":"Products Stocks",
+    "are_you_sure_you_want_to_delete_this": "Are you sure you want to delete this?",
+    "delete_confirmation": "You are about to delete this product. This action cannot be undone."
   },
   "tooltip": {
     "download_excel": "Download Excel"
