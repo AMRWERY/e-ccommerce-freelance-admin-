@@ -188,6 +188,26 @@ const handleDelete = async () => {
 const { exportDataToExcel } = useExcelExport();
 
 const exportToExcel = () => {
-    exportDataToExcel(products.value, { filename: 'my_products.xlsx' });
+    const options = {
+        filename: 'products_export.xlsx',
+        sheetName: 'Products',
+        headers: [
+            { label: "#", key: "id" },
+            { label: "Product Image", key: "imageUrl1", mapper: (item) => "" }, // Empty for image path
+            { label: "Product Name", key: "title", mapper: (item) => $i18n.locale === 'ar' ? item.titleAr : item.title },
+            { label: "Target Market", key: "targetMarket" },
+            {
+                label: "Price",
+                key: "discountedPrice",
+                type: "n",
+                numberFormat: "$#,##0.00",
+                cellStyle: { font: { color: { rgb: "00AA00" }, bold: true } }
+            },
+            { label: "Discount (%)", key: "discount" },
+            { label: "Stock", key: "numberOfStock" }
+        ],
+        columnWidths: [5, 15, 25, 20, 15, 15, 10]
+    };
+    exportDataToExcel(productStore.products, options);
 };
 </script>
