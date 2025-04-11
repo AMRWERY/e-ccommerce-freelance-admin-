@@ -137,7 +137,7 @@
     "product_name": "Product name",
     "target_market": "Target Market",
     "price": "Price",
-    "discount": "Discount",
+    "discount": "Discount (%)",
     "availability": "Availability",
     "no_discount": "No discount",
     "out_of_stock": "Out of stock",

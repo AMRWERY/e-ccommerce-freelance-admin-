@@ -119,7 +119,7 @@
                             <td class="px-6 py-4">
                                 <template v-if="product.numberOfStock > 0">
                                     <span class="font-semibold text-blue-700">{{ product.numberOfStock }}</span> {{
-                                    $t('dashboard.pieces') }}
+                                        $t('dashboard.pieces') }}
                                 </template>
                                 <template v-else>
                                     <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock') }}</span>
@@ -188,7 +188,7 @@
 </template>
 
 <script setup>
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const productStore = useProductsStore()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 
@@ -261,19 +261,18 @@ const exportToExcel = () => {
         filename: 'products_export.xlsx',
         sheetName: 'Products',
         headers: [
-            { label: "#", key: "id" },
-            { label: "Product Image", key: "imageUrl1", mapper: (item) => "" }, // Empty for image path
-            { label: "Product Name", key: "title", mapper: (item) => $i18n.locale === 'ar' ? item.titleAr : item.title },
-            { label: "Target Market", key: "targetMarket" },
+            { label: t('dashboard.product_name'), key: "title", mapper: (item) => locale.value === 'ar' ? item.titleAr : item.title },
+            { label: t('dashboard.target_market'), key: "targetMarket" },
             {
-                label: "Price",
+                label: t('dashboard.price'),
                 key: "discountedPrice",
                 type: "n",
-                numberFormat: "$#,##0.00",
+                numberFormat: '0',
+                mapper: (item) => Math.round(parseFloat(item.discountedPrice)),
                 cellStyle: { font: { color: { rgb: "00AA00" }, bold: true } }
             },
-            { label: "Discount (%)", key: "discount" },
-            { label: "Stock", key: "numberOfStock" }
+            { label: t('dashboard.discount'), key: "discount" },
+            { label: t('dashboard.availability'), key: "numberOfStock" }
         ],
         columnWidths: [5, 15, 25, 20, 15, 15, 10]
     };

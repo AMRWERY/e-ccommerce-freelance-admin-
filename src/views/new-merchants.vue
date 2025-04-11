@@ -6,7 +6,7 @@
                 <div class="flex items-center justify-center gap-4">
                     <select v-model="newMerchantStore.selectedStatus"
                         @change="newMerchantStore.setStatusFilter(newMerchantStore.selectedStatus)"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 min-w-48">
                         <option value="all">All Status</option>
                         <option value="pending">Pending</option>
                         <option value="approved">Approved</option>
@@ -88,12 +88,11 @@
                                         class="flex items-center">
                                         <iconify-icon icon="line-md:loading-loop" width="20" height="20"
                                             class="me-1"></iconify-icon>
-                                        Deleting...
                                     </span>
                                     <span v-else class="flex items-center">
                                         <iconify-icon icon="material-symbols:delete" width="20" height="20"
                                             class="me-1"></iconify-icon>
-                                        Delete
+                                        {{ $t('btn.delete') }}
                                     </span>
                                 </button>
                             </td>

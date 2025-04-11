@@ -137,7 +137,7 @@
     "product_name": "اسم المنتج",
     "target_market": "السوق المستهدف",
     "price": "سعر",
-    "discount": "تخفيض",
+    "discount": "تخفيض (%)",
     "availability": "التوفر",
     "no_discount": "لا يوجد خصم",
     "out_of_stock": "إنتهى من المخزن",
