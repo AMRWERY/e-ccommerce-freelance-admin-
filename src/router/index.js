@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import i18n from "@/plugins/i18n";
-import home from "../views/home.vue";
+import productsStocks from "../views/products-stocks/index.vue";
 import mainLayout from "@/components/layouts-components/main-layout.vue";
 
 const router = createRouter({
@@ -13,19 +13,13 @@ const router = createRouter({
       children: [
         {
           path: "",
-          name: "home",
-          component: home,
-          meta: {
-            title: "meta.home",
-            requiresAuth: true,
-            allowedRoles: ["admin", "market_owner"],
-          },
+          redirect: "/products-stocks",
         },
         //products routes
         {
           path: "/products-stocks",
           name: "products-stocks",
-          component: () => import("../views/products-stocks/index.vue"),
+          component: productsStocks,
           meta: {
             title: "meta.products_stocks",
             requiresAuth: true,
@@ -195,7 +189,7 @@ router.beforeEach(async (to, from, next) => {
           console.error("Error parsing user data from localStorage:", error);
         }
       }
-      if (to.name === "home" && userRole === "market_owner") {
+      if (userRole === "market_owner") {
         next("/products-stocks");
         return;
       }
