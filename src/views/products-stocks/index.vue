@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <div class="flex justify-end pb-4 mb-4">
+            <div class="flex justify-start pb-4 mb-4">
                 <label for="table-search" class="sr-only">Search</label>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 flex items-center pointer-events-none end-0 pe-3">
@@ -47,22 +47,22 @@
                                 #
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Product img
+                                {{ $t('dashboard.product_img') }}
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Product name
+                                {{ $t('dashboard.product_name') }}
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Target Market
+                                {{ $t('dashboard.target_market') }}
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Price
+                                {{ $t('dashboard.price') }}
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Discount
+                                {{ $t('dashboard.discount') }}
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Availability
+                                {{ $t('dashboard.availability') }}
                             </th>
                             <th scope="col" class="px-6 py-3">
                             </th>
@@ -95,24 +95,40 @@
                             <td class="px-6 py-4">
                                 <div class="flex flex-col">
                                     <p class="text-sm font-semibold text-gray-900">
-                                        {{ product.discountedPrice }}egp
+                                        {{ $n(parseFloat(product.discountedPrice), 'currency', currencyLocale || {
+                                            style: 'currency',
+                                            currency: 'USD'
+                                        }) }}
                                     </p>
                                     <p class="text-xs text-gray-500 line-through">
-                                        {{ product.originalPrice }}egp
+                                        {{ $n(parseFloat(product.originalPrice), 'currency', currencyLocale || {
+                                            style: 'currency', currency:
+                                                'USD'
+                                        }) }}
                                     </p>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                {{ product.discount }}%
+                                <template v-if="product.discount > 0">
+                                    {{ product.discount }}%
+                                </template>
+                                <template v-else>
+                                    {{ $t('dashboard.no_discount') }}
+                                </template>
                             </td>
                             <td class="px-6 py-4">
-                                {{ product.numberOfStock }}
+                                <template v-if="product.numberOfStock > 0">
+                                    <span class="font-semibold text-blue-700">{{ product.numberOfStock }}</span> {{
+                                    $t('dashboard.pieces') }}
+                                </template>
+                                <template v-else>
+                                    <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock') }}</span>
+                                </template>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex gap-3">
                                     <button role="button" @click.stop="openEditDialog(product.id)"
-                                        class="font-medium text-blue-600 hover:underline">Edit</button>
-
+                                        class="font-medium text-blue-600 hover:underline">{{ $t('btn.edit') }}</button>
                                     <button role="button">
                                         <span class="flex items-center" @click.stop="openDeleteDialog(product)">
                                             <iconify-icon icon="material-symbols:delete" width="20" height="20"
@@ -233,6 +249,9 @@ const searchProduct = computed({
     get: () => productStore.searchProductByTitle,
     set: (value) => productStore.setSearchTerm(value)
 });
+
+//currency composable
+const { currencyLocale } = useCurrencyLocale();
 
 // useExcelExport composable
 const { exportDataToExcel } = useExcelExport();

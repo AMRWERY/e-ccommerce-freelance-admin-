@@ -48,7 +48,7 @@
     "enter_your_category_title": "Enter your Category title",
     "category_title_ar": "Category title ar",
     "enter_your_category_title_ar": "Enter your Category title ar",
-    "search_for_items": "Search for items...",
+    "search_for_items": "Search for products...",
     "number_of_stock": "Number of stock",
     "enter_number_of_stock": "Enter number of stock",
     "images": "Images",
@@ -70,7 +70,8 @@
     "next_step": "Next Step",
     "go_home": "Go home",
     "delete": "Delete",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "edit": "Edit"
   },
   "meta": {
     "home": "Home",
@@ -131,7 +132,16 @@
   "dashboard": {
     "products_stocks":"Products Stocks",
     "are_you_sure_you_want_to_delete_this": "Are you sure you want to delete this?",
-    "delete_confirmation": "You are about to delete this product. This action cannot be undone."
+    "delete_confirmation": "You are about to delete this product. This action cannot be undone.",
+    "product_img": "Product image",
+    "product_name": "Product name",
+    "target_market": "Target Market",
+    "price": "Price",
+    "discount": "Discount",
+    "availability": "Availability",
+    "no_discount": "No discount",
+    "out_of_stock": "Out of stock",
+    "pieces": "Pieces"
   },
   "tooltip": {
     "download_excel": "Download Excel"

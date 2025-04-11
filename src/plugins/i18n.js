@@ -50,7 +50,7 @@ const numberFormats = {
   "en-US": {
     currency: {
       style: "currency",
-      currency: "USD",
+      currency: "EGP",
       notation: "standard",
     },
     decimal: {

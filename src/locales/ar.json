@@ -70,7 +70,8 @@
     "next_step": "الخطوة التالية",
     "go_home": "العوده إلى الصفحة الرئيسية",
     "delete": "حذف",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "edit": "تعديل"
   },
   "meta": {
     "home": "الرئيسية",
@@ -131,7 +132,16 @@
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
     "are_you_sure_you_want_to_delete_this": "هل أنت متأكد أنك تريد حذف هذا؟",
-    "delete_confirmation": "أنت على وشك حذف هذا المنتج. لا يمكن التراجع عن هذا الإجراء."
+    "delete_confirmation": "أنت على وشك حذف هذا المنتج. لا يمكن التراجع عن هذا الإجراء.",
+    "product_img": "صورة المنتج",
+    "product_name": "اسم المنتج",
+    "target_market": "السوق المستهدف",
+    "price": "سعر",
+    "discount": "تخفيض",
+    "availability": "التوفر",
+    "no_discount": "لا يوجد خصم",
+    "out_of_stock": "إنتهى من المخزن",
+    "pieces": "قطع"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"
