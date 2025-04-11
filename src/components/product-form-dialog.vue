@@ -96,7 +96,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl1" type="file" class="hidden" accept="image/*"
@@ -122,7 +122,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl2" type="file" class="hidden" accept="image/*"
@@ -148,7 +148,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl3" type="file" class="hidden" accept="image/*"
@@ -174,7 +174,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl4" type="file" class="hidden" accept="image/*"
@@ -248,7 +248,7 @@
                                     <div class="mb-4">
                                         <label for="availability" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.availability')
-                                            }}</label>
+                                        }}</label>
                                         <select id="availability" :name="t('form.availability')"
                                             v-model="formData.availability"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -269,7 +269,7 @@
                                     <div class="mb-4">
                                         <label for="country" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.select_market_country')
-                                            }}</label>
+                                        }}</label>
                                         <select id="country" :name="t('form.select_market_country')"
                                             v-model="formData.targetMarket"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -319,7 +319,6 @@
 
 <script setup>
 const { t } = useI18n()
-const route = useRoute();
 const productsStore = useProductsStore();
 const loading = ref(false);
 const step = ref(1);
