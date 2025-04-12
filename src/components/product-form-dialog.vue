@@ -88,7 +88,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl1" type="file" class="hidden" accept="image/*"
@@ -114,7 +114,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl2" type="file" class="hidden" accept="image/*"
@@ -140,7 +140,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl3" type="file" class="hidden" accept="image/*"
@@ -166,7 +166,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl4" type="file" class="hidden" accept="image/*"
@@ -240,7 +240,7 @@
                                     <div class="mb-4">
                                         <label for="availability" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.availability')
-                                            }}</label>
+                                        }}</label>
                                         <select id="availability" :name="t('form.availability')"
                                             v-model="formData.availability"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -261,14 +261,16 @@
                                     <div class="mb-4">
                                         <label for="country" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.select_market_country')
-                                            }}</label>
+                                        }}</label>
                                         <select id="country" :name="t('form.select_market_country')"
-                                            v-model="formData.targetMarket"
+                                            v-model="selectedCountry" @change="updateMarketValues"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
                                             <option value="" disabled>{{ $t('form.select_market_country') }}
                                             </option>
-                                            <option>{{ $t('form.egypt') }}</option>
-                                            <option>{{ $t('form.ksa') }}</option>
+                                            <option v-for="country in countryOptions" :key="country.key"
+                                                :value="country.key">
+                                                {{ $i18n.locale === 'ar' ? country.ar : country.en }}
+                                            </option>
                                         </select>
                                     </div>
 
@@ -329,7 +331,7 @@ const props = defineProps({
 
 const product = ref(null)
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'success']);
 
 watch(() => props.productId, async (newId) => {
     if (newId) {
@@ -429,6 +431,7 @@ const handleSingleImageUpload = (event, imageKey) => {
     reader.readAsDataURL(file);
 };
 
+
 const handleSubmit = async () => {
     loading.value = true;
     try {
@@ -459,10 +462,11 @@ const handleSubmit = async () => {
                 icon: 'material-symbols:check-circle',
             });
         }
+        emit('success');
         closeDialog();
         await productsStore.fetchProducts();
     } catch (error) {
-        console.error('Operation error:', error);
+        // console.error('Operation error:', error);
         triggerToast({
             message: t('toast.error_occurred'),
             type: 'error',
@@ -470,6 +474,30 @@ const handleSubmit = async () => {
         });
     } finally {
         loading.value = false;
+    }
+};
+
+const countryOptions = ref([
+    {
+        key: 'egypt',
+        en: 'Egypt',
+        ar: 'مصر',
+    },
+    {
+        key: 'ksa',
+        en: 'Saudi Arabia',
+        ar: 'المملكة العربية السعودية'
+    }
+]);
+
+const selectedCountry = ref('');
+
+// Update form data immediately when selection changes
+const updateMarketValues = () => {
+    const country = countryOptions.value.find(c => c.key === selectedCountry.value);
+    if (country) {
+        formData.value.targetMarket = country.en;
+        formData.value.targetMarketAr = country.ar;
     }
 };
 
@@ -485,7 +513,8 @@ const resetForm = () => {
         stock: null,
         availability: null,
         numberOfStock: null,
-        targetMarket: null
+        targetMarket: '',
+        targetMarketAr: ''
     };
     imageFiles.value = {
         imageUrl1: null,

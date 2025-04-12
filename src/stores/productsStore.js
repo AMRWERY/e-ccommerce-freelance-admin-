@@ -18,7 +18,7 @@ export const useProductsStore = defineStore("new-products", {
     selectedProduct: null,
     paginatedProducts: [],
     currentPage: 1,
-    productsPerPage: 2,
+    productsPerPage: 10,
     productRatings: {},
     searchProductByTitle: "",
     lowStockProducts: [],
@@ -62,6 +62,8 @@ export const useProductsStore = defineStore("new-products", {
         const newProductData = { ...productData, ...imageUrlsObj };
         const docRef = await addDoc(collection(db, "products"), newProductData);
         await this.fetchProducts();
+        this.currentPage = 1;
+        this.updatePagination();
         return docRef.id;
       } catch (error) {
         console.error("Create error:", error);

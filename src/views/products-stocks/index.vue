@@ -25,7 +25,7 @@
 
                     <!-- product-form-dialog component -->
                     <product-form-dialog :is-dialog-open="isDialogOpen" :product-id="selectedProductId"
-                        @close="handleDialogClose" />
+                        @close="handleDialogClose" @success="handleProductSuccess" />
                 </div>
             </div>
 
@@ -110,7 +110,9 @@
                                         product.title }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ product.targetMarket }}
+                                    {{ $i18n.locale ===
+                                        'ar' ? product.targetMarketAr :
+                                        product.targetMarket }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex flex-col">
@@ -143,7 +145,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                        }}</span>
+                                            }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
@@ -300,4 +302,9 @@ const skeletonHeaders = [
     { label: 'Availability', loaderWidth: 'w-24' },
     { label: 'Actions', type: 'action' }
 ];
+
+const handleProductSuccess = () => {
+    productStore.currentPage = 1;
+    productStore.updatePagination();
+};
 </script>
