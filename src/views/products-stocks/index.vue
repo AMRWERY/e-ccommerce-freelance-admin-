@@ -5,16 +5,8 @@
                 <p class="text-3xl font-semibold text-gray-700">{{ $t('dashboard.products_stocks') }}</p>
                 <div class="flex items-center justify-center gap-4 ms-auto" v-if="!showSkeleton">
                     <div v-if="productStore.paginatedProducts.length > 0">
-                        <button @click="exportToExcel" data-tooltip-target="tooltip-default"
-                            data-tooltip-placement="bottom"
-                            class="inline-flex items-center px-5 py-2.5 text-blue-700 border border-blue-700 rounded-lg hover:bg-blue-100">
-                            <iconify-icon icon="tabler:file-excel" width="24" height="24"></iconify-icon>
-                        </button>
-                        <div id="tooltip-default" role="tooltip"
-                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                            {{ $t('tooltip.download_excel') }}
-                            <div class="tooltip-arrow" data-popper-arrow></div>
-                        </div>
+                        <!-- excelExportBtn component -->
+                        <excel-export-btn :export-handler="handleExport" />
                     </div>
 
                     <router-link to="" role="button" @click="openAddProductDialog"
@@ -111,9 +103,9 @@
                                 </th>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
-                                        <img src="/public/ksa-flag.svg" alt="ksa-flag" class="w-5 h-4"
+                                        <img src="/ksa-flag.svg" alt="ksa-flag" class="w-5 h-4"
                                             v-if="product.targetMarket === 'Saudi Arabia'">
-                                        <img src="/public/egypt-flag.svg" alt="egypt-flag" class="w-5 h-4" v-else>
+                                        <img src="/egypt-flag.svg" alt="egypt-flag" class="w-5 h-4" v-else>
                                         {{ $i18n.locale ===
                                             'ar' ? product.targetMarketAr :
                                             product.targetMarket }}
@@ -268,33 +260,52 @@ const searchProduct = computed({
     set: (value) => productStore.setSearchTerm(value)
 });
 
+const handleProductSuccess = () => {
+    productStore.currentPage = 1;
+    productStore.updatePagination();
+};
+
 //currency composable
 const { currencyLocale } = useCurrencyLocale();
 
 // useExcelExport composable
 const { exportDataToExcel } = useExcelExport();
 
-const exportToExcel = () => {
-    const options = {
-        filename: 'products_export.xlsx',
-        sheetName: 'Products',
-        headers: [
-            { label: t('dashboard.product_name'), key: "title", mapper: (item) => locale.value === 'ar' ? item.titleAr : item.title },
-            { label: t('dashboard.target_market'), key: "targetMarket" },
-            {
-                label: t('dashboard.price'),
-                key: "discountedPrice",
-                type: "n",
-                numberFormat: '0',
-                mapper: (item) => Math.round(parseFloat(item.discountedPrice)),
-                cellStyle: { font: { color: { rgb: "00AA00" }, bold: true } }
-            },
-            { label: t('dashboard.discount'), key: "discount" },
-            { label: t('dashboard.availability'), key: "numberOfStock" }
-        ],
-        columnWidths: [5, 15, 25, 20, 15, 15, 10]
-    };
-    exportDataToExcel(productStore.products, options);
+const excelConfig = ref({
+    filename: 'products_export.xlsx',
+    sheetName: 'Products',
+    headers: [
+        {
+            label: t('dashboard.product_name'),
+            key: "title",
+            mapper: (item) => locale.value === 'ar' ? item.titleAr : item.title
+        },
+        {
+            label: t('dashboard.target_market'),
+            key: "targetMarket"
+        },
+        {
+            label: t('dashboard.price'),
+            key: "discountedPrice",
+            type: "n",
+            numberFormat: '0',
+            mapper: (item) => Math.round(parseFloat(item.discountedPrice)),
+            cellStyle: { font: { color: { rgb: "00AA00" }, bold: true } }
+        },
+        {
+            label: t('dashboard.discount'),
+            key: "discount"
+        },
+        {
+            label: t('dashboard.availability'),
+            key: "numberOfStock"
+        }
+    ],
+    columnWidths: [5, 15, 25, 20, 15, 15, 10]
+});
+
+const handleExport = () => {
+    exportDataToExcel(productStore.products, excelConfig.value);
 };
 
 const skeletonHeaders = [
@@ -307,9 +318,4 @@ const skeletonHeaders = [
     { label: 'Availability', loaderWidth: 'w-24' },
     { label: 'Actions', type: 'action' }
 ];
-
-const handleProductSuccess = () => {
-    productStore.currentPage = 1;
-    productStore.updatePagination();
-};
 </script>
