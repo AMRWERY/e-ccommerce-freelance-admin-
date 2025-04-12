@@ -10,7 +10,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "@/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 
 export const useProductsStore = defineStore("new-products", {
   state: () => ({
@@ -126,19 +131,35 @@ export const useProductsStore = defineStore("new-products", {
       }
     },
 
-    deleteProduct(productId) {
+    async deleteProduct(productId) {
       if (!productId) return;
-      const productRef = doc(db, "products", productId);
-      deleteDoc(productRef)
-        .then(() => {
+      try {
+        const productRef = doc(db, "products", productId);
+        const productDoc = await getDoc(productRef);
+        if (productDoc.exists()) {
+          const productData = productDoc.data();
+          const deletePromises = [];
+          for (let i = 1; i <= 4; i++) {
+            const imageUrl = productData[`imageUrl${i}`];
+            if (imageUrl) {
+              const path = decodeURIComponent(
+                imageUrl.split("/o/")[1].split("?")[0]
+              );
+              const storageRef = ref(storage, path);
+              deletePromises.push(deleteObject(storageRef));
+            }
+          }
+          await Promise.all(deletePromises);
+          await deleteDoc(productRef);
           this.products = this.products.filter(
             (product) => product.id !== productId
           );
           this.updatePagination();
-        })
-        .catch((error) => {
-          console.error("Error deleting product:", error);
-        });
+        }
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        throw error;
+      }
     },
 
     setSearchTerm(term) {
