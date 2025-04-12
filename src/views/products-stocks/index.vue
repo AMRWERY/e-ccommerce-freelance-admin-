@@ -110,9 +110,14 @@
                                         product.title }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $i18n.locale ===
-                                        'ar' ? product.targetMarketAr :
-                                        product.targetMarket }}
+                                    <div class="flex items-center gap-2">
+                                        <img src="/public/ksa-flag.svg" alt="ksa-flag" class="w-5 h-4"
+                                            v-if="product.targetMarket === 'Saudi Arabia'">
+                                        <img src="/public/egypt-flag.svg" alt="egypt-flag" class="w-5 h-4" v-else>
+                                        {{ $i18n.locale ===
+                                            'ar' ? product.targetMarketAr :
+                                            product.targetMarket }}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex flex-col">
