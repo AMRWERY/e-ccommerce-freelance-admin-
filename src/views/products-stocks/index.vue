@@ -142,7 +142,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                        }}</span>
+                                            }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
@@ -190,13 +190,19 @@
 <script setup>
 const { t, locale } = useI18n()
 const productStore = useProductsStore()
+const merchantsProductStore = useMerchantsProductsStore()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const showSkeleton = ref(true);
+const { userRole } = useUserRole()
 
 onMounted(async () => {
     const startTime = Date.now();
     try {
-        await productStore.fetchProducts();
+        if (userRole.value.role === 'market_owner') {
+            await merchantsProductStore.fetchMerchantProducts()
+        } else if (userRole.value.role === 'admin') {
+            await productStore.fetchProducts();
+        }
     } finally {
         const elapsed = Date.now() - startTime;
         const remaining = Math.max(3000 - elapsed, 0);

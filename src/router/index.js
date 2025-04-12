@@ -34,7 +34,7 @@ const router = createRouter({
           meta: {
             title: "meta.categories",
             requiresAuth: true,
-            allowedRoles: ["admin", "market_owner", "employee"],
+            allowedRoles: ["admin", "employee"],
           },
         },
         {
@@ -44,7 +44,7 @@ const router = createRouter({
           meta: {
             title: "meta.add_category",
             requiresAuth: true,
-            allowedRoles: ["admin", "market_owner", "employee"],
+            allowedRoles: ["admin", "employee"],
           },
         },
         {
@@ -54,7 +54,7 @@ const router = createRouter({
           meta: {
             title: "meta.edit_category",
             requiresAuth: true,
-            allowedRoles: ["admin", "market_owner", "employee"],
+            allowedRoles: ["admin", "employee"],
           },
           props: true,
         },
@@ -189,10 +189,10 @@ router.beforeEach(async (to, from, next) => {
           console.error("Error parsing user data from localStorage:", error);
         }
       }
-      if (userRole === "market_owner") {
-        next("/products-stocks");
-        return;
-      }
+      // if (userRole === "market_owner") {
+      //   next("/products-stocks");
+      //   return;
+      // }
       if (!requiredRoles.includes(userRole)) {
         next("/");
         return;
