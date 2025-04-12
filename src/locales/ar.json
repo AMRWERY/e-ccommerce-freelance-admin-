@@ -145,5 +145,8 @@
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"
+  },
+  "no_data": {
+    "no_products_found": "لم يتم العثور على أي منتجات"
   }
 }
