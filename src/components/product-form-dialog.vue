@@ -88,7 +88,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl1" type="file" class="hidden" accept="image/*"
@@ -114,7 +114,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl2" type="file" class="hidden" accept="image/*"
@@ -140,7 +140,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl3" type="file" class="hidden" accept="image/*"
@@ -166,7 +166,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl4" type="file" class="hidden" accept="image/*"
@@ -240,7 +240,7 @@
                                     <div class="mb-4">
                                         <label for="availability" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.availability')
-                                            }}</label>
+                                        }}</label>
                                         <select id="availability" :name="t('form.availability')"
                                             v-model="formData.availability"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -258,10 +258,10 @@
                                             v-model="formData.numberOfStock" />
                                     </div>
 
-                                    <div class="mb-4">
+                                    <div class="mb-4" v-if="userRole?.role !== 'market_owner'">
                                         <label for="country" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.select_market_country')
-                                            }}</label>
+                                        }}</label>
                                         <select id="country" :name="t('form.select_market_country')"
                                             v-model="selectedCountry" @change="updateMarketValues"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -314,6 +314,7 @@
 <script setup>
 const { t } = useI18n()
 const productsStore = useProductsStore();
+const { userRole } = useUserRole();
 const loading = ref(false);
 const step = ref(1);
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
@@ -435,6 +436,8 @@ const handleSingleImageUpload = (event, imageKey) => {
 const handleSubmit = async () => {
     loading.value = true;
     try {
+        const storedUser = localStorage.getItem("user");
+        const parsedUser = storedUser ? JSON.parse(storedUser) : null;
         const productData = {
             ...formData.value,
             originalPrice: Number(formData.value.originalPrice),
@@ -443,6 +446,13 @@ const handleSubmit = async () => {
             stock: Number(formData.value.stock),
             numberOfStock: Number(formData.value.numberOfStock)
         };
+        if (userRole.value?.role === 'market_owner') {
+            productData.marketDocId = parsedUser?.marketDocId;
+        }
+        // Use correct store based on role
+        const store = userRole.value?.role === 'market_owner'
+            ? useMerchantsProductsStore()
+            : useProductsStore();
         if (isEdit.value) {
             await productsStore.updateProduct(
                 props.productId,
@@ -455,7 +465,11 @@ const handleSubmit = async () => {
                 icon: 'material-symbols:check-circle',
             });
         } else {
-            await productsStore.createProduct(productData, imageFiles.value);
+            if (userRole.value?.role === 'market_owner') {
+                await store.createMerchantProduct(productData, imageFiles.value);
+            } else {
+                await store.createProduct(productData, imageFiles.value);
+            }
             triggerToast({
                 message: t('toast.product_added_successfully'),
                 type: 'success',

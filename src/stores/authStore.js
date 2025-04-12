@@ -148,6 +148,7 @@ export const useAuthStore = defineStore("auth", {
                 uid: userData.uid,
                 imageUrl: merchantData.imageUrl || null,
                 marketId: userData.marketId,
+                marketDocId: userData.marketDocId,
               };
               localStorage.setItem("user", JSON.stringify(saveUserData));
             }

@@ -53,7 +53,7 @@
                                 <th scope="col" class="px-6 py-3">
                                     {{ $t('dashboard.product_name') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3" v-if="userRole?.role !== 'market_owner'">
                                     {{ $t('dashboard.target_market') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -101,7 +101,7 @@
                                         'ar' ? product.titleAr :
                                         product.title }}
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4" v-if="userRole?.role !== 'market_owner'">
                                     <div class="flex items-center gap-2">
                                         <img src="/ksa-flag.svg" alt="ksa-flag" class="w-5 h-4"
                                             v-if="product.targetMarket === 'Saudi Arabia'">
@@ -189,18 +189,21 @@
 
 <script setup>
 const { t, locale } = useI18n()
-const productStore = useProductsStore()
-const merchantsProductStore = useMerchantsProductsStore()
+
+const { userRole } = useUserRole()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const showSkeleton = ref(true);
-const { userRole } = useUserRole()
+
+const productStore = userRole.value.role === 'market_owner'
+    ? useMerchantsProductsStore()
+    : useProductsStore();
 
 onMounted(async () => {
     const startTime = Date.now();
     try {
         if (userRole.value.role === 'market_owner') {
-            await merchantsProductStore.fetchMerchantProducts()
-        } else if (userRole.value.role === 'admin') {
+            await productStore.fetchMerchantProducts();
+        } else {
             await productStore.fetchProducts();
         }
     } finally {
