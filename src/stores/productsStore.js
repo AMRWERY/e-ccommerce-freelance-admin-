@@ -18,7 +18,7 @@ export const useProductsStore = defineStore("new-products", {
     selectedProduct: null,
     paginatedProducts: [],
     currentPage: 1,
-    productsPerPage: 10,
+    productsPerPage: 2,
     productRatings: {},
     searchProductByTitle: "",
     lowStockProducts: [],
