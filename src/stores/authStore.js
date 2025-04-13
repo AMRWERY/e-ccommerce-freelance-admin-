@@ -23,6 +23,7 @@ export const useAuthStore = defineStore("auth", {
     user: null,
     error: null,
     role: null,
+    listeners: [],
   }),
 
   actions: {
@@ -33,6 +34,11 @@ export const useAuthStore = defineStore("auth", {
         await this.fetchUserData(user.uid);
         // this.user = user;
       }
+    },
+
+    cleanupListeners() {
+      this.listeners.forEach((unsubscribe) => unsubscribe());
+      this.listeners = [];
     },
 
     isAdmin() {
@@ -218,6 +224,7 @@ export const useAuthStore = defineStore("auth", {
 
     async logoutUser() {
       try {
+        this.cleanupListeners();
         await signOut(auth);
         this.user = null;
         this.role = null;
