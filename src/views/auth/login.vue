@@ -4,7 +4,7 @@
             <div class="w-full max-w-md space-y-8">
                 <div class="p-4 bg-white rounded-md shadow-md">
                     <h2 class="mt-3 mb-6 text-3xl font-bold tracking-tight text-center text-gray-900">
-                        Login to your account
+                        {{ $t('form.login_to_your_account') }}
                     </h2>
 
                     <dynamic-inputs :label="t('form.email')" :placeholder="t('form.enter_your_email')" type="email"
@@ -25,14 +25,14 @@
 
                     <div class="mt-4 space-y-2 text-center">
                         <div>
-                            <router-link to="/auth/reset-password" class="hover:underline">Forgot
-                                password?</router-link>
+                            <router-link to="/auth/reset-password" class="hover:underline">{{ $t('form.forgot_password')
+                            }}</router-link>
                         </div>
                         <div>
-                            <span> Don't have an account? </span>
+                            <span>{{ $t('form.do_not_have_an_account') }}</span>
                             <router-link to="/auth/sign-up"
-                                class="font-semibold text-indigo-600 underline text-md hover:text-indigo-800">Create
-                                One</router-link>
+                                class="font-semibold text-indigo-600 underline text-md hover:text-indigo-800 ms-1">{{
+                                    $t('form.create_one') }}</router-link>
                         </div>
                     </div>
                 </div>

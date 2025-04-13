@@ -52,7 +52,13 @@
     "number_of_stock": "عدد المخزون",
     "enter_number_of_stock": "أدخل عدد المخزون",
     "images": "الصور",
-    "upload_file": "تحميل الملف"
+    "upload_file": "تحميل الملف",
+    "login_to_your_account": "تسجيل الدخول إلى حسابك",
+    "forgot_password": "هل نسيت كلمة المرور",
+    "do_not_have_an_account": "ليس لديك حساب؟",
+    "create_one": "إنشاء حساب",
+    "reset_pasword": "إعادة تعيين كلمة المرور",
+    "sign_up_for_an_account": "قم بالتسجيل للحصول على حساب"
   },
   "btn": {
     "login": "تسجيل الدخول",

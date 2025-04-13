@@ -4,7 +4,7 @@
             <div class="w-full max-w-md space-y-8">
                 <div class="p-4 bg-white rounded-md shadow-md">
                     <h2 class="mt-3 mb-6 text-3xl font-bold tracking-tight text-center text-gray-900">
-                        Reset Pasword
+                        {{ $t('form.reset_pasword') }}
                     </h2>
 
                     <dynamic-inputs :label="t('form.email')" :placeholder="t('form.enter_your_email')" type="email"

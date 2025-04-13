@@ -4,7 +4,7 @@
             <div class="w-full max-w-md space-y-8">
                 <div class="p-4 bg-white rounded-md shadow-md">
                     <h2 class="mt-3 mb-6 text-3xl font-bold tracking-tight text-center text-gray-900">
-                        Sign up for an account
+                        {{ $t('form.sign_up_for_an_account') }}
                     </h2>
 
                     <dynamic-inputs :label="t('form.first_name')" :placeholder="t('form.enter_your_first_name')"

@@ -52,7 +52,13 @@
     "number_of_stock": "Number of stock",
     "enter_number_of_stock": "Enter number of stock",
     "images": "Images",
-    "upload_file": "Upload file"
+    "upload_file": "Upload file",
+    "login_to_your_account": "Login to your account",
+    "forgot_password": "Forgot password?",
+    "do_not_have_an_account": "Don't have an account?",
+    "create_one": "Create account",
+    "reset_pasword": "Reset Pasword",
+    "sign_up_for_an_account": "Sign up for an account"
   },
   "btn": {
     "login": "Login",
