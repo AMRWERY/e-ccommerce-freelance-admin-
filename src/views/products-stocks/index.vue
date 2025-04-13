@@ -105,10 +105,17 @@
                                     <div class="flex items-center gap-2">
                                         <img src="/ksa-flag.svg" alt="ksa-flag" class="w-5 h-4"
                                             v-if="product.targetMarket === 'Saudi Arabia'">
-                                        <img src="/egypt-flag.svg" alt="egypt-flag" class="w-5 h-4" v-else>
-                                        {{ $i18n.locale ===
-                                            'ar' ? product.targetMarketAr :
-                                            product.targetMarket }}
+                                        <img src="/egypt-flag.svg" alt="egypt-flag" class="w-5 h-4"
+                                            v-else-if="product.targetMarket === 'Egypt'">
+                                        <div class="flex items-center justify-center gap-2" v-else>
+                                            <img src="/ksa-flag.svg" alt="ksa-flag" class="w-5 h-4">
+                                            <img src="/egypt-flag.svg" alt="egypt-flag" class="w-5 h-4" />
+                                        </div>
+                                        <span v-if="product.targetMarket !== 'All'">
+                                            {{ $i18n.locale ===
+                                                'ar' ? product.targetMarketAr :
+                                                product.targetMarket }}
+                                        </span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
@@ -142,7 +149,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                            }}</span>
+                                        }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
