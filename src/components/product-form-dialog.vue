@@ -88,7 +88,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl1" type="file" class="hidden" accept="image/*"
@@ -114,7 +114,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl2" type="file" class="hidden" accept="image/*"
@@ -140,7 +140,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl3" type="file" class="hidden" accept="image/*"
@@ -166,7 +166,7 @@
                                                             height="30" class="text-indigo-600"></iconify-icon>
                                                         <p class="font-medium text-center text-gray-600">{{
                                                             $t('form.upload_file')
-                                                        }}</p>
+                                                            }}</p>
                                                     </label>
                                                 </div>
                                                 <input id="imageUrl4" type="file" class="hidden" accept="image/*"
@@ -240,7 +240,7 @@
                                     <div class="mb-4">
                                         <label for="availability" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.availability')
-                                            }}</label>
+                                        }}</label>
                                         <select id="availability" :name="t('form.availability')"
                                             v-model="formData.availability"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -261,7 +261,7 @@
                                     <div class="mb-4" v-if="userRole?.role !== 'market_owner'">
                                         <label for="country" class="block mb-2 font-medium text-gray-700">{{
                                             $t('form.select_market_country')
-                                            }}</label>
+                                        }}</label>
                                         <select id="country" :name="t('form.select_market_country')"
                                             v-model="selectedCountry" @change="updateMarketValues"
                                             class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -280,7 +280,6 @@
                                             {{ $t('btn.back') }}
                                         </button>
                                         <button type="submit" :disabled="loading" @click="handleSubmit"
-                                            data-modal-hide="default-modal"
                                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                             <div class="flex items-center justify-center" v-if="loading">
                                                 <span class="text-center me-2">{{ $t('btn.please_wait') }}...</span>

@@ -189,7 +189,6 @@
 
 <script setup>
 const { t, locale } = useI18n()
-
 const { userRole } = useUserRole()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const showSkeleton = ref(true);
@@ -246,7 +245,11 @@ const handleDelete = async () => {
     deletingProducts.value[selectedProductId.value] = true;
     showDeleteDialog.value = false;
     try {
-        await productStore.deleteProduct(selectedProductId.value);
+        if (userRole.value?.role === 'market_owner') {
+            await productStore.deleteMerchantProduct(selectedProductId.value)
+        } else {
+            await productStore.deleteProduct(selectedProductId.value);
+        }
         triggerToast({
             message: t('toast.product_deleted'),
             type: 'success',
