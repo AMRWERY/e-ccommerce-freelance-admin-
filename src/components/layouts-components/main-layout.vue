@@ -14,7 +14,11 @@
                             </button>
                             <router-link to="/products-stocks" class="flex ms-2 md:me-24 logo-label">
                                 <span
-                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">e-ccommerce</span>
+                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
+                                    v-if="userRole.role === 'market_owner'">{{ userRole.name }}</span>
+                                <span
+                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
+                                    v-else>e-ccommerce</span>
                             </router-link>
                         </div>
                         <div class="flex items-center">
