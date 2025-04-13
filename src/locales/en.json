@@ -104,7 +104,9 @@
     "orders": "Orders",
     "users": "Users",
     "messages": "Messages",
-    "new_merchants": "New Merchants"
+    "new_merchants": "New Merchants",
+    "earnings_form_markting": "Earnings form Markting",
+    "earnings": "Earnings"
   },
   "profile_menu": {
     "profile": "Profile",

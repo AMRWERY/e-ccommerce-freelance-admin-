@@ -100,10 +100,22 @@ const router = createRouter({
             allowedRoles: ["admin", "market_owner", "employee"],
           },
         },
+
+        //earnings pages
         {
           path: "/earnings",
           name: "earnings",
           component: () => import("../views/earnings.vue"),
+          meta: {
+            title: "meta.earnings",
+            requiresAuth: true,
+            allowedRoles: ["admin", "market_owner"],
+          },
+        },
+        {
+          path: "/earnings-form-markting",
+          name: "earnings-form-markting",
+          component: () => import("../views/earnings-form-markting.vue"),
           meta: {
             title: "meta.earnings",
             requiresAuth: true,

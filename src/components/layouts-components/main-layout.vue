@@ -93,6 +93,29 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.new_merchants') }}</span>
                             </router-link>
                         </li>
+                        <li v-if="userRole.role === 'admin'">
+                            <router-link to="earnings" exact-active-class="bg-gray-100 dark:bg-gray-700"
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                @click="closeSidebarOnMobile">
+                                <iconify-icon icon="solar:hand-money-linear" width="24" height="24"
+                                    class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.earnings') }}</span>
+                            </router-link>
+                        </li>
+                        <li v-if="userRole.role === 'admin' || userRole.role === 'market_owner'">
+                            <router-link
+                                :to="userRole.role === 'market_owner' ? '/earnings' : '/earnings-form-markting'"
+                                exact-active-class="bg-gray-100 dark:bg-gray-700"
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                @click="closeSidebarOnMobile">
+                                <iconify-icon icon="solar:hand-money-linear" width="24" height="24"
+                                    class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
+                                <span class="flex-1 ms-3 whitespace-nowrap">
+                                    {{ $t(`layout.${userRole.role === 'market_owner' ? 'earnings' :
+                                        'earnings_form_markting'}`) }}
+                                </span>
+                            </router-link>
+                        </li>
                     </ul>
                 </div>
                 <div

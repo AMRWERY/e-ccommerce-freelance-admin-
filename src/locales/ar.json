@@ -104,7 +104,9 @@
     "orders": "الطلبات",
     "users": "المستخدمون",
     "messages": "الرسائل",
-    "new_merchants": "التجار الجدد"
+    "new_merchants": "التجار الجدد",
+    "earnings_form_markting": "الأرباح من التسويق",
+    "earnings": "الأرباح"
   },
   "profile_menu": {
     "profile": "الصفحه الشخصية",
