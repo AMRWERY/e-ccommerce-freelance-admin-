@@ -32,7 +32,7 @@
                     <template v-else>
                         <Field :type="showPassword ? 'text' : type" :name="name" :placeholder="placeholder" :id="id"
                             v-model="internalValue" :rules="rules" :class="[
-                                'w-full px-3 py-2 transition duration-300 bg-transparent border rounded-md shadow-sm pe-16 placeholder:text-slate-400 text-slate-700 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 focus:shadow ps-9',
+                                'w-full px-3 py-2 transition duration-300 bg-transparent border rounded-md shadow-sm placeholder:text-slate-400 text-slate-700 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 focus:shadow ps-9',
                                 errors[name] ? 'border-red-600' : 'border-slate-200'
                             ]" />
                     </template>

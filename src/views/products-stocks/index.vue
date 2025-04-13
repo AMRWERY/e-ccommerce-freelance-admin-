@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="flex justify-start pb-4 mb-4" v-if="!showSkeleton && productStore.paginatedProducts.length > 0">
+            <div class="flex justify-start pb-4 mb-4" v-if="!showSkeleton">
                 <label for="table-search" class="sr-only">Search</label>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 flex items-center pointer-events-none end-0 pe-3">

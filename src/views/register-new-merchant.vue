@@ -8,7 +8,7 @@
 
                 <ol
                     class="flex items-center w-full max-w-2xl text-sm font-medium text-center text-gray-500 sm:text-base">
-                    <li :class="step === 1 ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-100'"
+                    <li :class="step === 1 ? 'text-blue-600' : 'text-gray-400'"
                         class="after:border-1 flex items-center after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
                         <span
                             class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
@@ -20,7 +20,7 @@
                     </li>
 
                     <li class="flex items-center shrink-0"
-                        :class="step === 2 ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-100'">
+                        :class="step === 2 ? 'text-blue-600' : 'text-gray-400'">
                         <span
                             class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
                             <iconify-icon icon="material-symbols:looks-two-outline" width="60" height="60"

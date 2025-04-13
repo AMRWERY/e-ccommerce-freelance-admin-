@@ -38,6 +38,7 @@ export default defineConfig({
             "minLength",
             "confirmed",
             "numeric",
+            "regex",
           ],
           // For @vee-validate/i18n
           "@vee-validate/i18n": ["localize", "setLocale"],

@@ -10,6 +10,7 @@ export default {
     defineRule("min", min);
     defineRule("alpha_spaces", alpha_spaces);
     defineRule("numeric", numeric);
+    defineRule("regex", regex);
     defineRule("email", (value) => {
       if (!value || !value.length) {
         return true;

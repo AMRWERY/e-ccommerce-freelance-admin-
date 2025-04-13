@@ -5,7 +5,7 @@
                 <p class="text-3xl font-semibold text-gray-700">Categories</p>
                 <div class="flex items-center justify-center gap-4">
                     <router-link to="/categories/add" role="button"
-                        class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 me-2">
+                        class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
                         <iconify-icon icon="ic:baseline-plus" width="24" height="24"></iconify-icon>
                         {{ $t('btn.add_category') }}
                     </router-link>
