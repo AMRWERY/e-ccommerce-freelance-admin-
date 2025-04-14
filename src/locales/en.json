@@ -59,7 +59,9 @@
     "create_one": "Create account",
     "reset_pasword": "Reset Pasword",
     "sign_up_for_an_account": "Sign up for an account",
-    "search_for_users": "Search for users..."
+    "search_for_users": "Search for users...",
+    "new_password": "New password",
+    "confirm_new_password": "Confirm new password"
   },
   "btn": {
     "login": "Login",
@@ -78,7 +80,8 @@
     "go_home": "Go home",
     "delete": "Delete",
     "cancel": "Cancel",
-    "edit": "Edit"
+    "edit": "Edit",
+    "update": "Update"
   },
   "meta": {
     "home": "Home",
