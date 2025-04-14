@@ -9,7 +9,8 @@
                         <excel-export-btn :export-handler="handleExport" />
                     </div>
 
-                    <router-link to="" role="button" @click="openAddProductDialog" v-if="userRole?.role !== 'market_owner'"
+                    <router-link to="" role="button" @click="openAddProductDialog"
+                        v-if="userRole?.role !== 'market_owner'"
                         class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
                         <iconify-icon icon="ic:baseline-plus" width="24" height="24"></iconify-icon>
                         {{ $t('btn.add_product') }}
@@ -149,7 +150,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                            }}</span>
+                                        }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
@@ -157,7 +158,7 @@
                                         <button role="button" @click.stop="openEditDialog(product.id)"
                                             class="font-semibold text-blue-600 hover:underline">{{ $t('btn.edit')
                                             }}</button>
-                                        <button role="button">
+                                        <button role="button" v-if="userRole?.role !== 'employee'">
                                             <span class="flex items-center font-semibold text-red-600"
                                                 @click.stop="openDeleteDialog(product)">
                                                 <iconify-icon icon="material-symbols:delete" width="20" height="20"
