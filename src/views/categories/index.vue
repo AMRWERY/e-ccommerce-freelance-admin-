@@ -70,7 +70,6 @@
                         <delete-dialog v-model="showDeleteDialog"
                             :message="`You are about to delete category #${selectedCategoryId}. This action cannot be undone.`"
                             @confirm="handleDelete" />
-
                     </tbody>
                 </table>
             </div>

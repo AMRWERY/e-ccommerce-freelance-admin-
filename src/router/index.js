@@ -79,6 +79,16 @@ const router = createRouter({
           },
         },
         {
+          path: "/messages",
+          name: "messages",
+          component: () => import("../views/messages.vue"),
+          meta: {
+            title: "meta.messages",
+            requiresAuth: true,
+            allowedRoles: ["admin"],
+          },
+        },
+        {
           path: "/new-merchants",
           name: "new-merchants",
           component: () => import("../views/new-merchants.vue"),
@@ -117,7 +127,7 @@ const router = createRouter({
           name: "earnings-form-markting",
           component: () => import("../views/earnings-form-markting.vue"),
           meta: {
-            title: "meta.earnings",
+            title: "meta.earnings_form_markting",
             requiresAuth: true,
             allowedRoles: ["admin"],
           },
