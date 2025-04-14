@@ -26,7 +26,8 @@ export const useNewMerchantStore = defineStore("new-merchants", {
     marketName: "",
     imageFile: null,
     description: "",
-    username: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     loading: false,
@@ -85,7 +86,8 @@ export const useNewMerchantStore = defineStore("new-merchants", {
           description: this.description,
           marketId,
           imageUrl,
-          username: this.username,
+          firstName: this.firstName,
+          lastName: this.lastName,
           email: this.email,
           userId: user.uid,
           status: "pending",
@@ -98,7 +100,8 @@ export const useNewMerchantStore = defineStore("new-merchants", {
         // Create user data with merchant reference
         const userData = {
           uid: user.uid,
-          username: this.username,
+          firstName: this.firstName,
+          lastName: this.lastName,
           email: this.email,
           marketId,
           marketDocId: marketDocRef.id,
@@ -133,7 +136,8 @@ export const useNewMerchantStore = defineStore("new-merchants", {
       this.marketName = "";
       this.imageFile = null;
       this.description = "";
-      this.username = "";
+      this.firstName = "";
+      this.lastName = "";
       this.email = "";
       this.password = "";
       this.error = null;
@@ -315,7 +319,8 @@ export const useNewMerchantStore = defineStore("new-merchants", {
       marketName: state.marketName,
       imageFile: state.imageFile,
       description: state.description,
-      username: state.username,
+      firstName: state.firstName,
+      lastName: state.lastName,
       email: state.email,
       password: state.password,
     }),

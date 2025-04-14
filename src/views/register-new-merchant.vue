@@ -12,19 +12,17 @@
                         class="after:border-1 flex items-center after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
                         <span
                             class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
-                            <iconify-icon icon="material-symbols:looks-one-outline" width="60" height="60"
-                                ></iconify-icon>
+                            <iconify-icon icon="material-symbols:looks-one-outline" width="60"
+                                height="60"></iconify-icon>
                             <span class="hidden sm:inline-flex sm:ms-2 whitespace-nowrap">{{ $t('form.market_info')
                                 }}</span>
                         </span>
                     </li>
-
-                    <li class="flex items-center shrink-0"
-                        :class="step === 2 ? 'text-blue-600' : 'text-gray-400'">
+                    <li class="flex items-center shrink-0" :class="step === 2 ? 'text-blue-600' : 'text-gray-400'">
                         <span
                             class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
-                            <iconify-icon icon="material-symbols:looks-two-outline" width="60" height="60"
-                                ></iconify-icon>
+                            <iconify-icon icon="material-symbols:looks-two-outline" width="60"
+                                height="60"></iconify-icon>
                             <span class="hidden sm:inline-flex sm:ms-2 whitespace-nowrap">{{ $t('form.personal_info')
                                 }}</span>
                         </span>
@@ -66,7 +64,7 @@
                             :name="t('form.description')" prefixIcon="material-symbols:chat-outline"
                             v-model="newMerchantStore.description" />
 
-                        <div class="flex flex-wrap gap-4 mt-8">
+                        <div class="flex flex-wrap justify-end gap-4 mt-8">
                             <button role="button" @click="nextStep"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                 {{ $t('btn.next_step_personal_info') }}
@@ -77,8 +75,12 @@
 
                 <Transition name="fade">
                     <div v-if="step === 2" class="grid gap-4 mb-4 sm:grid-cols-1">
-                        <dynamic-inputs v-model="newMerchantStore.username" :label="t('form.username')"
-                            :name="t('form.username')" :placeholder="t('form.enter_your_username')" type="text"
+                        <dynamic-inputs v-model="newMerchantStore.firstName" :label="t('form.first_name')"
+                            :name="t('form.first_name')" :placeholder="t('form.enter_your_first_name')" type="text"
+                            :rules="'required|alpha_spaces'" prefixIcon="material-symbols:account-box" />
+
+                        <dynamic-inputs v-model="newMerchantStore.lastName" :label="t('form.last_name')"
+                            :name="t('form.last_name')" :placeholder="t('form.enter_your_last_name')" type="text"
                             :rules="'required|alpha_spaces'" prefixIcon="material-symbols:account-box" />
 
                         <dynamic-inputs v-model="newMerchantStore.email" :label="t('form.email')"

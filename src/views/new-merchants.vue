@@ -22,7 +22,7 @@
                             <th scope="col" class="px-6 py-3">Merchant Logo</th>
                             <th scope="col" class="px-6 py-3">Merchant Name</th>
                             <th scope="col" class="px-6 py-3">Email</th>
-                            <th scope="col" class="px-6 py-3">Username</th>
+                            <th scope="col" class="px-6 py-3">{{ $t('dashboard.name') }}</th>
                             <th scope="col" class="px-6 py-3">Merchant ID</th>
                             <th scope="col" class="px-6 py-3">Status</th>
                             <th scope="col" class="px-6 py-3"></th>
@@ -43,7 +43,7 @@
                             </th>
                             <td class="px-6 py-4">{{ merchant.name }}</td>
                             <td class="px-6 py-4">{{ merchant.email }}</td>
-                            <td class="px-6 py-4">{{ merchant.username }}</td>
+                            <td class="px-6 py-4">{{ merchant.firstName }} {{ merchant.lastName }}</td>
                             <td class="px-6 py-4">{{ merchant.marketId }}</td>
                             <td class="px-6 py-4">
                                 <span :class="{

@@ -167,7 +167,8 @@
     "status": "Status",
     "blocked": "Blocked",
     "active": "Active",
-    "role": "Role"
+    "role": "Role",
+    "name": "Name"
   },
   "tooltip": {
     "download_excel": "Download Excel"

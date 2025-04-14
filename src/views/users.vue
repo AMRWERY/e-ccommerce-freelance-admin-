@@ -35,10 +35,7 @@
                                     {{ $t('dashboard.email') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    {{ $t('dashboard.first_name') }}
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    {{ $t('dashboard.last_name') }}
+                                    {{ $t('dashboard.name') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     {{ $t('dashboard.role') }}
@@ -77,18 +74,15 @@
                                     {{ user.email }}
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {{ user.firstName }}
-                                </th>
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {{ user.lastName }}
+                                    {{ user.firstName }} {{ user.lastName }}
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ user.role }}
                                 </th>
                                 <td class="px-6 py-4">
                                     <div class="inline-flex px-3 py-1 text-xs font-medium rounded-full" :class="{
-                                        'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400': !user.isBlocked,
-                                        'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400': user.isBlocked
+                                        'bg-green-100 text-green-800': !user.isBlocked,
+                                        'bg-red-100 text-red-800': user.isBlocked
                                     }">
                                         <span class="inline-flex items-center">
                                             <iconify-icon :icon="user.isBlocked ? 'mdi:cancel' : 'mdi:check-circle'"
@@ -101,7 +95,7 @@
                                     <div class="flex items-center gap-2">
                                         <button @click="toggleBlockUser(user.id)"
                                             class="flex items-center justify-center w-8 h-8 rounded"
-                                            :class="user.isBlocked ? 'text-green-500 hover:text-green-700 dark:text-green-500 dark:hover:text-green-600' : 'text-yellow-500 hover:text-yellow-600 dark:text-yellow-300 dark:hover:text-yellow-400'">
+                                            :class="user.isBlocked ? 'text-green-500 hover:text-green-700' : 'text-yellow-500 hover:text-yellow-600'">
                                             <div v-if="blockingUser === user.id"
                                                 class="flex items-center justify-center">
                                                 <iconify-icon icon="line-md:loading-loop" width="20" height="20"
@@ -111,7 +105,7 @@
                                                 width="24" height="24" class="me-1.5" v-else></iconify-icon>
                                         </button>
                                         <button @click.stop="openDeleteDialog(user)"
-                                            class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600 dark:text-red-400 dark:hover:text-red-500">
+                                            class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600">
                                             <iconify-icon icon="line-md:loading-loop" width="20" height="20"
                                                 class="text-red-500" v-if="removingUser === user.id"></iconify-icon>
                                             <iconify-icon icon="material-symbols:delete" width="20" height="20"

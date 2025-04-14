@@ -167,7 +167,8 @@
     "status": "الحاله",
     "blocked": "محظور",
     "active": "نشط",
-    "role": "الدور"
+    "role": "الدور",
+    "name": "الأسم"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"

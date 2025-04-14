@@ -78,16 +78,16 @@ const router = createRouter({
             allowedRoles: ["admin"],
           },
         },
-        {
-          path: "/messages",
-          name: "messages",
-          component: () => import("../views/messages.vue"),
-          meta: {
-            title: "meta.messages",
-            requiresAuth: true,
-            allowedRoles: ["admin"],
-          },
-        },
+        // {
+        //   path: "/messages",
+        //   name: "messages",
+        //   component: () => import("../views/messages.vue"),
+        //   meta: {
+        //     title: "meta.messages",
+        //     requiresAuth: true,
+        //     allowedRoles: ["admin"],
+        //   },
+        // },
         {
           path: "/new-merchants",
           name: "new-merchants",
