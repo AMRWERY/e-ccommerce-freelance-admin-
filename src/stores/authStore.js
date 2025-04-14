@@ -30,18 +30,9 @@ export const useAuthStore = defineStore("auth", {
     async init() {
       await setPersistence(auth, browserLocalPersistence);
       const user = auth.currentUser;
-      // if (user) {
-      //   await this.fetchUserData(user.uid);
-      //   // this.user = user;
-      // }
       if (user) {
-        try {
-          await this.fetchUserData(user.uid);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          await this.logoutUser();
-          throw error; // Optionally re-throw for error boundaries
-        }
+        await this.fetchUserData(user.uid);
+        // this.user = user;
       }
     },
 
