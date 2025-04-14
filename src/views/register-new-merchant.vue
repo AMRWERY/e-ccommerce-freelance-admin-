@@ -120,7 +120,6 @@
 
 <script setup>
 const { t } = useI18n()
-// const router = useRouter()
 const newMerchantStore = useNewMerchantStore()
 const step = ref(1);
 const previewImage = ref("");
@@ -164,7 +163,6 @@ const handleSubmit = async () => {
             type: 'success',
             icon: 'material-symbols:check-circle',
         });
-        // router.push('/auth/login')
     } catch (err) {
         triggerToast({
             message: t('toast.failed_register_new_merchant'),
