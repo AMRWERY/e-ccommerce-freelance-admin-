@@ -32,10 +32,10 @@
                                 #
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                categories name
+                                image
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                image
+                                categories name
                             </th>
                             <th scope="col" class="px-6 py-3">
                             </th>
@@ -49,12 +49,12 @@
                                     {{ category.id }}
                                 </div>
                             </td>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {{ category.name }}
-                            </th>
                             <td class="px-6 py-4">
                                 <img :src="category.img" alt="category img" class="w-16 h-8 rounded-lg">
                             </td>
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                {{ category.name }}
+                            </th>
                             <td class="flex items-center justify-center px-6 py-4 space-s-4">
                                 <router-link :to="{ name: 'edit-category', params: { id: category.id } }"
                                     class="font-medium text-blue-600 hover:underline">Edit</router-link>
