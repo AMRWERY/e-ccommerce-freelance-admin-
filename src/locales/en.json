@@ -61,7 +61,8 @@
     "sign_up_for_an_account": "Sign up for an account",
     "search_for_users": "Search for users...",
     "new_password": "New password",
-    "confirm_new_password": "Confirm new password"
+    "confirm_new_password": "Confirm new password",
+    "search_for_employee": "Search for employee"
   },
   "btn": {
     "login": "Login",
@@ -104,7 +105,8 @@
     "profile": "Profile",
     "earnings": "Earnings",
     "earnings_form_markting": "Earnings form Markting",
-    "messages": "Messages"
+    "messages": "Messages",
+    "employees": "Employees"
   },
   "layout": {
     "products_stocks": "Products Stocks",
@@ -114,7 +116,8 @@
     "messages": "Messages",
     "new_merchants": "New Merchants",
     "earnings_form_markting": "Earnings form Markting",
-    "earnings": "Earnings"
+    "earnings": "Earnings",
+    "employees": "Employees"
   },
   "profile_menu": {
     "profile": "Profile",
@@ -181,7 +184,11 @@
     "rejected": "Rejected",
     "merchant_logo": "Merchant Logo",
     "merchant_name": "Merchant Name",
-    "merchant_id": "Merchant ID"
+    "merchant_id": "Merchant ID",
+    "employees": "Employees",
+    "employee_name": "Employee name",
+    "employee_email": "Employee email",
+    "created_at": "Created at"
   },
   "tooltip": {
     "download_excel": "Download Excel"
@@ -189,7 +196,8 @@
   "no_data": {
     "no_products_found": "No products found",
     "no_users_found": "No users found",
-    "no_merchants_found": "No merchants found"
+    "no_merchants_found": "No merchants found",
+    "no_employees_found": "No employees found"
   },
   "tabs": {
     "daily": "Daily",

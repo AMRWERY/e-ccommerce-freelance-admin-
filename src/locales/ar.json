@@ -61,7 +61,8 @@
     "sign_up_for_an_account": "قم بالتسجيل للحصول على حساب",
     "search_for_users": "البحث عن المستخدمين...",
     "new_password": "كلمة المرور الجديدة",
-    "confirm_new_password": "تأكيد كلمة المرور الجديدة"
+    "confirm_new_password": "تأكيد كلمة المرور الجديدة",
+    "search_for_employee": "البحث عن موظف"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -104,7 +105,8 @@
     "profile": "الصفحه الشخصية",
     "earnings": "الأرباح",
     "earnings_form_markting": "الأرباح من التسويق",
-    "messages": "الرسائل"
+    "messages": "الرسائل",
+    "employees": "الموظفين"
   },
   "layout": {
     "products_stocks": "مخزون المنتجات",
@@ -114,7 +116,8 @@
     "messages": "الرسائل",
     "new_merchants": "التجار الجدد",
     "earnings_form_markting": "الأرباح من التسويق",
-    "earnings": "الأرباح"
+    "earnings": "الأرباح",
+    "employees": "الموظفين"
   },
   "profile_menu": {
     "profile": "الصفحه الشخصية",
@@ -181,7 +184,11 @@
     "rejected": "مرفوض",
     "merchant_logo": "شعار التاجر",
     "merchant_name": "اسم التاجر",
-    "merchant_id": "معرف التاجر"
+    "merchant_id": "معرف التاجر",
+    "employees": "الموظفين",
+    "employee_name": "اسم الموظف",
+    "employee_email": "البريد الإلكتروني للموظف",
+    "created_at": "تم إنشائه في"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"
@@ -189,7 +196,8 @@
   "no_data": {
     "no_products_found": "لم يتم العثور على أي منتجات",
     "no_users_found": "لم يتم العثور على أي مستخدمين",
-    "no_merchants_found": "لم يتم العثور على التجار"
+    "no_merchants_found": "لم يتم العثور على التجار",
+    "no_employees_found": "لم يتم العثور على موظفين"
   },
   "tabs": {
     "daily": "يومي",
