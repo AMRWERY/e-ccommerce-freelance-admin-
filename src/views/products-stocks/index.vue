@@ -122,16 +122,12 @@
                                 <td class="px-6 py-4">
                                     <div class="flex flex-col">
                                         <p class="text-sm font-semibold text-gray-900">
-                                            {{ $n(parseFloat(product.discountedPrice), 'currency', currencyLocale || {
-                                                style: 'currency',
-                                                currency: 'USD'
-                                            }) }}
+                                            {{ $n(parseFloat(product.discountedPrice), 'currency',
+                                            currencyLocale(product.targetMarket)) }}
                                         </p>
                                         <p class="text-xs text-gray-500 line-through">
-                                            {{ $n(parseFloat(product.originalPrice), 'currency', currencyLocale || {
-                                                style: 'currency', currency:
-                                                    'USD'
-                                            }) }}
+                                            {{ $n(parseFloat(product.originalPrice), 'currency',
+                                            currencyLocale(product.targetMarket)) }}
                                         </p>
                                     </div>
                                 </td>
@@ -150,7 +146,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                        }}</span>
+                                            }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
