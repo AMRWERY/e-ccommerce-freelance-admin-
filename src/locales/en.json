@@ -81,7 +81,9 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "edit": "Edit",
-    "update": "Update"
+    "update": "Update",
+    "accept": "Accept",
+    "reject": "Reject"
   },
   "meta": {
     "home": "Home",
@@ -171,14 +173,23 @@
     "blocked": "Blocked",
     "active": "Active",
     "role": "Role",
-    "name": "Name"
+    "name": "Name",
+    "merchants": "Merchants",
+    "all_status": "All Status",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "merchant_logo": "Merchant Logo",
+    "merchant_name": "Merchant Name",
+    "merchant_id": "Merchant ID"
   },
   "tooltip": {
     "download_excel": "Download Excel"
   },
   "no_data": {
     "no_products_found": "No products found",
-    "no_users_found": "No users found"
+    "no_users_found": "No users found",
+    "no_merchants_found": "No merchants found"
   },
   "tabs": {
     "daily": "Daily",

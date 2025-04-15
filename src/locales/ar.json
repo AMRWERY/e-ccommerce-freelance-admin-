@@ -81,7 +81,9 @@
     "delete": "حذف",
     "cancel": "إلغاء",
     "edit": "تعديل",
-    "update": "تحديث"
+    "update": "تحديث",
+    "accept": "موافقة",
+    "reject": "رفض"
   },
   "meta": {
     "home": "الرئيسية",
@@ -171,14 +173,23 @@
     "blocked": "محظور",
     "active": "نشط",
     "role": "الدور",
-    "name": "الأسم"
+    "name": "الأسم",
+    "merchants": "التجار",
+    "all_status": "جميع الحالات",
+    "pending": "قيد الانتظار",
+    "approved": "موافقة",
+    "rejected": "مرفوض",
+    "merchant_logo": "شعار التاجر",
+    "merchant_name": "اسم التاجر",
+    "merchant_id": "معرف التاجر"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"
   },
   "no_data": {
     "no_products_found": "لم يتم العثور على أي منتجات",
-    "no_users_found": "لم يتم العثور على أي مستخدمين"
+    "no_users_found": "لم يتم العثور على أي مستخدمين",
+    "no_merchants_found": "لم يتم العثور على التجار"
   },
   "tabs": {
     "daily": "يومي",
