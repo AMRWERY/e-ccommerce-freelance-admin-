@@ -1,6 +1,6 @@
 export const useLocaleStore = defineStore("locales", {
   state: () => ({
-    locale: localStorage.getItem("locale") || "en",
+    locale: localStorage.getItem("locale") || "ar",
     isOverlayVisible: false,
   }),
 

@@ -14,12 +14,12 @@
 </template>
 
 <script setup>
-const localeStore = useLocaleStore();
 const { locale } = useI18n();
+const localeStore = useLocaleStore();
 
-onMounted(() => {
-    locale.value = localeStore.locale;
-});
+// onMounted(() => {
+//     locale.value = localeStore.locale;
+// });
 
 const setLocale = (value) => {
     locale.value = value;
@@ -29,5 +29,9 @@ const setLocale = (value) => {
 computed(() => {
     const storedLocale = localeStore.locale;
     setLocale(storedLocale);
+});
+
+watchEffect(() => {
+    locale.value = localeStore.locale;
 });
 </script>
