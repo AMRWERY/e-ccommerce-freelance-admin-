@@ -10,7 +10,7 @@ import router from "./router";
 
 const app = createApp(App);
 
-//flowbite
+//flowbite directive
 import directives from './directives/v-flowbite';
 app.directive('flowbite', directives);
 
