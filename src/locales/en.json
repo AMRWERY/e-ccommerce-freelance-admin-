@@ -84,7 +84,8 @@
     "edit": "Edit",
     "update": "Update",
     "accept": "Accept",
-    "reject": "Reject"
+    "reject": "Reject",
+    "save_changes": "Save changes"
   },
   "meta": {
     "home": "Home",
@@ -151,7 +152,8 @@
     "failed_to_delete_user": "Failed to delete user",
     "user_blocked_successfully": "User blocked successfully",
     "user_unblocked_successfully": "User unblocked successfully",
-    "failed_to_update_user": "Failed to update user"
+    "failed_to_update_user": "Failed to update user",
+    "permissions_updated_successfully": "Permissions updated successfully"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",
@@ -188,7 +190,10 @@
     "employees": "Employees",
     "employee_name": "Employee name",
     "employee_email": "Employee email",
-    "created_at": "Created at"
+    "created_at": "Created at",
+    "delete_confirmation_employee": "You are about to delete this employee. This action cannot be undone.",
+    "permissions": "Permissions",
+    "edit_permissions": "Edit permissions"
   },
   "tooltip": {
     "download_excel": "Download Excel"

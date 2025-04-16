@@ -81,7 +81,7 @@ export const useEmployeesStore = defineStore("employees", {
         });
     },
 
-    toggleBlockEmployees(userId) {
+    toggleBlockEmployee(userId) {
       const userIndex = this.employees.findIndex((user) => user.id === userId);
       if (userIndex > -1) {
         const user = this.employees[userIndex];
@@ -97,6 +97,20 @@ export const useEmployeesStore = defineStore("employees", {
       } else {
         console.warn("User not found in local store:", userId);
         return Promise.resolve();
+      }
+    },
+
+    async updateUserPermissions(userId, permissions) {
+      const userRef = doc(db, "users", userId);
+      try {
+        await updateDoc(userRef, { permissions });
+        const index = this.employees.findIndex(u => u.id === userId);
+        if (index > -1) {
+          this.employees[index].permissions = permissions;
+        }
+      } catch (error) {
+        console.error("Error updating permissions:", error);
+        throw error;
       }
     },
 

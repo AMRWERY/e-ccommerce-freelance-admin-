@@ -84,7 +84,8 @@
     "edit": "تعديل",
     "update": "تحديث",
     "accept": "موافقة",
-    "reject": "رفض"
+    "reject": "رفض",
+    "save_changes": "حفظ التغييرات"
   },
   "meta": {
     "home": "الرئيسية",
@@ -151,7 +152,8 @@
     "failed_to_delete_user": "فشل في حذف المستخدم",
     "user_blocked_successfully": "تم حظر المستخدم بنجاح",
     "user_unblocked_successfully": "تم إلغاء حظر المستخدم بنجاح",
-    "failed_to_update_user": "فشل تحديث المستخدم"
+    "failed_to_update_user": "فشل تحديث المستخدم",
+    "permissions_updated_successfully": "تم تحديث الصلاحيات بنجاح"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
@@ -188,7 +190,10 @@
     "employees": "الموظفين",
     "employee_name": "اسم الموظف",
     "employee_email": "البريد الإلكتروني للموظف",
-    "created_at": "تم إنشائه في"
+    "created_at": "تم إنشائه في",
+    "delete_confirmation_employee": "أنت على وشك حذف هذا الموظف. لا يمكن التراجع عن هذا الإجراء.",
+    "permissions": "الصلاحيات",
+    "edit_permissions": "تعديل الصلاحيات"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"

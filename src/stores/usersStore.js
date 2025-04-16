@@ -7,6 +7,7 @@ import {
   getDocs,
   query,
   orderBy,
+  where,
 } from "firebase/firestore";
 
 export const useUserStore = defineStore("users", {
@@ -21,13 +22,16 @@ export const useUserStore = defineStore("users", {
 
   actions: {
     fetchUsers() {
-      return getDocs(collection(db, "users"))
+      const usersQuery = query(
+        collection(db, "users"),
+        where("role", "==", "user")
+      );
+      return getDocs(usersQuery)
         .then((querySnapshot) => {
           this.users = querySnapshot.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
           }));
-          // Filter out both admin emails
           this.users = this.users.filter(
             (user) => user.email !== "admin@commerce.com"
           );

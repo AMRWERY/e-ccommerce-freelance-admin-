@@ -4,9 +4,9 @@
             <div class="flex items-center justify-between my-10 flex-nowrap">
                 <p class="text-3xl font-semibold text-gray-700">{{ $t('dashboard.employees') }}</p>
                 <div class="flex items-center justify-center gap-4 ms-auto" v-if="!showSkeleton">
-                    <!-- product-form-dialog component -->
-                    <!-- <product-form-dialog :is-dialog-open="isDialogOpen" :product-id="selectedProductId"
-                        @close="handleDialogClose" @success="handleProductSuccess" /> -->
+                    <!-- permissions-dialog  component -->
+                    <permissions-dialog v-model:isDialogOpen="showPermissionsDialog" :user-id="selectedEmployeeId"
+                        @saved="handlePermissionsSaved" />
                 </div>
             </div>
 
@@ -46,6 +46,12 @@
                                     {{ $t('dashboard.created_at') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    {{ $t('dashboard.status') }}
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    {{ $t('dashboard.permissions') }}
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                 </th>
                             </tr>
                         </thead>
@@ -55,7 +61,7 @@
                                 <td colspan="10" class="p-4 text-center">
                                     <!-- NoDataMessage component -->
                                     <No-data-message :message="$t('no_data.no_employees_found')"
-                                        icon="tabler:package-off" />
+                                        icon="mdi:person-group" />
                                 </td>
                             </tr>
                         </tbody>
@@ -79,28 +85,55 @@
                                     {{ employee.email }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ employee.createdAt }}
+                                    {{ formatDate(employee.createdAt) }}
                                 </td>
-                                <!-- <td class="px-6 py-4">
-                                    <div class="flex gap-3">
-                                        <button role="button" @click.stop="openEditDialog(product.id)"
-                                            class="font-semibold text-blue-600 hover:underline">{{ $t('btn.edit')
-                                            }}</button>
-                                        <button role="button" v-if="userRole?.role !== 'employee'">
-                                            <span class="flex items-center font-semibold text-red-600"
-                                                @click.stop="openDeleteDialog(product)">
-                                                <iconify-icon icon="material-symbols:delete" width="20" height="20"
+                                <td class="px-6 py-4">
+                                    <div class="inline-flex px-3 py-1 text-xs font-medium rounded-full" :class="{
+                                        'bg-green-100 text-green-800': !employee.isBlocked,
+                                        'bg-red-100 text-red-800': employee.isBlocked
+                                    }">
+                                        <span class="inline-flex items-center">
+                                            <iconify-icon :icon="employee.isBlocked ? 'mdi:cancel' : 'mdi:check-circle'"
+                                                width="24" height="24" class="me-1.5"></iconify-icon>
+                                            {{ employee.isBlocked ? $t('dashboard.blocked') : $t('dashboard.active') }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <router-link to="" role="button" class="font-medium text-blue-600 hover:underline"
+                                        @click="openPermissionsDialog(employee.id)">
+                                        {{ $t('btn.edit') }}
+                                    </router-link>
+                                </td>
+                                <td class="p-4">
+                                    <div class="flex items-center gap-2">
+                                        <button @click="toggleBlockEmployee(employee.id)"
+                                            class="flex items-center justify-center w-8 h-8 rounded"
+                                            :class="employee.isBlocked ? 'text-green-500 hover:text-green-700' : 'text-yellow-500 hover:text-yellow-600'">
+                                            <div v-if="blockingEmployee === employee.id"
+                                                class="flex items-center justify-center">
+                                                <iconify-icon icon="line-md:loading-loop" width="20" height="20"
                                                     class="me-1"></iconify-icon>
-                                                {{ $t('btn.delete') }}
-                                            </span>
+                                            </div>
+                                            <iconify-icon :icon="employee.isBlocked ? 'mdi:cancel' : 'mdi:check-circle'"
+                                                width="24" height="24" class="me-1.5" v-else></iconify-icon>
+                                        </button>
+                                        <button @click.stop="openDeleteDialog(employee)"
+                                            class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600">
+                                            <iconify-icon icon="line-md:loading-loop" width="20" height="20"
+                                                class="text-red-500"
+                                                v-if="removingEmployee === employee.id"></iconify-icon>
+                                            <iconify-icon icon="material-symbols:delete" width="20" height="20"
+                                                class="me-1" v-else></iconify-icon>
                                         </button>
                                     </div>
-                                </td> -->
+                                </td>
                             </tr>
 
                             <!-- delete-dialog component -->
-                            <!-- <delete-dialog v-model="showDeleteDialog"
-                                :message="$t('dashboard.delete_confirmation_product')" @confirm="handleDelete" /> -->
+                            <delete-dialog v-model="showDeleteDialog"
+                                :message="$t('dashboard.delete_confirmation_employee')"
+                                @confirm="removeEmployee(selectedEmployeeId)" />
                         </tbody>
                     </table>
                 </template>
@@ -124,9 +157,15 @@
 </template>
 
 <script setup>
+const { t } = useI18n()
 const employeesStore = useEmployeesStore()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const showSkeleton = ref(true);
+const removingEmployee = ref(null);
+const blockingEmployee = ref(null);
+const showDeleteDialog = ref(false);
+const selectedEmployeeId = ref(null);
+const deletingEmployees = ref({});
 
 onMounted(async () => {
     const startTime = Date.now();
@@ -142,6 +181,89 @@ const searchEmployee = computed({
     get: () => employeesStore.searchEmployeesByEmail,
     set: (value) => employeesStore.setSearchTerm(value)
 });
+
+const removeEmployee = async (userId) => {
+    if (!userId) return;
+    try {
+        deletingEmployees.value[userId] = true;
+        await employeesStore.deleteUser(userId);
+        triggerToast({
+            message: t('toast.user_deleted_successfully'),
+            type: 'success',
+            icon: 'mdi-check-circle',
+        });
+        await employeesStore.fetchEmployees();
+    } catch (error) {
+        console.error("Error removing user:", error);
+        triggerToast({
+            message: t('toast.failed_to_delete_user'),
+            type: 'error',
+            icon: 'mdi:alert-circle',
+        });
+    } finally {
+        deletingEmployees.value[userId] = false;
+        selectedEmployeeId.value = null;
+        showDeleteDialog.value = false;
+    }
+};
+
+const toggleBlockEmployee = (userId) => {
+    if (!userId) return;
+    blockingEmployee.value = userId;
+    setTimeout(() => {
+        employeesStore.toggleBlockEmployee(userId)
+            .then(() => {
+                const user = employeesStore.paginatedEmployees.find(u => u.id === userId);
+                const message = user?.isBlocked
+                    ? t('toast.user_blocked_successfully')
+                    : t('toast.user_unblocked_successfully');
+                triggerToast({
+                    message,
+                    type: 'success',
+                    icon: 'mdi-check-circle',
+                });
+            })
+            .catch((error) => {
+                console.error("Error toggling user block status:", error);
+                triggerToast({
+                    message: t('toast.failed_to_update_user'),
+                    type: 'error',
+                    icon: 'mdi:alert-circle',
+                });
+            })
+            .finally(() => {
+                blockingEmployee.value = null;
+            });
+    }, 3000);
+};
+
+const openDeleteDialog = (user) => {
+    selectedEmployeeId.value = user.id;
+    showDeleteDialog.value = true;
+};
+
+const formatDate = (date) => {
+    if (!date) return '';
+    // Handle Firestore Timestamp
+    const jsDate = date?.toDate ? date.toDate() : new Date(date);
+    return `${jsDate.getDate()}/${jsDate.getMonth() + 1}/${jsDate.getFullYear()}`;
+};
+
+const showPermissionsDialog = ref(false);
+
+const openPermissionsDialog = (userId) => {
+    selectedEmployeeId.value = userId;
+    showPermissionsDialog.value = true;
+};
+
+const handlePermissionsSaved = () => {
+    employeesStore.fetchEmployees();
+    triggerToast({
+        message: t('toast.permissions_updated_successfully'),
+        type: 'success',
+        icon: 'mdi-check-circle',
+    });
+};
 
 const skeletonHeaders = [
     { label: '#', loaderWidth: 'w-8' },
