@@ -105,7 +105,7 @@
     "add_category": "أضافه فئه",
     "profile": "الصفحه الشخصية",
     "earnings": "الأرباح",
-    "earnings_form_markting": "الأرباح من التسويق",
+    "earnings_form_marketing": "الأرباح من التسويق",
     "messages": "الرسائل",
     "employees": "الموظفين"
   },
@@ -116,7 +116,7 @@
     "users": "المستخدمون",
     "messages": "الرسائل",
     "new_merchants": "التجار الجدد",
-    "earnings_form_markting": "الأرباح من التسويق",
+    "earnings_form_marketing": "الأرباح من التسويق",
     "earnings": "الأرباح",
     "employees": "الموظفين"
   },
@@ -208,5 +208,30 @@
     "daily": "يومي",
     "Weekly": "أسبوعي",
     "monthly": "شهري"
+  },
+  "permissions": {
+    "sections": {
+      "products": "المنتجات",
+      "orders": "الطلبات",
+      "users": "المستخدمين",
+      "categories": "الفئات",
+      "earnings": "الأرباح",
+      "earnings-form-marketing": "أرباح التسويق",
+      "employees": "الموظفين",
+      "new-merchants": "التجار الجدد"
+    },
+    "actions": {
+      "view": "عرض",
+      "add": "إضافة",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "cancel": "إلغاء",
+      "downloadExcel": "تنزيل إكسل",
+      "block": "حظر",
+      "unblock": "رفع الحظر",
+      "approve": "موافقة",
+      "reject": "رفض",
+      "changeStatus": "تغيير الحالة"
+    }
   }
 }

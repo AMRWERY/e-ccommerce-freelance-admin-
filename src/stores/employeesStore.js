@@ -31,6 +31,7 @@ export const useEmployeesStore = defineStore("employees", {
             ...doc.data(),
             id: doc.id,
           }));
+          // console.log("all employees:", this.employees);
           this.employees = this.employees.filter(
             (user) => user.email !== "admin@commerce.com"
           );
@@ -104,12 +105,26 @@ export const useEmployeesStore = defineStore("employees", {
       const userRef = doc(db, "users", userId);
       try {
         await updateDoc(userRef, { permissions });
-        const index = this.employees.findIndex(u => u.id === userId);
+        const index = this.employees.findIndex((u) => u.id === userId);
         if (index > -1) {
           this.employees[index].permissions = permissions;
         }
       } catch (error) {
         console.error("Error updating permissions:", error);
+        throw error;
+      }
+    },
+
+    async updateUserRole(userId, roledId) {
+      const userRef = doc(db, "users", userId);
+      try {
+        await updateDoc(userRef, { roledId });
+        const index = this.employees.findIndex((u) => u.id === userId);
+        if (index > -1) {
+          this.employees[index].roledId = roledId;
+        }
+      } catch (error) {
+        console.error("Error updating user role:", error);
         throw error;
       }
     },
@@ -148,10 +163,16 @@ export const useEmployeesStore = defineStore("employees", {
 
     filteredEmployees: (state) => {
       if (!state.searchEmployeesByEmail) return state.employees;
-      return state.employees.filter((product) => {
-        const email = product.email?.toLowerCase() || "";
+      return state.employees.filter((employee) => {
+        const email = employee.email?.toLowerCase() || "";
         return email.includes(state.searchEmployeesByEmail);
       });
+    },
+
+    userPermissions: (state) => (userId) => {
+      const user = state.users.find((u) => u.id === userId);
+      const rolesStore = useRolesStore();
+      return rolesStore.getRolePermissions(user?.roledId);
     },
   },
 });

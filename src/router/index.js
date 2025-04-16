@@ -123,11 +123,11 @@ const router = createRouter({
           },
         },
         {
-          path: "/earnings-form-markting",
-          name: "earnings-form-markting",
-          component: () => import("../views/earnings-form-markting.vue"),
+          path: "/earnings-form-marketing",
+          name: "earnings-form-marketing",
+          component: () => import("../views/earnings-form-marketing.vue"),
           meta: {
-            title: "meta.earnings_form_markting",
+            title: "meta.earnings_form_marketing",
             requiresAuth: true,
             allowedRoles: ["admin"],
           },

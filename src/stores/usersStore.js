@@ -32,6 +32,7 @@ export const useUserStore = defineStore("users", {
             ...doc.data(),
             id: doc.id,
           }));
+          // console.log('all users:', this.users)
           this.users = this.users.filter(
             (user) => user.email !== "admin@commerce.com"
           );

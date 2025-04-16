@@ -101,8 +101,10 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <router-link to="" role="button" class="font-medium text-blue-600 hover:underline"
-                                        @click="openPermissionsDialog(employee.id)">
-                                        {{ $t('btn.edit') }}
+                                        @click="openPermissionsDialog(employee)">
+                                        <iconify-icon icon="line-md:loading-loop" width="20" height="20"
+                                            v-if="isEditing(employee.id)"></iconify-icon>
+                                        <span v-else>{{ $t('btn.edit') }}</span>
                                     </router-link>
                                 </td>
                                 <td class="p-4">
@@ -166,6 +168,8 @@ const blockingEmployee = ref(null);
 const showDeleteDialog = ref(false);
 const selectedEmployeeId = ref(null);
 const deletingEmployees = ref({});
+const showPermissionsDialog = ref(false);
+const editingUserId = ref(null);
 
 onMounted(async () => {
     const startTime = Date.now();
@@ -249,12 +253,16 @@ const formatDate = (date) => {
     return `${jsDate.getDate()}/${jsDate.getMonth() + 1}/${jsDate.getFullYear()}`;
 };
 
-const showPermissionsDialog = ref(false);
+const isEditing = (userId) => editingUserId.value === userId;
 
-const openPermissionsDialog = (userId) => {
-    selectedEmployeeId.value = userId;
-    showPermissionsDialog.value = true;
-};
+const openPermissionsDialog = (employee) => {
+    editingUserId.value = employee.id
+    setTimeout(() => {
+        selectedEmployeeId.value = employee.id
+        showPermissionsDialog.value = true
+        editingUserId.value = null
+    }, 3000)
+}
 
 const handlePermissionsSaved = () => {
     employeesStore.fetchEmployees();

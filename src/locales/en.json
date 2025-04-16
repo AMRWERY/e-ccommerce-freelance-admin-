@@ -105,7 +105,7 @@
     "add_category": "Add Category",
     "profile": "Profile",
     "earnings": "Earnings",
-    "earnings_form_markting": "Earnings form Markting",
+    "earnings_form_marketing": "Earnings form Marketing",
     "messages": "Messages",
     "employees": "Employees"
   },
@@ -116,7 +116,7 @@
     "users": "Users",
     "messages": "Messages",
     "new_merchants": "New Merchants",
-    "earnings_form_markting": "Earnings form Markting",
+    "earnings_form_marketing": "Earnings form Marketing",
     "earnings": "Earnings",
     "employees": "Employees"
   },
@@ -208,5 +208,30 @@
     "daily": "Daily",
     "Weekly": "Weekly",
     "monthly": "Monthly"
+  },
+  "permissions": {
+    "sections": {
+      "products": "Products",
+      "orders": "Orders",
+      "users": "Users",
+      "categories": "Categories",
+      "earnings": "Earnings",
+      "earnings-form-marketing": "Marketing Earnings",
+      "employees": "Employees",
+      "new-merchants": "New Merchants"
+    },
+    "actions": {
+      "view": "View",
+      "add": "Add",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "downloadExcel": "Download Excel",
+      "block": "Block",
+      "unblock": "Unblock",
+      "approve": "Approve",
+      "reject": "Reject",
+      "changeStatus": "Change Status"
+    }
   }
 }
