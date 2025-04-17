@@ -17,6 +17,7 @@ import {
   where,
   getDocs,
   onSnapshot,
+  updateDoc,
 } from "firebase/firestore";
 
 export const useAuthStore = defineStore("auth", {
@@ -123,6 +124,21 @@ export const useAuthStore = defineStore("auth", {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           this.role = userData?.role || "user";
+          // Handle admin permissions
+          if (userData.role === "admin") {
+            const rolesRef = collection(db, "roles");
+            const q = query(rolesRef, where("name", "==", "admin"));
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+              const adminRole = querySnapshot.docs[0].data();
+              // Update user document with admin permissions
+              await updateDoc(userDocRef, {
+                permissions: adminRole.permissions,
+              });
+              // Update userData with permissions for localStorage
+              userData.permissions = adminRole.permissions;
+            }
+          }
           // Handle merchant (market_owner) login differently
           if (userData.role === "market_owner") {
             const merchantsRef = collection(db, "new-merchants");
@@ -167,7 +183,7 @@ export const useAuthStore = defineStore("auth", {
               lastName: userData.lastName,
               role: userData.role,
               loginType: userData.loginType,
-              // permissions: userData.permissions,
+              permissions: userData.permissions,
             };
             localStorage.setItem("user", JSON.stringify(saveUserData));
           }
@@ -244,22 +260,11 @@ export const useAuthStore = defineStore("auth", {
       const userRef = doc(db, "users", uid);
       this.unsubscribeUser = onSnapshot(userRef, (doc) => {
         if (doc.exists()) {
-          // إضافة console.log للتأكد من وصول التحديثات
           console.log("Updated permissions:", doc.data().permissions);
           this.user = { id: doc.id, ...doc.data() };
         }
       });
     },
-    // setupUserListener(uid) {
-    //   const userRef = doc(db, 'users', uid);
-    //   this.unsubscribeUser = onSnapshot(userRef, (doc) => {
-    //     if (doc.exists()) {
-    //       this.user = { id: doc.id, ...doc.data() };
-    //       // This should log updated permissions immediately
-    //       console.log('Updated permissions:', this.user.permissions);
-    //     }
-    //   });
-    // }
   },
 
   getters: {

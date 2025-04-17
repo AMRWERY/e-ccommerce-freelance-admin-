@@ -1,10 +1,7 @@
 export function usePermissions() {
-  const authStore = useAuthStore();
-
   const hasPermission = (section, action) => {
-    return computed(() => {
-      return authStore.user?.permissions?.[section]?.[action] ?? false;
-    }).value;
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user?.permissions?.[section]?.[action] ?? false;
   };
 
   return { hasPermission };

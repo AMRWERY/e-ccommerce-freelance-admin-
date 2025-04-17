@@ -62,10 +62,22 @@ watch(() => props.userId, async (newVal) => {
   if (newVal) {
     await rolesStore.fetchRoles();
     const employee = employeesStore.employees.find(e => e.id === newVal);
-    if (employee?.roledId) {
-      const role = rolesStore.roles.find(r => r.id === employee.roledId);
-      if (role) {
-        selectedRole.value = JSON.parse(JSON.stringify(role));
+
+    if (employee) {
+      // If employee has direct permissions, use those
+      if (employee.permissions) {
+        selectedRole.value = {
+          id: employee.roledId || 'direct-permissions',
+          name: employee.role,
+          permissions: employee.permissions
+        };
+      }
+      // If no direct permissions but has roledId, get from role
+      else if (employee.roledId) {
+        const role = rolesStore.roles.find(r => r.id === employee.roledId);
+        if (role) {
+          selectedRole.value = JSON.parse(JSON.stringify(role));
+        }
       }
     }
   }
@@ -77,17 +89,22 @@ const closeDialog = () => {
 
 const savePermissions = async () => {
   try {
-    const result = await rolesStore.updateRoleAndSyncUsers(
+    await rolesStore.updateRoleAndSyncUsers(
       selectedRole.value.id,
       { permissions: selectedRole.value.permissions }
     );
+    await employeesStore.updateUserPermissions(props.userId, selectedRole.value.permissions);
     await Promise.all([
       rolesStore.fetchRoles(),
       employeesStore.fetchEmployees()
     ]);
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+    if (currentUser && currentUser.uid === props.userId) {
+      currentUser.permissions = selectedRole.value.permissions;
+      localStorage.setItem('user', JSON.stringify(currentUser));
+    }
     emit('saved');
     closeDialog();
-    // console.log(`Updated ${result.affectedUsers} users with new permissions`);
   } catch (error) {
     console.error('Error saving permissions:', error);
   }
