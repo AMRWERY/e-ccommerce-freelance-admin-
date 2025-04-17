@@ -1,7 +1,7 @@
 <template>
     <div>
         <button @click="handleExport" data-tooltip-target="tooltip-default" data-tooltip-placement="bottom"
-            class="inline-flex items-center px-5 py-2.5 text-blue-700 border border-blue-700 rounded-lg hover:bg-blue-100">
+            class="inline-flex items-center px-5 py-2.5 text-blue-700 border border-blue-700 rounded-lg hover:bg-blue-100" v-if="hasPermission('products', 'downloadExcel')">
             <iconify-icon icon="tabler:file-excel" width="24" height="24"></iconify-icon>
         </button>
         <div id="tooltip-default" role="tooltip"
@@ -27,4 +27,10 @@ const handleExport = () => {
         console.error("Export error:", error);
     }
 };
+
+const authStore = useAuthStore();
+const user = computed(() => authStore.user);
+
+//usePermissions composables
+const { hasPermission } = usePermissions(user);
 </script>
