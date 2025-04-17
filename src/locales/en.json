@@ -62,7 +62,12 @@
     "search_for_users": "Search for users...",
     "new_password": "New password",
     "confirm_new_password": "Confirm new password",
-    "search_for_employee": "Search for employee"
+    "search_for_employee": "Search for employee",
+    "quantity": "Quantity",
+    "customer_name": "Customer name",
+    "customer_phone": "Customer phone",
+    "delivery_address": "Delivery address",
+    "notes": "Notes"
   },
   "btn": {
     "login": "Login",
@@ -85,7 +90,9 @@
     "update": "Update",
     "accept": "Accept",
     "reject": "Reject",
-    "save_changes": "Save changes"
+    "save_changes": "Save changes",
+    "order_now": "Order now",
+    "place_order": "Place order"
   },
   "meta": {
     "home": "Home",
@@ -153,7 +160,8 @@
     "user_blocked_successfully": "User blocked successfully",
     "user_unblocked_successfully": "User unblocked successfully",
     "failed_to_update_user": "Failed to update user",
-    "permissions_updated_successfully": "Permissions updated successfully"
+    "permissions_updated_successfully": "Permissions updated successfully",
+    "order_created_successfully": "Order created successfully"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",
@@ -193,7 +201,9 @@
     "created_at": "Created at",
     "delete_confirmation_employee": "You are about to delete this employee. This action cannot be undone.",
     "permissions": "Permissions",
-    "edit_permissions": "Edit permissions"
+    "edit_permissions": "Edit permissions",
+    "order_now": "Order now",
+    "available_stock": "Available stock"
   },
   "tooltip": {
     "download_excel": "Download Excel"

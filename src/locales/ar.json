@@ -62,7 +62,12 @@
     "search_for_users": "البحث عن المستخدمين...",
     "new_password": "كلمة المرور الجديدة",
     "confirm_new_password": "تأكيد كلمة المرور الجديدة",
-    "search_for_employee": "البحث عن موظف"
+    "search_for_employee": "البحث عن موظف",
+    "quantity": "كمية",
+    "customer_name": "اسم العميل",
+    "customer_phone": "هاتف العميل",
+    "delivery_address": "عنوان التسليم",
+    "notes": "ملاحظات"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -85,7 +90,9 @@
     "update": "تحديث",
     "accept": "موافقة",
     "reject": "رفض",
-    "save_changes": "حفظ التغييرات"
+    "save_changes": "حفظ التغييرات",
+    "order_now": "اطلب الآن",
+    "place_order": "اتمام الطلب"
   },
   "meta": {
     "home": "الرئيسية",
@@ -153,7 +160,8 @@
     "user_blocked_successfully": "تم حظر المستخدم بنجاح",
     "user_unblocked_successfully": "تم إلغاء حظر المستخدم بنجاح",
     "failed_to_update_user": "فشل تحديث المستخدم",
-    "permissions_updated_successfully": "تم تحديث الصلاحيات بنجاح"
+    "permissions_updated_successfully": "تم تحديث الصلاحيات بنجاح",
+    "order_created_successfully": "تم إنشاء الطلب بنجاح"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
@@ -193,7 +201,9 @@
     "created_at": "تم إنشائه في",
     "delete_confirmation_employee": "أنت على وشك حذف هذا الموظف. لا يمكن التراجع عن هذا الإجراء.",
     "permissions": "الصلاحيات",
-    "edit_permissions": "تعديل الصلاحيات"
+    "edit_permissions": "تعديل الصلاحيات",
+    "order_now": "اطلب الآن",
+    "available_stock": "المخزون المتوفر"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"

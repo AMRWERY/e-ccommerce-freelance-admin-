@@ -297,12 +297,10 @@ router.beforeEach(async (to, from, next) => {
       return;
     }
   }
-
   if (authStore.isAuthenticated && to.path.startsWith("/auth")) {
     next("/");
     return;
   }
-
   next();
 });
 

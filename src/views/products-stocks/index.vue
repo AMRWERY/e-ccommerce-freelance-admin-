@@ -54,7 +54,7 @@
                                 <th scope="col" class="px-6 py-3">
                                     {{ $t('dashboard.product_name') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3" v-if="userRole?.role !== 'market_owner'">
+                                <th scope="col" class="px-6 py-3">
                                     {{ $t('dashboard.target_market') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -102,7 +102,7 @@
                                         'ar' ? product.titleAr :
                                         product.title }}
                                 </th>
-                                <td class="px-6 py-4" v-if="userRole?.role !== 'market_owner'">
+                                <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
                                         <img src="/ksa-flag.svg" alt="ksa-flag" class="w-5 h-4"
                                             v-if="product.targetMarket === 'Saudi Arabia'">
@@ -151,12 +151,23 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex gap-3">
+                                        <button role="button" @click.stop="openOrderDialog(product)"
+                                            v-if="userRole?.role === 'market_owner'"
+                                            class="flex items-center gap-1 font-semibold text-green-600 hover:text-green-700 hover:underline"
+                                            :disabled="loadingProductId === product.id">
+                                            <iconify-icon icon="line-md:loading-loop" width="20" height="20"
+                                                class="text-green-600"
+                                                v-if="loadingProductId === product.id"></iconify-icon>
+                                            <iconify-icon v-else icon="material-symbols:shopping-cart-checkout"
+                                                width="20" height="20" />
+                                            {{ $t('btn.order_now') }}
+                                        </button>
                                         <button role="button" @click.stop="openEditDialog(product.id)"
                                             v-if="hasPermission('products', 'edit')"
                                             class="font-semibold text-blue-600 hover:underline">{{ $t('btn.edit')
                                             }}</button>
                                         <button role="button"
-                                            v-if="userRole?.role !== 'employee' || hasPermission('products', 'delete')">
+                                            v-if="userRole?.role === 'admin' || hasPermission('products', 'delete')">
                                             <span class="flex items-center font-semibold text-red-600"
                                                 @click.stop="openDeleteDialog(product)">
                                                 <iconify-icon icon="material-symbols:delete" width="20" height="20"
@@ -171,6 +182,10 @@
                             <!-- delete-dialog component -->
                             <delete-dialog v-model="showDeleteDialog"
                                 :message="$t('dashboard.delete_confirmation_product')" @confirm="handleDelete" />
+
+                            <!-- order-now-dialog component -->
+                            <order-now-dialog v-model:isDialogOpen="showOrderDialog" :product="selectedProduct"
+                                @order-placed="handleOrderPlaced" />
                         </tbody>
                     </table>
                 </template>
@@ -194,6 +209,7 @@
 </template>
 
 <script setup>
+import OrderNowDialog from '@/components/reusable-components/order-now-dialog.vue'
 const { t, locale } = useI18n()
 const { userRole } = useUserRole()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
@@ -342,4 +358,40 @@ const skeletonHeaders = [
     { label: 'Availability', loaderWidth: 'w-24' },
     { label: 'Actions', type: 'action' }
 ];
+
+// Add these new refs for order dialog
+const showOrderDialog = ref(false)
+const selectedProduct = ref(null)
+
+// Track loading state by product ID
+const loadingProductId = ref(null)
+
+// Update the openOrderDialog method
+const openOrderDialog = (product) => {
+    if (!product) return
+    loadingProductId.value = product.id
+
+    setTimeout(() => {
+        loadingProductId.value = null
+        selectedProduct.value = product
+        showOrderDialog.value = true
+    }, 3000)
+}
+
+// Add this method to handle successful order placement
+const handleOrderPlaced = () => {
+    triggerToast({
+        message: t('toast.order_created_successfully'),
+        type: 'success',
+        icon: 'material-symbols:check-circle'
+    })
+    showOrderDialog.value = false
+    selectedProduct.value = null
+    // Refresh the products list to update stock numbers
+    if (userRole.value.role === 'market_owner') {
+        productStore.fetchMerchantProducts()
+    } else {
+        productStore.fetchProducts()
+    }
+}
 </script>
