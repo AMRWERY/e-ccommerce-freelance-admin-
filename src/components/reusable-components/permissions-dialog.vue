@@ -21,7 +21,7 @@
               <div v-for="(actionAllowed, actionKey) in sectionPermissions" :key="actionKey"
                 class="flex items-center space-s-2">
                 <input type="checkbox" :id="`${sectionKey}-${actionKey}`"
-                  v-model="selectedRole.permissions[sectionKey][actionKey]"
+                  v-model="selectedRole.permissions[sectionKey][actionKey]" @change="$forceUpdate()"
                   class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
                 <label :for="`${sectionKey}-${actionKey}`" class="text-sm text-gray-700 capitalize">
                   {{ $t(`permissions.actions.${actionKey}`) }}
@@ -76,15 +76,21 @@ const closeDialog = () => {
 
 const savePermissions = async () => {
   try {
-    await rolesStore.updateRole(selectedRole.value.id, {
-      permissions: selectedRole.value.permissions
-    })
-    emit('saved')
-    closeDialog()
+    const result = await rolesStore.updateRoleAndSyncUsers(
+      selectedRole.value.id,
+      { permissions: selectedRole.value.permissions }
+    );
+    await Promise.all([
+      rolesStore.fetchRoles(),
+      employeesStore.fetchEmployees()
+    ]);
+    emit('saved');
+    closeDialog();
+    // console.log(`Updated ${result.affectedUsers} users with new permissions`);
   } catch (error) {
-    console.error('Error saving permissions:', error)
+    console.error('Error saving permissions:', error);
   }
-}
+};
 
 onMounted(() => {
   rolesStore.fetchRoles();

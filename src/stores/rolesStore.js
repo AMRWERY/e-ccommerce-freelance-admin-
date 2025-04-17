@@ -6,6 +6,9 @@ import {
   setDoc,
   updateDoc,
   deleteDoc,
+  query,
+  where,
+  writeBatch,
 } from "firebase/firestore";
 
 export const useRolesStore = defineStore("roles", {
@@ -16,7 +19,6 @@ export const useRolesStore = defineStore("roles", {
       products: { view: false, add: false, edit: false, delete: false },
       orders: { view: false, cancel: false },
       users: { view: false, edit: false },
-      settings: { view: false },
     },
   }),
 
@@ -27,7 +29,7 @@ export const useRolesStore = defineStore("roles", {
         id: doc.id,
         ...doc.data(),
       }));
-      //   console.log('all roles:', this.roles)
+      // console.log('all roles:', this.roles)
     },
 
     async createRole(roleData) {
@@ -36,12 +38,6 @@ export const useRolesStore = defineStore("roles", {
         name: roleData.name,
         permissions: roleData.permissions || this.defaultPermissions,
       });
-      await this.fetchRoles();
-    },
-
-    async updateRole(roledId, updates) {
-      const docRef = doc(db, "roles", roledId);
-      await updateDoc(docRef, updates);
       await this.fetchRoles();
     },
 
@@ -54,6 +50,42 @@ export const useRolesStore = defineStore("roles", {
     getRolePermissions(roledId) {
       const role = this.roles.find((r) => r.id === roledId);
       return role?.permissions || {};
+    },
+
+    async updateRoleAndSyncUsers(roledId, updates) {
+      try {
+        // 1. Update the role document
+        const roleRef = doc(db, "roles", roledId);
+        await updateDoc(roleRef, updates);
+        // 2. Get all users with this role
+        const usersQuery = query(
+          collection(db, "users"),
+          where("roledId", "==", roledId)
+        );
+        const querySnapshot = await getDocs(usersQuery);
+        // 3. Batch update users
+        const batch = writeBatch(db);
+        const MAX_BATCH_SIZE = 500;
+        let operationCount = 0;
+        for (const userDoc of querySnapshot.docs) {
+          if (operationCount === MAX_BATCH_SIZE) {
+            await batch.commit();
+            batch = writeBatch(db);
+            operationCount = 0;
+          }
+          const userRef = doc(db, "users", userDoc.id);
+          batch.update(userRef, { permissions: updates.permissions });
+          operationCount++;
+        }
+        if (operationCount > 0) await batch.commit();
+        return {
+          success: true,
+          affectedUsers: querySnapshot.size,
+        };
+      } catch (error) {
+        console.error("Update failed:", error);
+        throw error;
+      }
     },
   },
 

@@ -16,6 +16,7 @@ import {
   query,
   where,
   getDocs,
+  onSnapshot,
 } from "firebase/firestore";
 
 export const useAuthStore = defineStore("auth", {
@@ -166,6 +167,7 @@ export const useAuthStore = defineStore("auth", {
               lastName: userData.lastName,
               role: userData.role,
               loginType: userData.loginType,
+              // permissions: userData.permissions,
             };
             localStorage.setItem("user", JSON.stringify(saveUserData));
           }
@@ -237,6 +239,27 @@ export const useAuthStore = defineStore("auth", {
         throw err;
       }
     },
+
+    setupUserListener(uid) {
+      const userRef = doc(db, "users", uid);
+      this.unsubscribeUser = onSnapshot(userRef, (doc) => {
+        if (doc.exists()) {
+          // إضافة console.log للتأكد من وصول التحديثات
+          console.log("Updated permissions:", doc.data().permissions);
+          this.user = { id: doc.id, ...doc.data() };
+        }
+      });
+    },
+    // setupUserListener(uid) {
+    //   const userRef = doc(db, 'users', uid);
+    //   this.unsubscribeUser = onSnapshot(userRef, (doc) => {
+    //     if (doc.exists()) {
+    //       this.user = { id: doc.id, ...doc.data() };
+    //       // This should log updated permissions immediately
+    //       console.log('Updated permissions:', this.user.permissions);
+    //     }
+    //   });
+    // }
   },
 
   getters: {

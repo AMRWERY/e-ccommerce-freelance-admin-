@@ -10,7 +10,7 @@
                     </div>
 
                     <router-link to="" role="button" @click="openAddProductDialog"
-                        v-if="userRole?.role !== 'market_owner'"
+                        v-if="userRole?.role !== 'market_owner' && hasPermission('products', 'add')"
                         class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
                         <iconify-icon icon="ic:baseline-plus" width="24" height="24"></iconify-icon>
                         {{ $t('btn.add_product') }}
@@ -123,11 +123,11 @@
                                     <div class="flex flex-col">
                                         <p class="text-sm font-semibold text-gray-900">
                                             {{ $n(parseFloat(product.discountedPrice), 'currency',
-                                            currencyLocale(product.targetMarket)) }}
+                                                currencyLocale(product.targetMarket)) }}
                                         </p>
                                         <p class="text-xs text-gray-500 line-through">
                                             {{ $n(parseFloat(product.originalPrice), 'currency',
-                                            currencyLocale(product.targetMarket)) }}
+                                                currencyLocale(product.targetMarket)) }}
                                         </p>
                                     </div>
                                 </td>
@@ -152,9 +152,11 @@
                                 <td class="px-6 py-4">
                                     <div class="flex gap-3">
                                         <button role="button" @click.stop="openEditDialog(product.id)"
+                                            v-if="hasPermission('products', 'edit')"
                                             class="font-semibold text-blue-600 hover:underline">{{ $t('btn.edit')
                                             }}</button>
-                                        <button role="button" v-if="userRole?.role !== 'employee'">
+                                        <button role="button"
+                                            v-if="userRole?.role !== 'employee' || hasPermission('products', 'delete')">
                                             <span class="flex items-center font-semibold text-red-600"
                                                 @click.stop="openDeleteDialog(product)">
                                                 <iconify-icon icon="material-symbols:delete" width="20" height="20"
@@ -323,6 +325,12 @@ const excelConfig = ref({
 const handleExport = () => {
     exportDataToExcel(productStore.products, excelConfig.value);
 };
+
+const authStore = useAuthStore();
+const user = computed(() => authStore.user);
+
+//usePermissions composables
+const { hasPermission } = usePermissions(user);
 
 const skeletonHeaders = [
     { label: '#', loaderWidth: 'w-8' },
