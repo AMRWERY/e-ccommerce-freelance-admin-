@@ -93,7 +93,7 @@
                                 </td>
                                 <td class="p-4">
                                     <div class="flex items-center gap-2">
-                                        <button @click="toggleBlockUser(user.id)"
+                                        <button @click="toggleBlockUser(user.id)" v-if="hasPermission('users', 'block') || hasPermission('users', 'unblock')"
                                             class="flex items-center justify-center w-8 h-8 rounded"
                                             :class="user.isBlocked ? 'text-green-500 hover:text-green-700' : 'text-yellow-500 hover:text-yellow-600'">
                                             <div v-if="blockingUser === user.id"
@@ -104,7 +104,7 @@
                                             <iconify-icon :icon="user.isBlocked ? 'mdi:cancel' : 'mdi:check-circle'"
                                                 width="24" height="24" class="me-1.5" v-else></iconify-icon>
                                         </button>
-                                        <button @click.stop="openDeleteDialog(user)"
+                                        <button @click.stop="openDeleteDialog(user)" v-if="hasPermission('users', 'delete')"
                                             class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600">
                                             <iconify-icon icon="line-md:loading-loop" width="20" height="20"
                                                 class="text-red-500" v-if="removingUser === user.id"></iconify-icon>
@@ -224,6 +224,12 @@ const openDeleteDialog = (user) => {
     selectedUserId.value = user.id;
     showDeleteDialog.value = true;
 };
+
+const authStore = useAuthStore();
+const user = computed(() => authStore.user);
+
+//usePermissions composables
+const { hasPermission } = usePermissions(user);
 
 const skeletonHeaders = [
     { label: '#', loaderWidth: 'w-8' },

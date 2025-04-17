@@ -27,11 +27,13 @@
                     <!-- dynamicTables component-->
                     <dynamic-tables />
                 </div>
+
                 <div class="hidden p-4 rounded-lg bg-gray-50" id="weekly" role="tabpanel" aria-labelledby="weekly-tab">
                     <p>weekly table</p>
                     <!-- dynamicTables component-->
                     <dynamic-tables />
                 </div>
+                
                 <div class="hidden p-4 rounded-lg bg-gray-50" id="monthly" role="tabpanel"
                     aria-labelledby="monthly-tab">
                     <p>monthly table</p>

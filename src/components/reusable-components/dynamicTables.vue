@@ -28,12 +28,12 @@
                         {{ category.name }}
                     </th>
                     <td class="px-6 py-4">
-                        <img :src="category.img" alt="category img" class="w-16 h-8 rounded-lg">
+                        <img :src="category.img" alt="category-img" class="w-16 h-8 rounded-lg">
                     </td>
                     <td class="flex items-center justify-center px-6 py-4 space-s-4">
                         <router-link :to="{ name: 'edit-category', params: { id: category.id } }"
                             class="font-medium text-blue-600 hover:underline">Edit</router-link>
-                        <router-link to="" role="button" @click="openDeleteDialog(category.id)"
+                        <router-link to="" role="button" @click="openDeleteDialog(category.id)" v-if="hasPermission('earnings', 'delete') || hasPermission('earnings-form-marketing', 'delete')"
                             class="font-medium text-red-600">
                             <iconify-icon icon="material-symbols:delete-forever" width="24" height="24"></iconify-icon>
                         </router-link>
@@ -81,4 +81,10 @@ const handleDelete = async () => {
         selectedCategoryId.value = null;
     }
 };
+
+const authStore = useAuthStore();
+const user = computed(() => authStore.user);
+
+//usePermissions composables
+const { hasPermission } = usePermissions(user);
 </script>

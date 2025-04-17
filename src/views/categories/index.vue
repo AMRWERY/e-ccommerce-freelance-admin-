@@ -4,7 +4,7 @@
             <div class="flex items-center justify-between my-10 flex-nowrap">
                 <p class="text-3xl font-semibold text-gray-700">Categories</p>
                 <div class="flex items-center justify-center gap-4">
-                    <router-link to="/categories/add" role="button"
+                    <router-link to="/categories/add" role="button" v-if="hasPermission('categories', 'add')"
                         class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
                         <iconify-icon icon="ic:baseline-plus" width="24" height="24"></iconify-icon>
                         {{ $t('btn.add_category') }}
@@ -50,15 +50,15 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                <img :src="category.img" alt="category img" class="w-16 h-8 rounded-lg">
+                                <img :src="category.img" alt="category-img" class="w-16 h-8 rounded-lg">
                             </td>
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 {{ category.name }}
                             </th>
                             <td class="flex items-center justify-center px-6 py-4 space-s-4">
-                                <router-link :to="{ name: 'edit-category', params: { id: category.id } }"
+                                <router-link :to="{ name: 'edit-category', params: { id: category.id } }" v-if="hasPermission('categories', 'edit')"
                                     class="font-medium text-blue-600 hover:underline">Edit</router-link>
-                                <router-link to="" role="button" @click="openDeleteDialog(category.id)"
+                                <router-link to="" role="button" @click="openDeleteDialog(category.id)" v-if="hasPermission('categories', 'delete')"
                                     class="font-medium text-red-600">
                                     <iconify-icon icon="material-symbols:delete-forever" width="24"
                                         height="24"></iconify-icon>
@@ -109,4 +109,10 @@ const handleDelete = async () => {
         selectedCategoryId.value = null;
     }
 };
+
+const authStore = useAuthStore();
+const user = computed(() => authStore.user);
+
+//usePermissions composables
+const { hasPermission } = usePermissions(user);
 </script>
