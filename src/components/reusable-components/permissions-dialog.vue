@@ -8,22 +8,19 @@
             <iconify-icon icon="mdi:close" width="24" height="24" />
           </button>
         </div>
-
-        <!-- Iterate over each permissions section -->
+        <!-- Permissions Content -->
         <div v-if="selectedRole && selectedRole.permissions" class="space-y-6">
           <div v-for="(sectionPermissions, sectionKey) in selectedRole.permissions" :key="sectionKey">
-            <!-- Display a title for the section -->
             <p class="mb-2 text-base font-bold">
               {{ $t(`permissions.sections.${sectionKey}`) }}
             </p>
-            <!-- List all actions in this section as checkboxes -->
-            <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               <div v-for="(actionAllowed, actionKey) in sectionPermissions" :key="actionKey"
                 class="flex items-center space-s-2">
                 <input type="checkbox" :id="`${sectionKey}-${actionKey}`"
                   v-model="selectedRole.permissions[sectionKey][actionKey]" @change="$forceUpdate()"
-                  class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                <label :for="`${sectionKey}-${actionKey}`" class="text-sm text-gray-700 capitalize">
+                  class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 disabled:opacity-50" />
+                <label :for="`${sectionKey}-${actionKey}`" class="text-sm text-gray-700 capitalize select-none">
                   {{ $t(`permissions.actions.${actionKey}`) }}
                 </label>
               </div>
@@ -33,11 +30,11 @@
 
         <div class="flex justify-end gap-3 mt-6">
           <button @click="closeDialog"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50">
             {{ $t('btn.cancel') }}
           </button>
           <button @click="savePermissions"
-            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50">
             {{ $t('btn.save_changes') }}
           </button>
         </div>
@@ -56,13 +53,13 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:isDialogOpen', 'saved'])
+
 const selectedRole = ref(null)
 
 watch(() => props.userId, async (newVal) => {
   if (newVal) {
     await rolesStore.fetchRoles();
     const employee = employeesStore.employees.find(e => e.id === newVal);
-
     if (employee) {
       // If employee has direct permissions, use those
       if (employee.permissions) {
@@ -110,8 +107,33 @@ const savePermissions = async () => {
   }
 };
 
+const loadPermissions = async () => {
+  if (!props.userId) return
+  try {
+    await rolesStore.fetchRoles()
+    const employee = employeesStore.employees.find(e => e.id === props.userId)
+    if (employee) {
+      if (employee.permissions) {
+        selectedRole.value = {
+          id: employee.roledId || 'direct-permissions',
+          name: employee.role,
+          permissions: employee.permissions
+        }
+      } else if (employee.roledId) {
+        const role = rolesStore.roles.find(r => r.id === employee.roledId)
+        if (role) {
+          selectedRole.value = JSON.parse(JSON.stringify(role))
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Error loading permissions:', err)
+  } finally { }
+}
+
+watch(() => props.userId, loadPermissions, { immediate: true })
+
 onMounted(() => {
-  rolesStore.fetchRoles();
-  // console.log("Roles in store:", rolesStore.roles);
-});
+  loadPermissions()
+})
 </script>

@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import i18n from "@/plugins/i18n";
 import productsStocks from "../views/products-stocks/index.vue";
 import mainLayout from "@/components/layouts-components/main-layout.vue";
+import { usePermissions } from "@/composables/usePermissions";
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -75,7 +76,7 @@ const router = createRouter({
           meta: {
             title: "meta.users",
             requiresAuth: true,
-            allowedRoles: ["admin"],
+            allowedRoles: ["admin", "employee"],
           },
         },
         // {
@@ -85,7 +86,7 @@ const router = createRouter({
         //   meta: {
         //     title: "meta.messages",
         //     requiresAuth: true,
-        //     allowedRoles: ["admin"],
+        //     allowedRoles: ["admin", "employee"],
         //   },
         // },
         {
@@ -95,7 +96,7 @@ const router = createRouter({
           meta: {
             title: "meta.new_merchants",
             requiresAuth: true,
-            allowedRoles: ["admin"],
+            allowedRoles: ["admin", "employee"],
           },
         },
 
@@ -119,7 +120,7 @@ const router = createRouter({
           meta: {
             title: "meta.earnings",
             requiresAuth: true,
-            allowedRoles: ["admin", "market_owner"],
+            allowedRoles: ["admin", "employee"],
           },
         },
         {
@@ -129,7 +130,7 @@ const router = createRouter({
           meta: {
             title: "meta.earnings_form_marketing",
             requiresAuth: true,
-            allowedRoles: ["admin"],
+            allowedRoles: ["admin", "employee"],
           },
         },
         {
@@ -202,6 +203,7 @@ router.afterEach((to) => {
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
+  const { hasPermission } = usePermissions();
   await authStore.init();
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!authStore.isAuthenticated) {
@@ -221,20 +223,86 @@ router.beforeEach(async (to, from, next) => {
           console.error("Error parsing user data from localStorage:", error);
         }
       }
-      // if (userRole === "market_owner") {
-      //   next("/products-stocks");
-      //   return;
-      // }
-      if (!requiredRoles.includes(userRole)) {
-        next("/");
+      // Admin has full access
+      if (userRole === "admin") {
+        next();
         return;
       }
+      // For employee, check permissions
+      if (userRole === "employee") {
+        // First check if the role is allowed
+        if (!requiredRoles.includes("employee")) {
+          next("/");
+          return;
+        }
+        // Then check specific permissions
+        switch (to.name) {
+          case "products-stocks":
+            if (!hasPermission("products", "view")) {
+              next("/");
+              return;
+            }
+            break;
+          case "categories":
+            if (!hasPermission("categories", "view")) {
+              next("/");
+              return;
+            }
+            break;
+          case "orders":
+            if (!hasPermission("orders", "view")) {
+              next("/");
+              return;
+            }
+            break;
+          case "users":
+            if (!hasPermission("users", "view")) {
+              next("/");
+              return;
+            }
+            break;
+          // case "messages":
+          //   if (!hasPermission("messages", "view")) {
+          //     next("/");
+          //     return;
+          //   }
+          //   break;
+          case "new-merchants":
+            if (!hasPermission("new-merchants", "view")) {
+              next("/");
+              return;
+            }
+            break;
+          case "earnings":
+            if (!hasPermission("earnings", "view")) {
+              next("/");
+              return;
+            }
+            break;
+          case "earnings-form-marketing":
+            if (!hasPermission("earnings-form-marketing", "view")) {
+              next("/");
+              return;
+            }
+            break;
+          // Add other cases as needed
+        }
+      }
+      // For other roles, just check if role is allowed
+      if (requiredRoles.includes(userRole)) {
+        next();
+        return;
+      }
+      next("/");
+      return;
     }
   }
+
   if (authStore.isAuthenticated && to.path.startsWith("/auth")) {
     next("/");
     return;
   }
+
   next();
 });
 
