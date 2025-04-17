@@ -60,15 +60,16 @@ const selectedRole = ref(null)
 
 watch(() => props.userId, async (newVal) => {
   if (newVal) {
-    const employee = employeesStore.employees.find(e => e.id === newVal)
-    if (employee && employee.roledId) {
-      const role = rolesStore.roles.find(r => r.id === employee.roledId)
+    await rolesStore.fetchRoles();
+    const employee = employeesStore.employees.find(e => e.id === newVal);
+    if (employee?.roledId) {
+      const role = rolesStore.roles.find(r => r.id === employee.roledId);
       if (role) {
-        selectedRole.value = JSON.parse(JSON.stringify(role))
+        selectedRole.value = JSON.parse(JSON.stringify(role));
       }
     }
   }
-})
+}, { immediate: true });
 
 const closeDialog = () => {
   emit('update:isDialogOpen', false)
