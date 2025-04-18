@@ -87,7 +87,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                    }}</p>
+                                                        }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl1" type="file" class="hidden" accept="image/*"
@@ -113,7 +113,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                    }}</p>
+                                                        }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl2" type="file" class="hidden" accept="image/*"
@@ -139,7 +139,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                    }}</p>
+                                                        }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl3" type="file" class="hidden" accept="image/*"
@@ -165,7 +165,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                    }}</p>
+                                                        }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl4" type="file" class="hidden" accept="image/*"
@@ -238,7 +238,7 @@
                                 <div class="mb-4">
                                     <label for="availability" class="block mb-2 font-medium text-gray-700">{{
                                         $t('form.availability')
-                                    }}</label>
+                                        }}</label>
                                     <select id="availability" :name="t('form.availability')"
                                         v-model="formData.availability"
                                         class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -259,7 +259,7 @@
                                 <div class="mb-4" v-if="userRole?.role !== 'market_owner'">
                                     <label for="country" class="block mb-2 font-medium text-gray-700">{{
                                         $t('form.select_market_country')
-                                    }}</label>
+                                        }}</label>
                                     <select id="country" :name="t('form.select_market_country')"
                                         v-model="selectedCountry" @change="updateMarketValues"
                                         class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -329,17 +329,11 @@ const product = ref(null)
 
 const emit = defineEmits(['close', 'success']);
 
-const store = userRole.value?.role === 'market_owner'
-    ? useMerchantsProductsStore()
-    : useProductsStore();
+const store = useProductsStore();
 
 watch(() => props.productId, async (newId) => {
     if (newId) {
-        if (userRole.value?.role === 'market_owner') {
-            await store.fetchMerchantProductDetail(newId);
-        } else {
-            await store.fetchProductDetail(newId);
-        }
+        await store.fetchProductDetail(newId);
         product.value = { ...store.selectedProduct };
         formData.value = { ...store.selectedProduct };
         imagePreview.value.imageUrl1 = product.value.imageUrl1 || '';
@@ -448,34 +442,19 @@ const handleSubmit = async () => {
             stock: Number(formData.value.stock),
             numberOfStock: Number(formData.value.numberOfStock)
         };
-        if (userRole.value?.role === 'market_owner') {
-            productData.marketDocId = parsedUser?.marketDocId;
-        }
         if (isEdit.value) {
-            if (userRole.value?.role === 'market_owner') {
-                await store.updateMerchantProduct(
-                    props.productId,
-                    productData,
-                    imageFiles.value
-                );
-            } else {
-                await store.updateProduct(
-                    props.productId,
-                    productData,
-                    imageFiles.value
-                );
-            }
+            await store.updateProduct(
+                props.productId,
+                productData,
+                imageFiles.value
+            );
             triggerToast({
                 message: t('toast.product_updated_successfully'),
                 type: 'success',
                 icon: 'material-symbols:check-circle',
             });
         } else {
-            if (userRole.value?.role === 'market_owner') {
-                await store.createMerchantProduct(productData, imageFiles.value);
-            } else {
-                await store.createProduct(productData, imageFiles.value);
-            }
+            await store.createProduct(productData, imageFiles.value);
             triggerToast({
                 message: t('toast.product_added_successfully'),
                 type: 'success',

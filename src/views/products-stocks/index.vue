@@ -146,22 +146,47 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                        }}</span>
+                                            }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex gap-3">
-                                        <button role="button" @click.stop="openOrderDialog(product)"
-                                            v-if="userRole?.role === 'market_owner'"
-                                            class="flex items-center gap-1 font-semibold text-green-600 hover:text-green-700 hover:underline"
-                                            :disabled="loadingProductId === product.id">
-                                            <iconify-icon icon="line-md:loading-loop" width="20" height="20"
-                                                class="text-green-600"
-                                                v-if="loadingProductId === product.id"></iconify-icon>
-                                            <iconify-icon v-else icon="material-symbols:shopping-cart-checkout"
-                                                width="20" height="20" />
-                                            {{ $t('btn.order_now') }}
-                                        </button>
+                                        <div v-if="userRole?.role === 'market_owner'" class="flex items-center gap-1">
+                                            <!-- Loading State -->
+                                            <button v-if="loadingProductId === product.id"
+                                                class="flex items-center gap-1 font-semibold text-green-600 hover:text-green-700 hover:underline"
+                                                disabled>
+                                                <iconify-icon icon="line-md:loading-loop" width="20" height="20"
+                                                    class="text-green-600" />
+                                                {{ $t('btn.order_now') }}
+                                            </button>
+
+                                            <!-- Completed State with Check and Close Icons -->
+                                            <template v-else-if="completedProductIds.has(product.id)">
+                                                <div class="space-s-2 flex items-center justify-center">
+                                                    <button @click.stop="handleCloseClick(product)"
+                                                        class="flex items-center gap-1 font-semibold text-blue-600 hover:text-blue-700">
+                                                        <iconify-icon icon="material-symbols:edit-square" width="20"
+                                                            height="20" />
+                                                    </button>
+                                                    <iconify-icon icon="material-symbols:check-circle" width="20"
+                                                        height="20" class="text-green-600" />
+                                                    <button @click.stop="resetOrderButton(product.id)"
+                                                        class="flex items-center gap-1 font-semibold text-gray-600 hover:text-gray-700">
+                                                        <iconify-icon icon="material-symbols:close" width="20"
+                                                            height="20" />
+                                                    </button>
+                                                </div>
+                                            </template>
+
+                                            <!-- Initial State -->
+                                            <button v-else role="button" @click.stop="openOrderDialog(product)"
+                                                class="flex items-center gap-1 font-semibold text-green-600 hover:text-green-700 hover:underline">
+                                                <iconify-icon icon="material-symbols:shopping-cart-checkout" width="20"
+                                                    height="20" />
+                                                {{ $t('btn.order_now') }}
+                                            </button>
+                                        </div>
                                         <button role="button" @click.stop="openEditDialog(product.id)"
                                             v-if="hasPermission('products', 'edit')"
                                             class="font-semibold text-blue-600 hover:underline">{{ $t('btn.edit')
@@ -209,24 +234,17 @@
 </template>
 
 <script setup>
-import OrderNowDialog from '@/components/reusable-components/order-now-dialog.vue'
 const { t, locale } = useI18n()
 const { userRole } = useUserRole()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const showSkeleton = ref(true);
 
-const productStore = userRole.value.role === 'market_owner'
-    ? useMerchantsProductsStore()
-    : useProductsStore();
+const productStore = useProductsStore();
 
 onMounted(async () => {
     const startTime = Date.now();
     try {
-        if (userRole.value.role === 'market_owner') {
-            await productStore.fetchMerchantProducts();
-        } else {
-            await productStore.fetchProducts();
-        }
+        await productStore.fetchProducts();
     } finally {
         const elapsed = Date.now() - startTime;
         const remaining = Math.max(3000 - elapsed, 0);
@@ -267,11 +285,7 @@ const handleDelete = async () => {
     deletingProducts.value[selectedProductId.value] = true;
     showDeleteDialog.value = false;
     try {
-        if (userRole.value?.role === 'market_owner') {
-            await productStore.deleteMerchantProduct(selectedProductId.value)
-        } else {
-            await productStore.deleteProduct(selectedProductId.value);
-        }
+        await productStore.deleteProduct(selectedProductId.value);
         triggerToast({
             message: t('toast.product_deleted'),
             type: 'success',
@@ -359,26 +373,34 @@ const skeletonHeaders = [
     { label: 'Actions', type: 'action' }
 ];
 
-// Add these new refs for order dialog
 const showOrderDialog = ref(false)
 const selectedProduct = ref(null)
-
-// Track loading state by product ID
 const loadingProductId = ref(null)
+const completedProductIds = ref(new Set())
 
-// Update the openOrderDialog method
 const openOrderDialog = (product) => {
     if (!product) return
     loadingProductId.value = product.id
-
+    triggerToast({
+        message: t('toast.product_selected'),
+        type: 'info',
+        icon: 'material-symbols:info'
+    })
     setTimeout(() => {
         loadingProductId.value = null
-        selectedProduct.value = product
-        showOrderDialog.value = true
+        completedProductIds.value.add(product.id)
     }, 3000)
 }
 
-// Add this method to handle successful order placement
+const handleCloseClick = (product) => {
+    selectedProduct.value = product
+    showOrderDialog.value = true
+}
+
+const resetOrderButton = (productId) => {
+    completedProductIds.value.delete(productId)
+}
+
 const handleOrderPlaced = () => {
     triggerToast({
         message: t('toast.order_created_successfully'),
@@ -388,10 +410,6 @@ const handleOrderPlaced = () => {
     showOrderDialog.value = false
     selectedProduct.value = null
     // Refresh the products list to update stock numbers
-    if (userRole.value.role === 'market_owner') {
-        productStore.fetchMerchantProducts()
-    } else {
-        productStore.fetchProducts()
-    }
+    productStore.fetchProducts()
 }
 </script>

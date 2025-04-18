@@ -161,7 +161,8 @@
     "user_unblocked_successfully": "تم إلغاء حظر المستخدم بنجاح",
     "failed_to_update_user": "فشل تحديث المستخدم",
     "permissions_updated_successfully": "تم تحديث الصلاحيات بنجاح",
-    "order_created_successfully": "تم إنشاء الطلب بنجاح"
+    "order_created_successfully": "تم إنشاء الطلب بنجاح",
+    "product_selected": "تم تحديد المنتج"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",

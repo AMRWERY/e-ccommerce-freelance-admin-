@@ -161,7 +161,8 @@
     "user_unblocked_successfully": "User unblocked successfully",
     "failed_to_update_user": "Failed to update user",
     "permissions_updated_successfully": "Permissions updated successfully",
-    "order_created_successfully": "Order created successfully"
+    "order_created_successfully": "Order created successfully",
+    "product_selected": "Product selected"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",
