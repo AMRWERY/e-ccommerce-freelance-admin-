@@ -67,7 +67,9 @@
     "customer_name": "اسم العميل",
     "customer_phone": "هاتف العميل",
     "delivery_address": "عنوان التسليم",
-    "notes": "ملاحظات"
+    "notes": "ملاحظات",
+    "start_date": "تاريخ البدء",
+    "end_date": "تاريخ الانتهاء"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -92,7 +94,9 @@
     "reject": "رفض",
     "save_changes": "حفظ التغييرات",
     "order_now": "اطلب الآن",
-    "place_order": "اتمام الطلب"
+    "place_order": "اتمام الطلب",
+    "filter": "تصفيه",
+    "updating": "جاري التحديث"
   },
   "meta": {
     "home": "الرئيسية",
@@ -162,7 +166,9 @@
     "failed_to_update_user": "فشل تحديث المستخدم",
     "permissions_updated_successfully": "تم تحديث الصلاحيات بنجاح",
     "order_created_successfully": "تم إنشاء الطلب بنجاح",
-    "product_selected": "تم تحديد المنتج"
+    "product_selected": "تم تحديد المنتج",
+    "order_deleted_successfully": "تم حذف الطلب بنجاح",
+    "order_deletion_failed": "فشل حذف الطلب"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
@@ -204,7 +210,19 @@
     "permissions": "الصلاحيات",
     "edit_permissions": "تعديل الصلاحيات",
     "order_now": "اطلب الآن",
-    "available_stock": "المخزون المتوفر"
+    "available_stock": "المخزون المتوفر",
+    "governorate": "محافظه",
+    "country": "دولة",
+    "phone_number": "رقم التليفون",
+    "date": "تاريخ",
+    "customer_name": "اسم العميل",
+    "order_id": "رقم الطلب",
+    "orders": "الطلبات",
+    "order_details": "تفاصيل الطلب",
+    "s_information": "معلومات",
+    "location": "موقع",
+    "current_status": "الحالة الحالية",
+    "change_order_status": "تغيير حالة الطلب"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"
@@ -213,7 +231,8 @@
     "no_products_found": "لم يتم العثور على أي منتجات",
     "no_users_found": "لم يتم العثور على أي مستخدمين",
     "no_merchants_found": "لم يتم العثور على التجار",
-    "no_employees_found": "لم يتم العثور على موظفين"
+    "no_employees_found": "لم يتم العثور على موظفين",
+    "no_orders_found": "لم يتم العثور على أي طلبات"
   },
   "tabs": {
     "daily": "يومي",
@@ -243,6 +262,14 @@
       "approve": "موافقة",
       "reject": "رفض",
       "changeStatus": "تغيير الحالة"
+    },
+    "status": {
+      "order_placed": "تم تقديم الطلب",
+      "processing": "جاري المعالجه",
+      "shipped": "تم الشحن",
+      "out_for_delivery": "خرج للتسليم",
+      "delivered": "تم التوصيل",
+      "unknown": "مجهول"
     }
   }
 }

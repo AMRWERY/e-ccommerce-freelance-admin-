@@ -67,7 +67,9 @@
     "customer_name": "Customer name",
     "customer_phone": "Customer phone",
     "delivery_address": "Delivery address",
-    "notes": "Notes"
+    "notes": "Notes",
+    "start_date": "Start date",
+    "end_date": "End date"
   },
   "btn": {
     "login": "Login",
@@ -92,7 +94,9 @@
     "reject": "Reject",
     "save_changes": "Save changes",
     "order_now": "Order now",
-    "place_order": "Place order"
+    "place_order": "Place order",
+    "filter": "Filter",
+    "updating": "Updating"
   },
   "meta": {
     "home": "Home",
@@ -162,7 +166,9 @@
     "failed_to_update_user": "Failed to update user",
     "permissions_updated_successfully": "Permissions updated successfully",
     "order_created_successfully": "Order created successfully",
-    "product_selected": "Product selected"
+    "product_selected": "Product selected",
+    "order_deleted_successfully": "Order deleted successfully",
+    "order_deletion_failed": "Order deletion failed"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",
@@ -204,7 +210,19 @@
     "permissions": "Permissions",
     "edit_permissions": "Edit permissions",
     "order_now": "Order now",
-    "available_stock": "Available stock"
+    "available_stock": "Available stock",
+    "governorate": "Governorate",
+    "country": "Country",
+    "phone_number": "Phone number",
+    "date": "Date",
+    "customer_name": "Customer name",
+    "order_id": "Order ID",
+    "orders": "Orders",
+    "order_details": "Order details",
+    "s_information": "'s Information",
+    "location": "Location",
+    "current_status": "Current status",
+    "change_order_status": "Change order status"
   },
   "tooltip": {
     "download_excel": "Download Excel"
@@ -213,7 +231,8 @@
     "no_products_found": "No products found",
     "no_users_found": "No users found",
     "no_merchants_found": "No merchants found",
-    "no_employees_found": "No employees found"
+    "no_employees_found": "No employees found",
+    "no_orders_found": "No orders found"
   },
   "tabs": {
     "daily": "Daily",
@@ -243,6 +262,14 @@
       "approve": "Approve",
       "reject": "Reject",
       "changeStatus": "Change Status"
+    },
+    "status": {
+      "order_placed": "Order placed",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "out_for_delivery": "Out for delivery",
+      "delivered": "Delivered",
+      "unknown": "Unknown"
     }
   }
 }
