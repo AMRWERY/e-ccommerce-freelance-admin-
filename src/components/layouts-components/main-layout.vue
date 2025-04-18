@@ -14,11 +14,7 @@
                             </button>
                             <router-link to="/products-stocks" class="flex ms-2 md:me-24 logo-label">
                                 <span
-                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
-                                    v-if="userRole.role === 'market_owner'">{{ userRole.name }}</span>
-                                <span
-                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
-                                    v-else>e-ccommerce</span>
+                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">e-ccommerce</span>
                             </router-link>
                         </div>
                         <div class="flex items-center">
@@ -39,7 +35,8 @@
                 aria-label="Sidebar">
                 <div class="relative h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                     <ul class="space-y-2 font-medium">
-                        <li v-if="userRole.role === 'admin' || userRole.role === 'market_owner' || (userRole.role === 'employee' && hasPermission('products', 'view'))">
+                        <li
+                            v-if="userRole.role === 'admin' || userRole.role === 'market_owner' || (userRole.role === 'employee' && hasPermission('products', 'view'))">
                             <router-link to="/products-stocks" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -48,7 +45,8 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.products_stocks') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('categories', 'view'))">
+                        <li
+                            v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('categories', 'view'))">
                             <router-link to="/categories" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -57,7 +55,8 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.categories') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('orders', 'view'))">
+                        <li
+                            v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('orders', 'view'))">
                             <router-link to="/orders" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -66,7 +65,8 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.orders') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('users', 'view'))">
+                        <li
+                            v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('users', 'view'))">
                             <router-link to="/users" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -93,7 +93,8 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.messages') }}</span>
                             </router-link>
                         </li> -->
-                        <li v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('new-merchants', 'view'))">
+                        <li
+                            v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('new-merchants', 'view'))">
                             <router-link to="/new-merchants" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -102,7 +103,8 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.new_merchants') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('earnings', 'view'))">
+                        <li
+                            v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('earnings', 'view'))">
                             <router-link to="earnings" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -111,7 +113,8 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.earnings') }}</span>
                             </router-link>
                         </li>
-                        <li v-if="userRole.role === 'admin' || userRole.role === 'market_owner' || (userRole.role === 'employee' && hasPermission('earnings-form-marketing', 'view'))">
+                        <li
+                            v-if="userRole.role === 'admin' || userRole.role === 'market_owner' || (userRole.role === 'employee' && hasPermission('earnings-form-marketing', 'view'))">
                             <router-link
                                 :to="userRole.role === 'market_owner' ? '/earnings' : 'earnings-form-marketing'"
                                 exact-active-class="bg-gray-100 dark:bg-gray-700"
