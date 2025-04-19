@@ -99,9 +99,14 @@
     "order_now": "Order now",
     "place_order": "Place order",
     "filter": "Filter",
-    "updating": "Updating"
+    "updating": "Updating",
+    "loading": "loading...",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
   },
   "meta": {
+    "dashboard": "Dashboard",
     "home": "Home",
     "page_not_found": "Page not found",
     "products_stocks": "Products Stocks",
@@ -124,6 +129,7 @@
     "employees": "Employees"
   },
   "layout": {
+    "dashboard": "Dashboard",
     "products_stocks": "Products Stocks",
     "categories": "Categories",
     "orders": "Orders",
@@ -238,7 +244,23 @@
     "completed_orders": "Completed orders",
     "pending_orders": "Pending orders",
     "commission": "Commission",
-    "no_commission": "No commission"
+    "no_commission": "No commission",
+    "total_products": "Total products",
+    "total_customers": "Total customers",
+    "total_revenue": "Total revenue",
+    "normal_earnings": "Earnings",
+    "marketing_earnings": "Marketing earnings",
+    "most_sold_products": "Most sold products",
+    "product": "Product",
+    "sales": "Sales",
+    "revenue": "Revenue",
+    "best_categories": "Best categories",
+    "active_employees": "Active employees",
+    "employee": "Employee",
+    "active_users": "Active users",
+    "total_spent": "Total spent",
+    "user": "User",
+    "joined_date": "Joined date"
   },
   "tooltip": {
     "download_excel": "Download Excel"

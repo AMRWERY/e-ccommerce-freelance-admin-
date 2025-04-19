@@ -99,9 +99,14 @@
     "order_now": "اطلب الآن",
     "place_order": "اتمام الطلب",
     "filter": "تصفيه",
-    "updating": "جاري التحديث"
+    "updating": "جاري التحديث",
+    "loading": "جاري التحميل...",
+    "daily": "يومي",
+    "weekly": "أسبوعي",
+    "monthly": "شهري"
   },
   "meta": {
+    "dashboard": "لوحة التحكم",
     "home": "الرئيسية",
     "page_not_found": "الصفحه غير موجوده",
     "products_stocks": "مخزون المنتجات",
@@ -124,6 +129,7 @@
     "employees": "الموظفين"
   },
   "layout": {
+    "dashboard": "لوحة التحكم",
     "products_stocks": "مخزون المنتجات",
     "categories": "الفئات",
     "orders": "الطلبات",
@@ -238,7 +244,23 @@
     "completed_orders": "الطلبات المكتملة",
     "pending_orders": "الطلبات المعلقة",
     "commission": "عموله",
-    "no_commission": "لا توجد عموله"
+    "no_commission": "لا توجد عموله",
+    "total_products": "إجمالي المنتجات",
+    "total_customers": "إجمالي العملاء",
+    "total_revenue": "إجمالي الإيرادات",
+    "normal_earnings": "الأرباح",
+    "marketing_earnings": "أرباح التسويق",
+    "most_sold_products": "المنتجات الأكثر مبيعا",
+    "product": "منتج",
+    "sales": "مبيعات",
+    "revenue": "ربح",
+    "best_categories": "أفضل الفئات",
+    "active_employees": "الموظفين النشطين",
+    "employee": "موظف",
+    "active_users": "المستخدمون النشطون",
+    "total_spent": "إجمالي المبلغ المنفق",
+    "user": "مستخدم",
+    "joined_date": "تاريخ الانضمام"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"

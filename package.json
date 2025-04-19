@@ -11,6 +11,7 @@
   "dependencies": {
     "@vee-validate/i18n": "^4.15.0",
     "@vee-validate/rules": "^4.15.0",
+    "apexcharts": "^4.5.0",
     "file-saver": "^2.0.5",
     "firebase": "^11.6.0",
     "flowbite": "^3.1.2",
@@ -21,6 +22,7 @@
     "vue": "^3.5.13",
     "vue-i18n": "^10.0.5",
     "vue-router": "^4.5.0",
+    "vue3-apexcharts": "^1.8.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

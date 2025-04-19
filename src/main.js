@@ -23,9 +23,12 @@ import veeValidatePlugin from "@/plugins/vee-validate";
 //iconify-icon
 import "iconify-icon";
 
+import ApexCharts from './plugins/apexcharts'
+
 app.use(createPinia());
 app.use(router);
 app.use(i18n);
 app.use(veeValidatePlugin);
+app.use(ApexCharts)
 
 app.mount("#app");

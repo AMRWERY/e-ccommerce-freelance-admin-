@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import i18n from "@/plugins/i18n";
-import productsStocks from "../views/products-stocks/index.vue";
+import productsStocks from "../views/dashboard/index.vue";
 import mainLayout from "@/components/layouts-components/main-layout.vue";
 import { usePermissions } from "@/composables/usePermissions";
 
@@ -14,13 +14,23 @@ const router = createRouter({
       children: [
         {
           path: "",
-          redirect: "/products-stocks",
+          redirect: "/dashboard",
         },
         //products routes
         {
+          path: "/dashboard",
+          name: "dashboard",
+          component: productsStocks,
+          meta: {
+            title: "meta.dashboard",
+            requiresAuth: true,
+            allowedRoles: ["admin", "market_owner", "employee"],
+          },
+        },
+        {
           path: "/products-stocks",
           name: "products-stocks",
-          component: productsStocks,
+          component: () => import("../views/products-stocks/index.vue"),
           meta: {
             title: "meta.products_stocks",
             requiresAuth: true,
@@ -109,28 +119,6 @@ const router = createRouter({
             title: "meta.profile",
             requiresAuth: true,
             allowedRoles: ["admin", "market_owner", "employee"],
-          },
-        },
-
-        //earnings pages
-        {
-          path: "/earnings",
-          name: "earnings",
-          component: () => import("../views/earnings.vue"),
-          meta: {
-            title: "meta.earnings",
-            requiresAuth: true,
-            allowedRoles: ["admin", "employee"],
-          },
-        },
-        {
-          path: "/earnings-form-marketing",
-          name: "earnings-form-marketing",
-          component: () => import("../views/earnings-form-marketing.vue"),
-          meta: {
-            title: "meta.earnings_form_marketing",
-            requiresAuth: true,
-            allowedRoles: ["admin", "employee"],
           },
         },
         {
@@ -269,18 +257,6 @@ router.beforeEach(async (to, from, next) => {
           //   break;
           case "new-merchants":
             if (!hasPermission("new-merchants", "view")) {
-              next("/");
-              return;
-            }
-            break;
-          case "earnings":
-            if (!hasPermission("earnings", "view")) {
-              next("/");
-              return;
-            }
-            break;
-          case "earnings-form-marketing":
-            if (!hasPermission("earnings-form-marketing", "view")) {
               next("/");
               return;
             }

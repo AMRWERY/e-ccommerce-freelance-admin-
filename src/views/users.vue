@@ -143,7 +143,7 @@
 
 <script setup>
 const { t } = useI18n()
-const userStore = useUserStore();
+const userStore = useUsersStore();
 const showSkeleton = ref(true);
 const removingUser = ref(null);
 const blockingUser = ref(null);

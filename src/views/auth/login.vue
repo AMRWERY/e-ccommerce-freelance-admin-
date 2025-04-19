@@ -26,7 +26,7 @@
                     <div class="mt-4 space-y-2 text-center">
                         <div>
                             <router-link to="/auth/reset-password" class="hover:underline">{{ $t('form.forgot_password')
-                            }}</router-link>
+                                }}</router-link>
                         </div>
                         <div>
                             <span>{{ $t('form.do_not_have_an_account') }}</span>
@@ -69,7 +69,7 @@ const handleLogin = async () => {
             type: 'success',
             icon: 'material-symbols:check-circle',
         });
-        setTimeout(() => { router.push('/products-stocks') }, 3000)
+        setTimeout(() => { router.push('/dashboard') }, 3000)
     } catch (error) {
         triggerToast({
             message: t('toast.failed_logged_in'),
