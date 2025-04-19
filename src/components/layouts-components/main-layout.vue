@@ -31,7 +31,12 @@
             </nav>
 
             <aside id="logo-sidebar"
-                class="fixed top-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-gray-200 border-e start-0 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+                :class="[
+                    'fixed top-0 z-40 w-64 h-screen pt-20 transition-transform bg-white dark:bg-gray-800 dark:border-gray-700',
+                    locale === 'ar' 
+                        ? 'right-0 border-l border-gray-200 translate-x-full sm:translate-x-0' 
+                        : 'left-0 border-r border-gray-200 -translate-x-full sm:translate-x-0'
+                ]"
                 aria-label="Sidebar">
                 <div class="relative h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                     <ul class="space-y-2 font-medium">
@@ -126,7 +131,7 @@
         </div>
 
         <main>
-            <div class="p-4 mt-12 sm:ml-64">
+            <div class="p-4 mt-12" :class="locale === 'ar' ? 'sm:mr-64' : 'sm:ml-64'">
                 <router-view />
             </div>
         </main>
@@ -134,10 +139,12 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 const authStore = useAuthStore();
-const router = useRouter()
+const router = useRouter();
 const { userRole } = useUserRole();
 const { hasPermission } = usePermissions();
+const { locale } = useI18n();
 
 const logout = async () => {
     try {
@@ -157,3 +164,15 @@ const closeSidebarOnMobile = () => {
     }
 };
 </script>
+
+<style scoped>
+[dir="rtl"] #logo-sidebar {
+    right: 0;
+    left: auto;
+}
+
+[dir="ltr"] #logo-sidebar {
+    left: 0;
+    right: auto;
+}
+</style>
