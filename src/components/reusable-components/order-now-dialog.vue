@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div v-if="isDialogOpen && product" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div v-if="isDialogOpen && product"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div class="w-full max-w-xl p-4 bg-white rounded-lg max-h-[550px] scrollable-dialog overflow-y-auto">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-semibold">{{ $t('dashboard.order_now') }}</h3>
@@ -29,6 +30,14 @@
                     {{ $n(parseFloat(product.originalPrice), 'currency', currencyLocale(product.targetMarket)) }}
                   </span>
                 </div>
+                <p class="mt-1 text-sm text-gray-600">
+                  <template v-if="product.commission">
+                    {{ $t('dashboard.commission') }}: {{ product.commission }}%
+                  </template>
+                  <template v-else>
+                    {{ $t('dashboard.no_commission') }}
+                  </template>
+                </p>
               </div>
             </div>
           </div>
@@ -160,6 +169,6 @@ const submitOrder = async () => {
     closeDialog()
   } catch (error) {
     console.error('Error placing order:', error)
-  } finally {}
+  } finally { }
 }
-</script> 
+</script>

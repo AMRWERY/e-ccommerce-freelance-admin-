@@ -70,7 +70,9 @@
     "notes": "Notes",
     "start_date": "Start date",
     "end_date": "End date",
-    "select_date": "Select date"
+    "select_date": "Select date",
+    "commission": "Commission",
+    "enter_commission": "Enter commission"
   },
   "btn": {
     "login": "Login",
@@ -234,7 +236,9 @@
     "total_earnings": "Total earnings",
     "total_orders": "Total orders",
     "completed_orders": "Completed orders",
-    "pending_orders": "Pending orders"
+    "pending_orders": "Pending orders",
+    "commission": "Commission",
+    "no_commission": "No commission"
   },
   "tooltip": {
     "download_excel": "Download Excel"

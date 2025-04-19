@@ -213,6 +213,13 @@
                                         prefixIcon="mdi:money" v-model="formData.discountedPrice" />
                                 </div>
 
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.commission')"
+                                        :placeholder="t('form.enter_commission')" type="number"
+                                        :name="t('form.commission')" :rules="'required'" :required="true"
+                                        prefixIcon="mdi:percent" v-model="formData.commission" />
+                                </div>
+
                                 <div class="flex flex-wrap items-center justify-end gap-4 mt-8">
                                     <button v-if="step > 1" @click="prevStep" type="button"
                                         class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
@@ -365,6 +372,7 @@ const formData = ref({
     descriptionAr: '',
     originalPrice: null,
     discountedPrice: null,
+    commission: null,
     discount: null,
     stock: null,
     availability: null,
@@ -438,6 +446,7 @@ const handleSubmit = async () => {
             ...formData.value,
             originalPrice: Number(formData.value.originalPrice),
             discountedPrice: Number(formData.value.discountedPrice),
+            commission: Number(formData.value.commission),
             discount: Number(formData.value.discount),
             stock: Number(formData.value.stock),
             numberOfStock: Number(formData.value.numberOfStock)
@@ -513,6 +522,7 @@ const resetForm = () => {
         descriptionAr: '',
         originalPrice: null,
         discountedPrice: null,
+        commission: null,
         discount: null,
         stock: null,
         availability: null,

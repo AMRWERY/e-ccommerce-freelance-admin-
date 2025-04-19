@@ -64,6 +64,9 @@
                                     {{ $t('dashboard.discount') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    {{ $t('dashboard.commission') }}
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     {{ $t('dashboard.availability') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -137,6 +140,14 @@
                                     </template>
                                     <template v-else>
                                         {{ $t('dashboard.no_discount') }}
+                                    </template>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <template v-if="product.commission">
+                                        {{ product.commission }}%
+                                    </template>
+                                    <template v-else>
+                                        {{ $t('dashboard.no_commission') }}
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">

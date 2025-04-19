@@ -70,7 +70,9 @@
     "notes": "ملاحظات",
     "start_date": "تاريخ البدء",
     "end_date": "تاريخ الانتهاء",
-    "select_date": "حدد التاريخ"
+    "select_date": "حدد التاريخ",
+    "commission": "عموله",
+    "enter_commission": "ادخل العموله"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -234,7 +236,9 @@
     "total_earnings": "إجمالي الأرباح",
     "total_orders": "إجمالي الطلبات",
     "completed_orders": "الطلبات المكتملة",
-    "pending_orders": "الطلبات المعلقة"
+    "pending_orders": "الطلبات المعلقة",
+    "commission": "عموله",
+    "no_commission": "لا توجد عموله"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"
