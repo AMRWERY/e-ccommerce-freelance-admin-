@@ -176,9 +176,17 @@
                   order.deliveryDetails.phoneNumber }}</p>
               </td>
               <td class="p-4">
-                <p class="block text-sm font-semibold text-slate-800">
-                  {{ getTranslatedLocation(order.deliveryDetails.country) }}
-                </p>
+                <div class="flex items-center gap-2">
+                  <p class="block text-sm font-semibold text-slate-800">
+                    {{ getTranslatedLocation(order.deliveryDetails.country) }}
+                  </p>
+                  <img 
+                    v-if="getCountryFlag(order.deliveryDetails?.country)"
+                    :src="getCountryFlag(order.deliveryDetails?.country)"
+                    :alt="order.deliveryDetails?.country"
+                    class="w-5 h-4"
+                  />
+                </div>
               </td>
               <td class="p-4">
                 <p class="block text-sm font-semibold text-slate-800">
@@ -443,4 +451,12 @@ const pendingOrders = computed(() => {
     return status !== 'Delivered';
   }).length;
 });
+
+const getCountryFlag = (country) => {
+  const flagMap = {
+    'Egypt': '/egypt-flag.svg',
+    'KSA': '/ksa-flag.svg',
+  }
+  return flagMap[country] || ''
+}
 </script>
