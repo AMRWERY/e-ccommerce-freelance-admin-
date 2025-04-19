@@ -77,7 +77,7 @@
         </div>
       </div>
     </div>
-    
+
     <div
       class="relative flex flex-col w-full h-full overflow-scroll overflow-y-hidden text-gray-700 bg-white rounded-lg shadow-md bg-clip-border">
       <template v-if="showSkeleton">
@@ -87,7 +87,7 @@
 
       <template v-else>
         <table class="w-full table-auto text-start min-w-max">
-          <thead>
+          <thead class="text-xs text-gray-700 capitalize bg-gray-50">
             <tr>
               <th class="p-4 border-b border-slate-200 bg-slate-50">
                 <p class="text-sm font-normal leading-none text-slate-500">
@@ -148,7 +148,7 @@
           </tbody>
 
           <tbody v-else>
-            <tr class="border-b hover:bg-slate-50 border-slate-200"
+            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"
               v-for="(order, index) in checkoutStore.paginatedOrders" :key="order.id">
               <td class="p-4">
                 <p class="block text-sm font-semibold text-slate-800">{{ (checkoutStore.currentPage -
@@ -161,35 +161,32 @@
                 <p class="block text-sm font-semibold text-slate-800">{{ order.orderId }}</p>
               </td>
               <td class="p-4">
-                <p class="block text-sm font-semibold text-slate-800">{{ order.deliveryDetails.email
+                <p>{{ order.deliveryDetails.email
                 }}</p>
               </td>
               <td class="p-4">
-                <p class="block text-sm font-semibold text-slate-800">{{ order.deliveryDetails.name }}
+                <p>{{ order.deliveryDetails.name }}
                 </p>
               </td>
               <td class="p-4">
-                <p class="block text-sm font-semibold text-slate-800">{{ order.date }}</p>
+                <p>{{ order.date }}</p>
               </td>
               <td class="p-4">
-                <p class="block text-sm font-semibold text-slate-800">{{
+                <p>{{
                   order.deliveryDetails.phoneNumber }}</p>
               </td>
               <td class="p-4">
                 <div class="flex items-center gap-2">
-                  <p class="block text-sm font-semibold text-slate-800">
+                  <p>
                     {{ getTranslatedLocation(order.deliveryDetails.country) }}
                   </p>
-                  <img 
-                    v-if="getCountryFlag(order.deliveryDetails?.country)"
-                    :src="getCountryFlag(order.deliveryDetails?.country)"
-                    :alt="order.deliveryDetails?.country"
-                    class="w-5 h-4"
-                  />
+                  <img v-if="getCountryFlag(order.deliveryDetails?.country)"
+                    :src="getCountryFlag(order.deliveryDetails?.country)" :alt="order.deliveryDetails?.country"
+                    class="w-5 h-4" />
                 </div>
               </td>
               <td class="p-4">
-                <p class="block text-sm font-semibold text-slate-800">
+                <p>
                   {{ getTranslatedLocation(order.deliveryDetails.city) }}
                 </p>
               </td>

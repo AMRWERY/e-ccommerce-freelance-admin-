@@ -9,8 +9,8 @@
               <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.total_orders') }}</p>
               <p class="mt-1 text-xl font-semibold text-gray-900">{{ totalOrders }}</p>
             </div>
-            <div class="p-3 bg-blue-100 rounded-full">
-              <iconify-icon icon="mdi:shopping" class="w-6 h-6 text-blue-600" />
+            <div class="p-1.5 bg-blue-100 rounded-full flex items-center justify-center">
+              <iconify-icon icon="mdi:shopping" class="text-blue-600" width="24" height="24" />
             </div>
           </div>
         </div>
@@ -21,8 +21,8 @@
               <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.total_products') }}</p>
               <p class="mt-1 text-xl font-semibold text-gray-900">{{ totalProducts }}</p>
             </div>
-            <div class="p-3 bg-green-100 rounded-full">
-              <iconify-icon icon="mdi:package-variant" class="w-6 h-6 text-green-600" />
+            <div class="p-1.5 bg-green-100 rounded-full flex items-center justify-center">
+              <iconify-icon icon="mdi:package-variant" class="text-green-600" width="24" height="24" />
             </div>
           </div>
         </div>
@@ -33,8 +33,8 @@
               <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.total_customers') }}</p>
               <p class="mt-1 text-xl font-semibold text-gray-900">{{ totalCustomers }}</p>
             </div>
-            <div class="p-3 bg-purple-100 rounded-full">
-              <iconify-icon icon="mdi:account-group" class="w-6 h-6 text-purple-600" />
+            <div class="p-1.5 bg-purple-100 rounded-full flex items-center justify-center">
+              <iconify-icon icon="mdi:account-group" class="text-purple-600" width="24" height="24" />
             </div>
           </div>
         </div>
@@ -47,8 +47,8 @@
                 {{ $n(totalRevenue, 'currency', currencyLocale('Egypt')) }}
               </p>
             </div>
-            <div class="p-3 bg-indigo-100 rounded-full">
-              <iconify-icon icon="mdi:cash-multiple" class="w-6 h-6 text-indigo-600" />
+            <div class="p-1.5 bg-indigo-100 rounded-full flex items-center justify-center">
+              <iconify-icon icon="mdi:cash-multiple" class="text-indigo-600" width="24" height="24" />
             </div>
           </div>
         </div>
@@ -137,7 +137,8 @@
         <div class="p-6 bg-white rounded-lg shadow-md">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ $t('dashboard.most_sold_products') }}</h2>
-            <button @click="refreshTopProducts" class="p-2 text-gray-600 rounded-full hover:bg-gray-100">
+            <button @click="refreshTopProducts"
+              class="flex items-center justify-center p-2 text-gray-600 rounded-full hover:bg-gray-100">
               <iconify-icon icon="mdi:refresh" width="20" height="20" />
             </button>
           </div>
@@ -191,12 +192,14 @@
         <div class="p-6 bg-white rounded-lg shadow-md">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ $t('dashboard.best_categories') }}</h2>
-            <button @click="refreshCategories" class="p-2 text-gray-600 rounded-full hover:bg-gray-100">
+            <button @click="refreshCategories"
+              class="flex items-center justify-center p-2 text-gray-600 rounded-full hover:bg-gray-100">
               <iconify-icon icon="mdi:refresh" width="20" height="20" />
             </button>
           </div>
           <div class="relative h-[300px]">
-            <div v-if="categoriesChartLoading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75">
+            <div v-if="categoriesChartLoading"
+              class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75">
               <div class="flex items-center gap-2">
                 <iconify-icon icon="line-md:loading-loop" width="24" height="24" class="text-purple-600" />
                 <span class="text-sm font-medium text-gray-600">{{ $t('btn.loading') }}</span>
@@ -214,7 +217,8 @@
         <div class="p-6 bg-white rounded-lg shadow-md">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ $t('dashboard.active_employees') }}</h2>
-            <button @click="refreshEmployees" class="p-2 text-gray-600 rounded-full hover:bg-gray-100">
+            <button @click="refreshEmployees"
+              class="flex items-center justify-center p-2 text-gray-600 rounded-full hover:bg-gray-100">
               <iconify-icon icon="mdi:refresh" width="20" height="20" />
             </button>
           </div>
@@ -267,7 +271,8 @@
         <div class="p-6 bg-white rounded-lg shadow-md">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ $t('dashboard.active_users') }}</h2>
-            <button @click="refreshUsers" class="p-2 text-gray-600 rounded-full hover:bg-gray-100">
+            <button @click="refreshUsers"
+              class="flex items-center justify-center p-2 text-gray-600 rounded-full hover:bg-gray-100">
               <iconify-icon icon="mdi:refresh" width="20" height="20" />
             </button>
           </div>
@@ -332,7 +337,10 @@ const { currencyLocale } = useCurrencyLocale()
 const productsStore = useProductsStore()
 const checkoutStore = useCheckoutStore()
 const usersStore = useUsersStore()
-const { activeEmployees, activeUsers, employeesLoading, usersLoading } = storeToRefs(usersStore)
+
+// Get store refs for users and employees
+const { topEmployees, topUsers } = storeToRefs(usersStore)
+const { employeesLoading, usersLoading } = storeToRefs(usersStore)
 
 const loading = ref(true)
 const normalChartLoading = ref(true)
@@ -352,7 +360,7 @@ const marketingEarningsFilter = ref('daily')
 // Stats
 const totalOrders = computed(() => checkoutStore.orders.length)
 const totalProducts = computed(() => productsStore.products.length)
-const totalCustomers = computed(() => new Set(checkoutStore.orders.map(order => order.deliveryDetails?.email)).size)
+const totalCustomers = computed(() => usersStore.activeUsers.length)
 const totalRevenue = computed(() => {
   return checkoutStore.orders.reduce((total, order) => {
     if (order.cart && Array.isArray(order.cart)) {
@@ -379,7 +387,7 @@ onMounted(() => {
     productsStore.fetchProducts(),
     checkoutStore.fetchOrders(),
     usersStore.fetchEmployees(),
-    usersStore.fetchUsers()
+    usersStore.fetchDashboardUsers()
   ]).then(() => {
     generateChartData()
   }).catch((error) => {
@@ -621,26 +629,10 @@ const refreshEmployees = () => {
 }
 
 const refreshUsers = () => {
-  usersStore.fetchUsers()
+  usersStore.fetchDashboardUsers()
 }
+
+// Replace the activeEmployees and activeUsers computed properties with store refs
+const activeEmployees = computed(() => topEmployees.value || [])
+const activeUsers = computed(() => topUsers.value || [])
 </script>
-
-<style scoped>
-.scrollable-dialog {
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
-}
-
-.scrollable-dialog::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scrollable-dialog::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollable-dialog::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1;
-  border-radius: 3px;
-}
-</style>
