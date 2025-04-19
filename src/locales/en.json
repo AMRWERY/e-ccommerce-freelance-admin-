@@ -69,7 +69,8 @@
     "delivery_address": "Delivery address",
     "notes": "Notes",
     "start_date": "Start date",
-    "end_date": "End date"
+    "end_date": "End date",
+    "select_date": "Select date"
   },
   "btn": {
     "login": "Login",
@@ -168,7 +169,9 @@
     "order_created_successfully": "Order created successfully",
     "product_selected": "Product selected",
     "order_deleted_successfully": "Order deleted successfully",
-    "order_deletion_failed": "Order deletion failed"
+    "order_deletion_failed": "Order deletion failed",
+    "order_status_updated": "Order status updated",
+    "failed_to_update_order": "Failed to update order"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",
@@ -222,7 +225,16 @@
     "s_information": "'s Information",
     "location": "Location",
     "current_status": "Current status",
-    "change_order_status": "Change order status"
+    "change_order_status": "Change order status",
+    "ordered_items": "Ordered items",
+    "category": "Category",
+    "quantity": "Quantity",
+    "estimated_delivery": "Estimated delivery",
+    "total": "Total",
+    "total_earnings": "Total earnings",
+    "total_orders": "Total orders",
+    "completed_orders": "Completed orders",
+    "pending_orders": "Pending orders"
   },
   "tooltip": {
     "download_excel": "Download Excel"

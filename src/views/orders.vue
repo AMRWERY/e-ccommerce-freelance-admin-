@@ -1,16 +1,11 @@
 <template>
   <div>
-    <div class="flex flex-col items-start justify-between mb-8 md:flex-row md:items-center">
+    <div class="flex flex-col items-start justify-between my-10 md:flex-row md:items-center">
       <h3 class="py-2 mt-5 text-2xl font-bold text-start">
         {{ $t('dashboard.orders') }}
       </h3>
       <div class="flex items-end space-s-4" v-if="!showSkeleton">
-        <div v-if="checkoutStore.paginatedOrders.length > 0">
-          <!-- excelExportBtn component -->
-          <excel-export-btn :export-handler="handleExport" />
-        </div>
-
-        <!-- <div class="flex flex-col">
+        <div class="flex flex-col">
           <label class="mb-1 text-sm font-medium">{{ $t('form.start_date') }}</label>
           <date-picker v-model="startDate" />
         </div>
@@ -18,12 +13,71 @@
           <label class="mb-1 text-sm font-medium">{{ $t('form.end_date') }}</label>
           <date-picker v-model="endDate" />
         </div>
-        <button @click="filterOrdersByDate" class="px-4 py-2 btn-style">
+        <button @click="filterOrdersByDate"
+          class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
           {{ $t('btn.filter') }}
-        </button> -->
+        </button>
+        <div>
+          <!-- excelExportBtn component -->
+          <excel-export-btn :export-handler="handleExport" />
+        </div>
       </div>
     </div>
 
+    <!-- Add earnings section -->
+    <div class="grid grid-cols-1 gap-4 mt-8 mb-8 sm:grid-cols-2 lg:grid-cols-4" v-if="!showSkeleton">
+      <!-- Total Earnings Card -->
+      <div class="p-4 bg-white rounded-lg shadow-md">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.total_earnings') }}</p>
+            <p class="mt-1 text-xl font-semibold text-indigo-600">
+              {{ $n(totalEarnings, 'currency', currencyLocale(defaultMarket)) }}
+            </p>
+          </div>
+          <div class="p-1.5 bg-indigo-100 rounded-full flex items-center justify-center">
+            <iconify-icon icon="mdi:cash-multiple" class="text-indigo-600" width="24" height="24" />
+          </div>
+        </div>
+      </div>
+      <!-- Total Orders Card -->
+      <div class="p-4 bg-white rounded-lg shadow-md">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.total_orders') }}</p>
+            <p class="mt-1 text-xl font-semibold text-blue-600">{{ totalOrders }}</p>
+          </div>
+          <div class="p-1.5 bg-blue-100 rounded-full flex items-center justify-center">
+            <iconify-icon icon="mdi:shopping" class="text-blue-600" width="24" height="24" />
+          </div>
+        </div>
+      </div>
+      <!-- Completed Orders Card -->
+      <div class="p-4 bg-white rounded-lg shadow-md">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.completed_orders') }}</p>
+            <p class="mt-1 text-xl font-semibold text-green-600">{{ completedOrders }}</p>
+          </div>
+          <div class="p-1.5 bg-green-100 rounded-full flex items-center justify-center">
+            <iconify-icon icon="mdi:check-circle" class="text-green-600" width="24" height="24" />
+          </div>
+        </div>
+      </div>
+      <!-- Pending Orders Card -->
+      <div class="p-4 bg-white rounded-lg shadow-md">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.pending_orders') }}</p>
+            <p class="mt-1 text-xl font-semibold text-amber-600">{{ pendingOrders }}</p>
+          </div>
+          <div class="p-1.5 rounded-full bg-amber-100 flex items-center justify-center">
+            <iconify-icon icon="mdi:clock-outline" class="text-amber-600" width="24" height="24" />
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div
       class="relative flex flex-col w-full h-full overflow-scroll overflow-y-hidden text-gray-700 bg-white rounded-lg shadow-md bg-clip-border">
       <template v-if="showSkeleton">
@@ -122,11 +176,13 @@
                   order.deliveryDetails.phoneNumber }}</p>
               </td>
               <td class="p-4">
-                <p class="block text-sm font-semibold text-slate-800">{{ order.deliveryDetails.country
-                }}</p>
+                <p class="block text-sm font-semibold text-slate-800">
+                  {{ getTranslatedLocation(order.deliveryDetails.country) }}
+                </p>
               </td>
               <td class="p-4">
-                <p class="block text-sm font-semibold text-slate-800">{{ order.deliveryDetails.city }}
+                <p class="block text-sm font-semibold text-slate-800">
+                  {{ getTranslatedLocation(order.deliveryDetails.city) }}
                 </p>
               </td>
               <td class="p-4">
@@ -167,9 +223,7 @@
       @page-change="checkoutStore.changePage" />
 
     <!-- order-details-dialog component -->
-    <transition name="dialog">
-      <order-details-dialog v-if="isDialogOpen" :order="selectedOrder" @close="closeDialog" />
-    </transition>
+    <order-details-dialog v-model="isDialogOpen" :order-data="selectedOrder" v-if="selectedOrder" />
 
     <!-- dynamic-toast component -->
     <div class="fixed z-50 pointer-events-none bottom-5 start-5 w-96">
@@ -218,23 +272,21 @@ onMounted(async () => {
 })
 
 const isDialogOpen = ref(false);
-const selectedOrder = ref({});
+const selectedOrder = ref(null);
 
 const openOrderDetails = (order) => {
-  order.loading = true;
   selectedOrder.value = order;
-  new Promise(resolve => setTimeout(resolve, 2000));
-  order.loading = false;
   isDialogOpen.value = true;
 };
 
-const closeDialog = () => {
-  isDialogOpen.value = false;
-  selectedOrder.value = {};
-};
+watch(isDialogOpen, (newVal) => {
+  if (!newVal) {
+    selectedOrder.value = null;
+  }
+});
 
-const startDate = ref('');
-const endDate = ref('');
+const startDate = ref(null);
+const endDate = ref(null);
 
 const filterOrdersByDate = () => {
   if (!startDate.value || !endDate.value) {
@@ -242,7 +294,7 @@ const filterOrdersByDate = () => {
   }
   const filteredOrders = checkoutStore.orders.filter(order => {
     const orderDate = new Date(order.date);
-    return orderDate >= new Date(startDate.value) && orderDate <= new Date(endDate.value);
+    return orderDate >= startDate.value && orderDate <= endDate.value;
   });
   checkoutStore.paginatedOrders = filteredOrders;
 };
@@ -356,4 +408,39 @@ const skeletonHeaders = [
   { label: 'Status', loaderWidth: 'w-24' },
   { label: 'Actions', type: 'action' }
 ];
+
+const { getTranslatedLocation } = useLocationTranslations();
+
+import { useCurrencyLocale } from '@/composables/useCurrencyLocale'
+
+const { currencyLocale } = useCurrencyLocale()
+const defaultMarket = 'Egypt'
+
+// Computed properties for statistics
+const totalEarnings = computed(() => {
+  return checkoutStore.orders.reduce((total, order) => {
+    if (order.cart && Array.isArray(order.cart)) {
+      return total + order.cart.reduce((orderTotal, item) => {
+        return orderTotal + (parseFloat(item.discountedPrice || 0) * (item.quantity || 1));
+      }, 0);
+    }
+    return total;
+  }, 0);
+});
+
+const totalOrders = computed(() => checkoutStore.orders.length);
+
+const completedOrders = computed(() => {
+  return checkoutStore.orders.filter(order => {
+    const status = getStatusTitle(order.statusId)?.status;
+    return status === 'Delivered';
+  }).length;
+});
+
+const pendingOrders = computed(() => {
+  return checkoutStore.orders.filter(order => {
+    const status = getStatusTitle(order.statusId)?.status;
+    return status !== 'Delivered';
+  }).length;
+});
 </script>

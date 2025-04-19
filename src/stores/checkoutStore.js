@@ -23,12 +23,12 @@ export const useCheckoutStore = defineStore("checkout", {
       city: "",
       phoneNumber: "",
     },
-    paymentDetails: {
-      fullNameOnCard: "",
-      cardNumber: "",
-      cardExpiration: "",
-      cvv: "",
-    },
+    // paymentDetails: {
+    //   fullNameOnCard: "",
+    //   cardNumber: "",
+    //   cardExpiration: "",
+    //   cvv: "",
+    // },
     totalCheckouts: 0,
     status: [],
     recentOrders: [],
@@ -73,6 +73,7 @@ export const useCheckoutStore = defineStore("checkout", {
             ...doc.data(),
           }));
           this.updatePagination();
+          // console.log(this.orders)
           return this.fetchTotalCheckouts();
         })
         .catch((e) => {

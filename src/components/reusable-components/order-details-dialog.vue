@@ -1,51 +1,57 @@
 <template>
-  <div>
+  <div v-if="modelValue">
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm">
       <div class="flex flex-col w-full max-w-4xl bg-white rounded-xl shadow-2xl max-h-[90vh] overflow-hidden">
         <div class="flex items-center justify-between p-4 border-b">
           <h2 class="text-xl font-semibold text-gray-900">
-            {{ $t('dashboard.order_details') }} - {{ order.orderId }}
+            {{ $t('dashboard.order_details') }} - {{ orderData?.orderId }}
           </h2>
           <button @click="closeDialog" class="flex items-center p-1 transition-colors rounded-full hover:bg-gray-200">
-            <icon name="material-symbols:close" class="w-6 h-6 text-gray-500" />
+            <iconify-icon icon="material-symbols:close-small-rounded" width="24" height="24"
+              class="text-gray-500"></iconify-icon>
           </button>
         </div>
 
-        <div class="overflow-y-auto no-scrollbar">
-          <div v-if="orders?.length" class="flex flex-col gap-4 p-2 md:flex-row">
+        <div class="overflow-y-auto max-h-[550px] scrollable-dialog">
+          <div v-if="orderData" class="flex flex-col gap-4 p-2 md:flex-row">
             <!-- Customer Info Section -->
             <div class="flex-1 p-6 rounded-lg shadow-md bg-gray-50">
               <div class="flex items-center mb-4 space-s-2">
-                <icon name="mdi:account" class="w-5 h-5 text-indigo-600" />
+                <iconify-icon icon="material-symbols-light:account-box-sharp" width="24" height="24"
+                  class="text-indigo-600"></iconify-icon>
                 <h3 class="text-xl font-semibold text-gray-900">
-                  {{ order.deliveryDetails.name }} {{ $t('dashboard.s_information') }}
+                  {{ orderData.deliveryDetails.name }} {{ $t('dashboard.s_information') }}
                 </h3>
               </div>
 
               <div class="space-y-4">
                 <div class="flex items-start space-s-3">
-                  <icon name="mdi:email" class="w-5 h-5 mt-0.5 text-indigo-600" />
+                  <iconify-icon icon="material-symbols:mark-email-unread-rounded" width="24" height="24"
+                    class="mt-0.5 text-indigo-600"></iconify-icon>
                   <div>
                     <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.email') }}</p>
-                    <p class="text-base text-gray-700">{{ order.deliveryDetails.email }}</p>
+                    <p class="text-base text-gray-700">{{ orderData.deliveryDetails.email }}</p>
                   </div>
                 </div>
 
                 <div class="flex items-start space-s-3">
-                  <icon name="mdi:phone" class="w-5 h-5 mt-0.5 text-indigo-600" />
+                  <iconify-icon icon="material-symbols:phone-in-talk-sharp" width="24" height="24"
+                    class="mt-0.5 text-indigo-600"></iconify-icon>
                   <div>
                     <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.phone_number') }}
                     </p>
-                    <p class="text-base text-gray-700">{{ order.deliveryDetails.phoneNumber }}</p>
+                    <p class="text-base text-gray-700">{{ orderData.deliveryDetails.phoneNumber }}</p>
                   </div>
                 </div>
 
                 <div class="flex items-start space-s-3">
-                  <icon name="mdi:map-marker" class="w-5 h-5 mt-0.5 text-indigo-600" />
+                  <iconify-icon icon="material-symbols:location-on" width="24" height="24"
+                    class="mt-0.5 text-indigo-600"></iconify-icon>
                   <div>
                     <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.location') }}</p>
                     <p class="text-base text-gray-700">
-                      {{ order.deliveryDetails.city }}, {{ order.deliveryDetails.country }}
+                      {{ getTranslatedLocation(orderData.deliveryDetails.city) }}, 
+                      {{ getTranslatedLocation(orderData.deliveryDetails.country) }}
                     </p>
                   </div>
                 </div>
@@ -54,9 +60,9 @@
               <!-- Order Status -->
               <div class="pt-6 mt-8 border-t">
                 <div class="flex items-center mb-4">
-                  <icon name="mdi:clock-time-four" class="w-5 h-5 text-indigo-600 me-2" />
+                  <iconify-icon icon="mdi:timer" width="24" height="24" class="text-indigo-600 me-2"></iconify-icon>
                   <p class="text-base font-medium text-gray-900">{{ $t('dashboard.current_status')
-                    }}:
+                  }}:
                   </p>
                   <div class="inline-flex px-3 py-1 text-xs font-medium rounded-full ms-2" :class="{
                     'bg-green-100 text-green-800': currentStatusText === 'Order Placed',
@@ -66,8 +72,8 @@
                     'bg-purple-100 text-purple-800': currentStatusText === 'Delivered'
                   }">
                     <span class="inline-flex items-center">
-                      <icon :name="statusIcon" class="w-3.5 h-3.5 me-1.5" />
-                      {{ $t(`status.${currentStatusText.toLowerCase().replace(/\s+/g, '_')}`) }}
+                      <iconify-icon :name="statusIcon" width="24" height="24" class="me-1.5"></iconify-icon>
+                      {{ $t(`permissions.status.${currentStatusText.toLowerCase().replace(/\s+/g, '_')}`) }}
                     </span>
                   </div>
                 </div>
@@ -77,67 +83,72 @@
                   $t('dashboard.change_order_status') }}</p>
                 <div class="flex flex-wrap gap-4">
                   <button type="button" :disabled="nextStatusId !== orderStatus[0]?.id"
-                    @click="updateOrderStatus(order.id, orderStatus[0]?.id)"
+                    @click="updateOrderStatus(orderData.id, orderStatus[0]?.id)"
                     class="flex items-center justify-center px-4 py-2 text-sm text-green-600 transition-colors bg-white border border-green-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-500 hover:text-white">
                     <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[0]?.id">
-                      <icon name="svg-spinners:90-ring-with-bg" class="w-4 h-4 me-1.5" />
+                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
                       <span>{{ $t('btn.updating') }}...</span>
                     </div>
                     <span v-else class="flex items-center">
-                      <icon name="hugeicons:package-delivered" class="w-4 h-4 me-1.5" />
-                      {{ $t('status.order_placed') }}
+                      <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
+                        class="me-1.5" />
+                      {{ $t('permissions.status.order_placed') }}
                     </span>
                   </button>
 
                   <button type="button" :disabled="nextStatusId !== orderStatus[1]?.id"
-                    @click="updateOrderStatus(order.id, orderStatus[1]?.id)"
+                    @click="updateOrderStatus(orderData.id, orderStatus[1]?.id)"
                     class="flex items-center justify-center px-4 py-2 text-sm transition-colors bg-white border rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white">
                     <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[1]?.id">
-                      <icon name="svg-spinners:90-ring-with-bg" class="w-4 h-4 me-1.5" />
+                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
                       <span>{{ $t('btn.updating') }}...</span>
                     </div>
                     <span v-else class="flex items-center">
-                      <icon name="ic:baseline-access-time-filled" class="w-4 h-4 me-1.5" />
-                      {{ $t('status.processing') }}
+                      <iconify-icon icon="material-symbols:timer-outline" width="20" height="20"
+                        class="me-1.5"></iconify-icon>
+                      {{ $t('permissions.status.processing') }}
                     </span>
                   </button>
 
                   <button type="button" :disabled="nextStatusId !== orderStatus[2]?.id"
-                    @click="updateOrderStatus(order.id, orderStatus[2]?.id)"
+                    @click="updateOrderStatus(orderData.id, orderStatus[2]?.id)"
                     class="flex items-center justify-center px-4 py-2 text-sm text-blue-600 transition-colors bg-white border border-blue-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 hover:text-white">
                     <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[2]?.id">
-                      <icon name="svg-spinners:90-ring-with-bg" class="w-4 h-4 me-1.5" />
+                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
                       <span>{{ $t('btn.updating') }}...</span>
                     </div>
                     <span v-else class="flex items-center">
-                      <icon name="material-symbols:shopping-basket-sharp" class="w-4 h-4 me-1.5" />
-                      {{ $t('status.shipped') }}
+                      <iconify-icon icon="material-symbols:local-shipping-outline" width="20" height="20"
+                        class="me-1.5"></iconify-icon>
+                      {{ $t('permissions.status.shipped') }}
                     </span>
                   </button>
 
                   <button type="button" :disabled="nextStatusId !== orderStatus[3]?.id"
-                    @click="updateOrderStatus(order.id, orderStatus[3]?.id)"
+                    @click="updateOrderStatus(orderData.id, orderStatus[3]?.id)"
                     class="flex items-center justify-center px-4 py-2 text-sm text-indigo-600 transition-colors bg-white border border-indigo-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-500 hover:text-white">
                     <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[3]?.id">
-                      <icon name="svg-spinners:90-ring-with-bg" class="w-4 h-4 me-1.5" />
+                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
                       <span>{{ $t('btn.updating') }}...</span>
                     </div>
                     <span v-else class="flex items-center">
-                      <icon name="tabler:ship" class="w-4 h-4 me-1.5" />
-                      {{ $t('status.out_for_delivery') }}
+                      <iconify-icon icon="material-symbols:package-outline" width="20" height="20"
+                        class="me-1.5"></iconify-icon>
+                      {{ $t('permissions.status.out_for_delivery') }}
                     </span>
                   </button>
 
                   <button type="button" :disabled="nextStatusId !== orderStatus[4]?.id"
-                    @click="updateOrderStatus(order.id, orderStatus[4]?.id)"
+                    @click="updateOrderStatus(orderData.id, orderStatus[4]?.id)"
                     class="flex items-center justify-center px-4 py-2 text-sm text-purple-600 transition-colors bg-white border border-purple-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-500 hover:text-white">
                     <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[4]?.id">
-                      <icon name="svg-spinners:90-ring-with-bg" class="w-4 h-4 me-1.5" />
+                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
                       <span>{{ $t('btn.updating') }}...</span>
                     </div>
                     <span v-else class="flex items-center">
-                      <icon name="material-symbols:local-shipping-rounded" class="w-4 h-4 me-1.5" />
-                      {{ $t('status.delivered') }}
+                      <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
+                        class="me-1.5"></iconify-icon>
+                      {{ $t('permissions.status.delivered') }}
                     </span>
                   </button>
                 </div>
@@ -147,14 +158,14 @@
             <!-- Order Items Section -->
             <div class="flex-1 p-6 bg-white rounded-lg shadow-md">
               <div class="flex items-center mb-4 space-s-2">
-                <icon name="mdi:cart" class="w-5 h-5 text-indigo-600" />
+                <iconify-icon icon="mdi:cart" width="24" height="24" class="text-indigo-600"></iconify-icon>
                 <h3 class="text-xl font-semibold text-gray-900">
                   {{ $t('dashboard.ordered_items') }}
                 </h3>
               </div>
 
               <div class="space-y-4 overflow-y-auto max-h-[400px] pe-2 custom-scrollbar">
-                <div v-for="(item, index) in order.cart || []" :key="item.productId"
+                <div v-for="(item, index) in orderData.cart || []" :key="item.productId"
                   class="flex items-start p-3 transition-colors border border-gray-100 rounded-lg hover:bg-gray-50 space-s-4">
                   <span
                     class="flex items-center justify-center flex-shrink-0 w-6 h-6 text-sm font-bold text-indigo-700 bg-indigo-100 rounded-full">
@@ -163,25 +174,27 @@
                   <img :src="item.imageUrl1" class="flex-shrink-0 object-cover w-16 h-16 rounded-md shadow-sm" />
                   <div class="flex-1 min-w-0">
                     <p class="text-base font-semibold text-gray-900 truncate">
-                      {{ item.title }}
+                      {{ $i18n.locale ===
+                        'ar' ? item.titleAr :
+                        item.title }}
                     </p>
                     <div class="flex flex-wrap gap-2 mt-1">
-                      <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
-                        <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.brand')
+                      <!-- <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
+                        <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.category')
                           }}:</span>
-                        <span class="text-xs text-gray-700 ms-1">{{ item.brand }}</span>
-                      </div>
+                        <span class="text-xs text-gray-700 ms-1">{{ item.category }}</span>
+                      </div> -->
                       <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
                         <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.quantity')
-                          }}:</span>
+                        }}:</span>
                         <span class="text-xs text-gray-700 ms-1">{{ item.quantity }}</span>
                       </div>
                       <div class="inline-flex items-center px-2 py-1 bg-indigo-100 rounded-md">
                         <span class="text-xs font-medium text-indigo-700">{{ $t('dashboard.price')
-                          }}:</span>
-                        <span class="text-xs text-indigo-700 ms-1">${{ (item.discountedPrice || 0)
-                          *
-                          (item.quantity || 1) }}</span>
+                        }}:</span>
+                        <span class="text-xs text-indigo-700 ms-1">{{ $n((parseFloat(item.discountedPrice || 0) *
+                          (item.quantity || 1)), 'currency',
+                          currencyLocale(orderData.market === 'ksa' ? 'Saudi Arabia' : 'Egypt')) }}</span>
                       </div>
                     </div>
                   </div>
@@ -192,18 +205,19 @@
               <div class="pt-4 mt-6 border-t">
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-sm text-gray-600">{{ $t('dashboard.date') }}</span>
-                  <span class="text-sm font-medium text-gray-900">{{ order.date }}</span>
+                  <span class="text-sm font-medium text-gray-900">{{ orderData.date }}</span>
                 </div>
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-sm text-gray-600">{{ $t('dashboard.estimated_delivery') }}</span>
-                  <span class="text-sm font-medium text-gray-900">{{ order.estimatedDelivery || 'N/A'
-                    }}</span>
+                  <span class="text-sm font-medium text-gray-900">{{ orderData.estimatedDelivery || 'N/A'
+                  }}</span>
                 </div>
                 <div class="flex items-center justify-between mt-4">
                   <span class="text-base font-semibold text-gray-700">{{ $t('dashboard.total')
-                    }}</span>
+                  }}</span>
                   <span class="text-lg font-bold text-indigo-600">
-                    ${{ calculateTotal(order.cart) }}
+                    {{ $n(calculateTotal(orderData.cart), 'currency', currencyLocale(orderData.market === 'ksa' ? 'Saudi Arabia'
+                    : 'Egypt')) }}
                   </span>
                 </div>
               </div>
@@ -224,22 +238,31 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  order: Object
-});
+const { t } = useI18n()
+const { getTranslatedLocation } = useLocationTranslations()
 
-const emit = defineEmits(['close']);
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false
+  },
+  orderData: {
+    type: Object,
+    required: true
+  }
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+const closeDialog = () => {
+  emit('update:modelValue', false)
+}
 
 const checkoutStore = useCheckoutStore();
 // const categoryStore = useCategoriesStore();
 const orders = computed(() => checkoutStore?.orders || []);
 
-const closeDialog = () => {
-  emit('close');
-};
-
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
-const { t } = useI18n()
 
 const isLoading = ref(false);
 const activeStatusId = ref(null);
@@ -257,7 +280,7 @@ const updateOrderStatus = (orderId, newStatus) => {
       return checkoutStore.updateOrderStatus(orderId, newStatus);
     })
     .then(() => {
-      props.order.statusId = newStatus;
+      props.orderData.statusId = newStatus;
       currentStatus.value = newStatusObj?.status;
       return checkoutStore.fetchOrders();
     })
@@ -292,7 +315,7 @@ onMounted(() => {
 });
 
 const orderStatus = ref([])
-const categories = ref([])
+// const categories = ref([])
 const currentStatus = ref('')
 
 onMounted(() => {
@@ -304,7 +327,7 @@ onMounted(() => {
   orderStatus.value = checkoutStore.status
   // categoryStore.fetchCategories();
   // categories.value = categoryStore.categories;
-  currentStatus.value = checkoutStore.status.find((s) => s.id === props.order.statusId)?.status;
+  currentStatus.value = checkoutStore.status.find((s) => s.id === props.orderData.statusId)?.status;
 });
 
 const currentStatusText = computed(() => {
@@ -314,11 +337,11 @@ const currentStatusText = computed(() => {
   }
 
   // Fallback to looking it up from the store
-  return checkoutStore.status.find((s) => s.id === props.order.statusId)?.status || 'Unknown';
+  return checkoutStore.status.find((s) => s.id === props.orderData.statusId)?.status || 'Unknown';
 });
 
 const currentStatusIndex = computed(() => {
-  return orderStatus.value.findIndex(s => s.id === props.order.statusId);
+  return orderStatus.value.findIndex(s => s.id === props.orderData.statusId);
 });
 
 const nextStatusId = computed(() => {
@@ -332,8 +355,8 @@ const nextStatusId = computed(() => {
 const calculateTotal = (cartItems) => {
   if (!cartItems || !cartItems.length) return 0;
   return cartItems.reduce((total, item) => {
-    return total + ((item.discountedPrice || 0) * (item.quantity || 1));
-  }, 0).toFixed(2);
+    return total + (parseFloat(item.discountedPrice || 0) * (item.quantity || 1));
+  }, 0);
 };
 
 const getStatusIcon = (status) => {
@@ -354,4 +377,7 @@ const getStatusIcon = (status) => {
 };
 
 const statusIcon = computed(() => getStatusIcon(currentStatusText.value));
+
+//currency composable
+const { currencyLocale } = useCurrencyLocale();
 </script>

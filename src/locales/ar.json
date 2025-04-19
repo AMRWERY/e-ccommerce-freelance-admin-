@@ -69,7 +69,8 @@
     "delivery_address": "عنوان التسليم",
     "notes": "ملاحظات",
     "start_date": "تاريخ البدء",
-    "end_date": "تاريخ الانتهاء"
+    "end_date": "تاريخ الانتهاء",
+    "select_date": "حدد التاريخ"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -168,7 +169,9 @@
     "order_created_successfully": "تم إنشاء الطلب بنجاح",
     "product_selected": "تم تحديد المنتج",
     "order_deleted_successfully": "تم حذف الطلب بنجاح",
-    "order_deletion_failed": "فشل حذف الطلب"
+    "order_deletion_failed": "فشل حذف الطلب",
+    "order_status_updated": "تم تحديث حالة الطلب",
+    "failed_to_update_order": "فشل في تحديث الطلب"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
@@ -222,7 +225,16 @@
     "s_information": "معلومات",
     "location": "موقع",
     "current_status": "الحالة الحالية",
-    "change_order_status": "تغيير حالة الطلب"
+    "change_order_status": "تغيير حالة الطلب",
+    "ordered_items": "العناصر المطلوبة",
+    "category": "فئة",
+    "quantity": "كمية",
+    "estimated_delivery": "التسليم المتوقع",
+    "total": "الأجمالي",
+    "total_earnings": "إجمالي الأرباح",
+    "total_orders": "إجمالي الطلبات",
+    "completed_orders": "الطلبات المكتملة",
+    "pending_orders": "الطلبات المعلقة"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"

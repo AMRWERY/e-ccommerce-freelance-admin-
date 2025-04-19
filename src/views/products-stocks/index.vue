@@ -146,7 +146,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                        }}</span>
+                                            }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
@@ -163,7 +163,7 @@
 
                                             <!-- Completed State with Check and Close Icons -->
                                             <template v-else-if="completedProductIds.has(product.id)">
-                                                <div class="space-s-2 flex items-center justify-center">
+                                                <div class="flex items-center justify-center space-s-2">
                                                     <button @click.stop="handleCloseClick(product)"
                                                         class="flex items-center gap-1 font-semibold text-blue-600 hover:text-blue-700">
                                                         <iconify-icon icon="material-symbols:edit-square" width="20"
