@@ -76,7 +76,8 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex gap-3" v-if="merchant.status === 'pending'">
-                                        <button @click="handleAccept(merchant.id)" v-if="hasPermission('new-merchants', 'approve')"
+                                        <button @click="handleAccept(merchant.id)"
+                                            v-if="hasPermission('new-merchants', 'approve')"
                                             class="font-medium text-blue-600 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
                                             :disabled="loadingMerchant === merchant.id">
                                             <span v-if="loadingMerchant === merchant.id && loadingAction === 'accept'"
@@ -86,7 +87,8 @@
                                             </span>
                                             <span v-else>{{ $t('btn.accept') }}</span>
                                         </button>
-                                        <button @click="handleReject(merchant.id)" v-if="hasPermission('new-merchants', 'reject')"
+                                        <button @click="handleReject(merchant.id)"
+                                            v-if="hasPermission('new-merchants', 'reject')"
                                             class="font-medium text-red-600 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
                                             :disabled="loadingMerchant === merchant.id">
                                             <span v-if="loadingMerchant === merchant.id && loadingAction === 'reject'"
@@ -97,7 +99,8 @@
                                             <span v-else>{{ $t('btn.reject') }}</span>
                                         </button>
                                     </div>
-                                    <button v-else-if="merchant.status === 'rejected'" v-if="hasPermission('new-merchants', 'delete')"
+                                    <button v-else-if="merchant.status === 'rejected'"
+                                        v-if="hasPermission('new-merchants', 'delete')"
                                         @click="openDeleteDialog(merchant.id)"
                                         class="flex items-center font-medium text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed"
                                         :disabled="loadingMerchant === merchant.id">
@@ -106,11 +109,17 @@
                                             <iconify-icon icon="line-md:loading-loop" width="20" height="20"
                                                 class="me-1"></iconify-icon>
                                         </span>
-                                        <span v-else class="flex items-center">
+                                        <span v-else class="flex items-center"
+                                            data-tooltip-target="tooltip-delete-merchant">
                                             <iconify-icon icon="material-symbols:delete" width="20" height="20"
                                                 class="me-1"></iconify-icon>
                                             {{ $t('btn.delete') }}
                                         </span>
+                                        <div id="tooltip-delete-merchant" role="tooltip"
+                                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                            {{ $t('tooltip.delete_merchant') }}
+                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                        </div>
                                     </button>
                                 </td>
                             </tr>

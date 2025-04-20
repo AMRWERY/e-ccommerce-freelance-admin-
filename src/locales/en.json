@@ -284,7 +284,18 @@
   "tooltip": {
     "download_excel": "Download Excel",
     "view_details": "View details",
-    "delete_order": "Delete order"
+    "delete_order": "Delete order",
+    "edit_category": "Edit Category",
+    "delete_category": "Delete Category",
+    "edit_product": "Edit Product",
+    "delete_product": "Delete Product",
+    "order_now": "Order now",
+    "cancel_order": "Cancel order",
+    "unblock": "Unblock",
+    "block": "Block",
+    "delete_user": "Delete user",
+    "delete_employee": "Delete employee",
+    "delete_merchant": "Delete merchant"
   },
   "no_data": {
     "no_products_found": "No products found",

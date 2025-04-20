@@ -284,7 +284,18 @@
   "tooltip": {
     "download_excel": "تنزيل إكسل",
     "view_details": "عرض التفاصيل",
-    "delete_order": "حذف الطلب"
+    "delete_order": "حذف الطلب",
+    "edit_category":"تعديل فئه",
+    "delete_category": "حذف الفئة",
+    "edit_product": "حذف المنتج",
+    "delete_product": "حذف المنتج",
+    "order_now": "اطلب الآن",
+    "cancel_order": "إلغاء الطلب",
+    "unblock": "رفع الحظر",
+    "block": "حظر",
+    "delete_user": "حذف المستخدم",
+    "delete_employee": "حذف الموظف",
+    "delete_merchant": "حذف التاجر"
   },
   "no_data": {
     "no_products_found": "لم يتم العثور على أي منتجات",

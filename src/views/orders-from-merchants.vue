@@ -174,11 +174,12 @@
                 <div class="flex items-center gap-2">
                   <p>{{ getTranslatedLocation(order.country || 'Egypt') }}</p>
                   <img :src="getCountryFlag(order.country || 'Egypt')" :alt="order.country || 'Egypt'"
-                  class="w-5 h-4" />
+                    class="w-5 h-4" />
                 </div>
               </td>
               <td class="p-4">
-                <p class="font-semibold underline underline-offset-2">{{ order.quantity }} <span class="font-normal">{{ $t('dashboard.pieces') }}</span></p>
+                <p class="font-semibold underline underline-offset-2">{{ order.quantity }} <span class="font-normal">{{
+                  $t('dashboard.pieces') }}</span></p>
               </td>
               <td class="p-4">
                 <div class="inline-flex px-3 py-1 text-xs font-medium rounded-full" :class="{
@@ -196,22 +197,34 @@
                 </div>
               </td>
               <td class="p-4">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center justify-center px-6 py-4 space-s-5" v-flowbite>
                   <button @click="openOrderDetails(order)" v-if="hasPermission('orders', 'changeStatus')"
-                    class="flex items-center justify-center w-8 h-8 text-blue-500 rounded hover:text-blue-600">
-                    <iconify-icon icon="material-symbols:edit" width="24" height="24" />
+                    class="flex items-center justify-center w-8 h-8 text-blue-500 rounded hover:text-blue-600"
+                    data-tooltip-target="tooltip-view-order-details">
+                    <iconify-icon icon="ic:round-remove-red-eye" width="24" height="24"></iconify-icon>
                   </button>
+                  <div id="tooltip-view-order-details" role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                    {{ $t('tooltip.view_details') }}
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+
                   <button @click="openDeleteDialog(order)" v-if="hasPermission('orders', 'delete')"
-                    class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600">
+                    class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600"
+                    data-tooltip-target="tooltip-delete-merchant-order">
                     <iconify-icon icon="material-symbols:delete" width="24" height="24" />
                   </button>
+                  <div id="tooltip-delete-merchant-order" role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                    {{ $t('tooltip.delete_order') }}
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
                 </div>
               </td>
             </tr>
 
             <!-- Add delete dialog -->
-            <delete-dialog v-model="showDeleteDialog"
-              :message="$t('dashboard.delete_confirmation_order')"
+            <delete-dialog v-model="showDeleteDialog" :message="$t('dashboard.delete_confirmation_order')"
               @confirm="handleDelete" />
           </tbody>
         </table>

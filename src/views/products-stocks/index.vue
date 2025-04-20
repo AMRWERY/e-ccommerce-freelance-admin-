@@ -157,7 +157,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                            }}</span>
+                                        }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
@@ -174,19 +174,33 @@
 
                                             <!-- Completed State with Check and Close Icons -->
                                             <template v-else-if="completedProductIds.has(product.id)">
-                                                <div class="flex items-center justify-center space-s-2">
+                                                <div class="flex items-center justify-center space-s-4" v-flowbite>
                                                     <button @click.stop="handleCloseClick(product)"
-                                                        class="flex items-center gap-1 font-semibold text-blue-600 hover:text-blue-700">
+                                                        class="flex items-center gap-1 font-semibold text-blue-600 hover:text-blue-700"
+                                                        data-tooltip-target="tooltip-order-now">
                                                         <iconify-icon icon="material-symbols:edit-square" width="20"
                                                             height="20" />
                                                     </button>
+                                                    <div id="tooltip-order-now" role="tooltip"
+                                                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                                        {{ $t('tooltip.order_now') }}
+                                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                                    </div>
+
                                                     <iconify-icon icon="material-symbols:check-circle" width="20"
                                                         height="20" class="text-green-600" />
+
                                                     <button @click.stop="resetOrderButton(product.id)"
-                                                        class="flex items-center gap-1 font-semibold text-gray-600 hover:text-gray-700">
+                                                        class="flex items-center gap-1 font-semibold text-gray-600 hover:text-gray-700"
+                                                        data-tooltip-target="tooltip-cancel-order">
                                                         <iconify-icon icon="material-symbols:close" width="20"
                                                             height="20" />
                                                     </button>
+                                                    <div id="tooltip-cancel-order" role="tooltip"
+                                                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                                        {{ $t('tooltip.cancel_order') }}
+                                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                                    </div>
                                                 </div>
                                             </template>
 
@@ -198,22 +212,33 @@
                                                 {{ $t('btn.order_now') }}
                                             </button>
                                         </div>
-                                        <div class="flex items-center justify-center px-6 py-4 space-s-5">
+                                        <div class="flex items-center justify-center px-6 py-4 space-s-5" v-flowbite>
                                             <button role="button" @click.stop="openEditDialog(product.id)"
-                                            v-if="hasPermission('products', 'edit')"
-                                            class="flex items-center justify-center font-medium text-blue-600 hover:text-blue-800">
-                                            <span>{{ $t('btn.edit') }}</span>
-                                            <iconify-icon icon="material-symbols:edit" width="24" height="24" />
-                                        </button>
-                                        <button role="button"
-                                            v-if="userRole?.role === 'admin' || hasPermission('products', 'delete')">
-                                            <span class="flex items-center font-semibold text-red-600"
-                                                @click.stop="openDeleteDialog(product)">
-                                                <span>{{ $t('btn.delete') }}</span>
-                                                <iconify-icon icon="material-symbols:delete" width="20" height="20"
-                                                    class="me-1"></iconify-icon>
-                                            </span>
-                                        </button>
+                                                v-if="hasPermission('products', 'edit')"
+                                                class="flex items-center justify-center font-medium text-blue-600 hover:text-blue-800"
+                                                data-tooltip-target="tooltip-edit-product">
+                                                <iconify-icon icon="material-symbols:edit" width="24" height="24" />
+                                            </button>
+                                            <div id="tooltip-edit-product" role="tooltip"
+                                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                                {{ $t('tooltip.edit_product') }}
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+
+                                            <button role="button"
+                                                v-if="userRole?.role === 'admin' || hasPermission('products', 'delete')">
+                                                <span class="flex items-center font-semibold text-red-600"
+                                                    @click.stop="openDeleteDialog(product)"
+                                                    data-tooltip-target="tooltip-delete-product">
+                                                    <iconify-icon icon="material-symbols:delete" width="20" height="20"
+                                                        class="me-1"></iconify-icon>
+                                                </span>
+                                            </button>
+                                            <div id="tooltip-delete-product" role="tooltip"
+                                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                                {{ $t('tooltip.delete_product') }}
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>

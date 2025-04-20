@@ -68,25 +68,36 @@
                                         'ar' ? category.titleAr :
                                         category.title }}
                                 </td>
-                                <td class="flex items-center justify-center px-6 py-4 space-s-5">
+                                <td class="flex items-center justify-center px-6 py-4 space-s-5" v-flowbite>
                                     <button @click="openEditDialog(category)" v-if="hasPermission('categories', 'edit')"
-                                        class="flex items-center justify-center font-medium text-blue-600 hover:text-blue-800">
-                                        <span>{{ $t('btn.edit') }}</span>
+                                        class="flex items-center justify-center font-medium text-blue-600 hover:text-blue-800"
+                                        data-tooltip-target="tooltip-edit-category">
                                         <iconify-icon icon="material-symbols:edit" width="24" height="24" />
                                     </button>
+                                    <div id="tooltip-edit-category" role="tooltip"
+                                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                        {{ $t('tooltip.edit_category') }}
+                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                    </div>
+
                                     <button @click="openDeleteDialog(category.id)"
                                         v-if="hasPermission('categories', 'delete')"
-                                        class="flex items-center justify-center font-medium text-red-600 hover:text-red-800">
-                                        <span>{{ $t('btn.delete') }}</span>
+                                        class="flex items-center justify-center font-medium text-red-600 hover:text-red-800"
+                                        data-tooltip-target="tooltip-delete-category">
                                         <iconify-icon icon="material-symbols:delete-forever" width="24" height="24" />
                                     </button>
+                                    <div id="tooltip-delete-category" role="tooltip"
+                                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                        {{ $t('tooltip.delete_category') }}
+                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </template>
             </div>
-            
+
             <!-- Pagination -->
             <pagination-controls v-if="!showSkeleton && categoriesStore.paginatedCategories.length > 0"
                 :current-page="categoriesStore.currentPage" :total-pages="categoriesStore.totalPages"
