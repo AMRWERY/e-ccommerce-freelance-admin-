@@ -182,7 +182,8 @@
     "order_deletion_failed": "Order deletion failed",
     "order_status_updated": "Order status updated",
     "failed_to_update_order": "Failed to update order",
-    "status_update_failed": "Status update failed"
+    "status_update_failed": "Status update failed",
+    "order_creation_failed": "Order creation failed"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",
@@ -263,7 +264,10 @@
     "active_users": "Active users",
     "total_spent": "Total spent",
     "user": "User",
-    "joined_date": "Joined date"
+    "joined_date": "Joined date",
+    "merchants_orders": "Merchants orders",
+    "order_date": "Order date",
+    "delete_confirmation_order": "You are about to delete this order. This action cannot be undone."
   },
   "tooltip": {
     "download_excel": "Download Excel"
@@ -312,7 +316,8 @@
       "delivered": "Delivered",
       "unknown": "Unknown",
       "pending": "Pending",
-      "undefined": "Undefined"
+      "undefined": "Undefined",
+      "completed": "Completed"
     }
   }
 }

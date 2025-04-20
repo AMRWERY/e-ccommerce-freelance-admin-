@@ -228,13 +228,17 @@
                     class="flex items-center justify-center w-8 h-8 text-blue-500 rounded hover:text-blue-600">
                     <iconify-icon icon="material-symbols:edit" width="24" height="24" />
                   </button>
-                  <button @click="deleteOrder(order.id)" v-if="hasPermission('orders', 'delete')"
+                  <button @click.stop="openDeleteDialog(order)" v-if="hasPermission('orders', 'delete')"
                     class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600">
                     <iconify-icon icon="material-symbols:delete" width="24" height="24" />
                   </button>
                 </div>
               </td>
             </tr>
+
+            <!-- delete-dialog component -->
+            <delete-dialog v-model="showDeleteDialog"
+                                :message="$t('dashboard.delete_confirmation_order')" @confirm="handleDelete" />
           </tbody>
         </table>
       </template>
@@ -263,6 +267,7 @@
 <script setup>
 const merchantsOrdersStore = useMerchantsOrdersStore()
 const authStore = useAuthStore();
+
 const user = computed(() => authStore.user);
 
 //usePermissions composables
@@ -274,16 +279,13 @@ const showSkeleton = ref(true);
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast()
 
 const orderStatus = ref([])
-
 const userRole = ref(null);
 
 onMounted(async () => {
   showSkeleton.value = true
   const startTime = Date.now()
-
   try {
     userRole.value = user.value
-
     if (userRole.value?.role === 'market_owner') {
       // For market owners, fetch only their orders
       await merchantsOrdersStore.initializeStore(userRole.value)
@@ -338,11 +340,23 @@ const filterOrdersByDate = () => {
   checkoutStore.paginatedOrders = filteredOrders;
 };
 
-const deleteOrder = async (orderId) => {
+const selectedOrderId = ref(null);
+const showDeleteDialog = ref(false);
+const deletingOrders = ref({});
+
+const openDeleteDialog = (product) => {
+  selectedOrderId.value = product.id;
+    showDeleteDialog.value = true;
+};
+
+const handleDelete = async () => {
+  if (!selectedOrderId.value) return;
   try {
     if (userRole.value?.role === 'market_owner') {
-      const result = await merchantsOrdersStore.deleteOrder(orderId)
+      const result = await merchantsOrdersStore.deleteOrder(selectedOrderId.value)
       if (result.success) {
+        // Refresh merchant orders after deletion
+        await merchantsOrdersStore.initializeStore(userRole.value)
         triggerToast({
           message: t('toast.order_deleted_successfully'),
           type: 'success',
@@ -352,19 +366,30 @@ const deleteOrder = async (orderId) => {
         throw new Error(result.message)
       }
     } else {
-      await checkoutStore.deleteOrder(orderId)
-      triggerToast({
-        message: t('toast.order_deleted_successfully'),
-        type: 'success',
-        icon: 'mdi:check-circle',
-      })
+      const result = await checkoutStore.deleteOrder(selectedOrderId.value)
+      if (result.success) {
+        // Refresh admin orders after deletion
+        await checkoutStore.fetchOrders()
+        triggerToast({
+          message: t('toast.order_deleted_successfully'),
+          type: 'success',
+          icon: 'mdi:check-circle',
+        })
+      } else {
+        throw new Error(result.message)
+      }
     }
   } catch (error) {
+    console.error('Error deleting order:', error);
     triggerToast({
       message: t('toast.order_deletion_failed'),
       type: 'error',
       icon: 'mdi:alert-circle',
     })
+  } finally {
+    deletingOrders.value[selectedOrderId.value] = false;
+    selectedOrderId.value = null;
+    showDeleteDialog.value = false;
   }
 }
 
@@ -535,11 +560,9 @@ const formatDate = (dateString) => {
   try {
     const date = new Date(dateString);
     if (isNaN(date)) return dateString;
-
     const month = date.getMonth() + 1; // getMonth() returns 0-11
     const day = date.getDate();
     const year = date.getFullYear();
-
     return `${month}/${day}/${year}`;
   } catch (error) {
     console.error('Error formatting date:', error);

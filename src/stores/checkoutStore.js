@@ -125,15 +125,17 @@ export const useCheckoutStore = defineStore("checkout", {
 
     async deleteOrder(orderId) {
       if (!orderId) {
-        return;
+        return { success: false, message: "No order ID provided" };
       }
       try {
         const docRef = doc(db, "checkout", orderId);
         await deleteDoc(docRef);
-        this.orders = this.orders.filter((order) => order.orderId !== orderId);
+        this.orders = this.orders.filter((order) => order.id !== orderId);
         this.updatePagination();
+        return { success: true, message: "Order deleted successfully" };
       } catch (error) {
-        console.error("Error removing from order:", error);
+        console.error("Error removing order:", error);
+        return { success: false, message: error.message };
       }
     },
 

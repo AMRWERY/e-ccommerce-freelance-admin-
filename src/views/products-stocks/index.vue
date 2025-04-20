@@ -256,11 +256,9 @@ const productStore = useProductsStore();
 onMounted(async () => {
     const startTime = Date.now();
     showSkeleton.value = true;
-    
     try {
         // First fetch products
         await productStore.fetchProducts();
-        
         // Then initialize merchant store if user is a market owner
         if (userRole?.role === 'market_owner') {
             await merchantsOrdersStore.initializeStore({
@@ -432,27 +430,22 @@ const handleOrderPlaced = async (orderData) => {
         if (!orderData) {
             throw new Error('Order data is required');
         }
-
         // Access the value of the computed ref
         const currentUserRole = userRole.value;
-        console.log('Current userRole value:', currentUserRole);
-        console.log('Order data before adding role:', orderData);
-
+        // console.log('Current userRole value:', currentUserRole);
+        // console.log('Order data before adding role:', orderData);
         if (!currentUserRole) {
             throw new Error('User role information is missing');
         }
-
         // Get user data from localStorage
         const userData = localStorage.getItem('user');
         if (!userData) {
             throw new Error('User data not found in localStorage');
         }
-
         const user = JSON.parse(userData);
         if (!user.uid) {
             throw new Error('User ID is missing from localStorage');
         }
-
         // Create a clean order object with only the necessary fields
         const orderWithRole = {
             ...orderData,
@@ -460,11 +453,8 @@ const handleOrderPlaced = async (orderData) => {
             merchantEmail: currentUserRole.email,
             merchantName: currentUserRole.name
         };
-
-        console.log('Order data with role:', orderWithRole);
-
+        // console.log('Order data with role:', orderWithRole);
         const result = await merchantsOrdersStore.createMerchantOrder(orderWithRole);
-        
         if (result.success) {
             triggerToast({
                 message: t('toast.order_created_successfully'),

@@ -42,42 +42,37 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
             return this.merchantId;
           }
         }
-
         // If not found in localStorage, try new-merchants collection
-        console.log("Checking new-merchants collection");
+        // console.log("Checking new-merchants collection");
         const merchantsQuery = query(
           collection(db, "new-merchants"),
           where("email", "==", email)
         );
         const merchantSnapshot = await getDocs(merchantsQuery);
-
         if (!merchantSnapshot.empty) {
           const merchantData = merchantSnapshot.docs[0].data();
           console.log("Found merchant in new-merchants:", merchantData);
           this.merchantId = merchantData.userId || merchantData.uid;
-          console.log(
-            "Setting merchantId from new-merchants:",
-            this.merchantId
-          );
+          // console.log(
+          //   "Setting merchantId from new-merchants:",
+          //   this.merchantId
+          // );
           return this.merchantId;
         }
-
         // If still not found, try users collection
-        console.log("Checking users collection");
+        // console.log("Checking users collection");
         const usersQuery = query(
           collection(db, "users"),
           where("email", "==", email)
         );
         const userSnapshot = await getDocs(usersQuery);
-
         if (!userSnapshot.empty) {
           const userData = userSnapshot.docs[0].data();
-          console.log("Found user in users collection:", userData);
+          // console.log("Found user in users collection:", userData);
           this.merchantId = userData.uid;
-          console.log("Setting merchantId from users:", this.merchantId);
+          // console.log("Setting merchantId from users:", this.merchantId);
           return this.merchantId;
         }
-
         throw new Error("Merchant not found");
       } catch (error) {
         console.error("Error getting merchant ID:", error);
@@ -90,14 +85,11 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
     async createMerchantOrder(orderData) {
       try {
         this.loading = true;
-
         if (!this.merchantId && !orderData.merchantId) {
           throw new Error("Merchant ID is required");
         }
-
         // Use existing merchantId or the one from orderData
         const merchantId = this.merchantId || orderData.merchantId;
-
         const orderRef = collection(db, "merchants-orders");
         const newOrder = {
           ...orderData,
@@ -106,14 +98,11 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
           createdAt: new Date(),
           orderId: `MO-${Date.now()}`,
         };
-
         const docRef = await addDoc(orderRef, newOrder);
-
         // Only fetch orders if we're on the orders page
         if (window.location.pathname.includes("orders")) {
           await this.fetchMerchantOrders();
         }
-
         return {
           success: true,
           message: "Order created successfully",
@@ -136,18 +125,14 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
     async initializeStore(userRole) {
       try {
         this.loading = true;
-
         if (!userRole) {
           throw new Error("User role information is required");
         }
-
         this.isAdmin = userRole.role === "admin";
-
         if (userRole.role === "market_owner") {
           if (!userRole.email) {
             throw new Error("Email is required for market owner");
           }
-
           // If we have uid in userRole, use it directly
           if (userRole.uid) {
             this.merchantId = userRole.uid;
@@ -155,20 +140,17 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
             // Fallback to email lookup
             await this.getMerchantId(userRole.email);
           }
-
           if (!this.merchantId) {
             throw new Error(
               "Could not find merchant ID for the provided email"
             );
           }
-
           await this.fetchMerchantOrders();
           return true;
         } else if (userRole.role === "admin") {
           await this.fetchAllMerchantOrders();
           return true;
         }
-
         return false;
       } catch (error) {
         console.error("Error initializing store:", error);
@@ -187,13 +169,11 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
           collection(db, "merchants-orders"),
           orderBy("createdAt", "desc")
         );
-
         const querySnapshot = await getDocs(ordersQuery);
         this.orders = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-
         this.updatePagination();
       } catch (error) {
         console.error("Error fetching all merchant orders:", error);
@@ -211,7 +191,6 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
         if (!this.merchantId && !this.isAdmin) {
           throw new Error("No merchant ID provided");
         }
-
         let ordersQuery;
         if (this.isAdmin) {
           ordersQuery = query(
@@ -238,21 +217,17 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
             );
           }
         }
-
         const querySnapshot = await getDocs(ordersQuery);
-
         // Transform and sort the data
         let ordersData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
           createdAt: doc.data().createdAt?.toDate() || new Date(),
         }));
-
         // If we had to use the fallback query, sort manually
         if (!ordersQuery.toString().includes("orderBy")) {
           ordersData.sort((a, b) => b.createdAt - a.createdAt);
         }
-
         this.orders = ordersData;
         this.updatePagination();
       } catch (error) {
@@ -270,7 +245,6 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
         this.loading = true;
         const orderRef = doc(db, "merchants-orders", orderId);
         await updateDoc(orderRef, { status });
-
         // Update local state
         const orderIndex = this.orders.findIndex(
           (order) => order.id === orderId
@@ -278,10 +252,9 @@ export const useMerchantsOrdersStore = defineStore("merchantsOrders", {
         if (orderIndex !== -1) {
           this.orders[orderIndex].status = status;
         }
-
         return { success: true, message: "Order status updated successfully" };
       } catch (error) {
-        console.error("Error updating order status:", error);
+        // console.error("Error updating order status:", error);
         this.error = error.message;
         return { success: false, message: error.message };
       } finally {

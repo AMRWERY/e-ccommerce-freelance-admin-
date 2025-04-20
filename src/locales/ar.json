@@ -182,7 +182,8 @@
     "order_deletion_failed": "فشل حذف الطلب",
     "order_status_updated": "تم تحديث حالة الطلب",
     "failed_to_update_order": "فشل في تحديث الطلب",
-    "status_update_failed": "فشل تحديث الحالة"
+    "status_update_failed": "فشل تحديث الحالة",
+    "order_creation_failed": "فشل إنشاء الطلب"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
@@ -263,7 +264,10 @@
     "active_users": "المستخدمون النشطون",
     "total_spent": "إجمالي المبلغ المنفق",
     "user": "مستخدم",
-    "joined_date": "تاريخ الانضمام"
+    "joined_date": "تاريخ الانضمام",
+    "merchants_orders": "طلبات التجار",
+    "order_date": "تاريخ الطلب",
+    "delete_confirmation_order": "أنت على وشك حذف هذا الطلب. لا يمكن التراجع عن هذا الإجراء."
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل"
@@ -312,7 +316,8 @@
       "delivered": "تم التوصيل",
       "unknown": "مجهول",
       "pending": "قيد الانتظار",
-      "undefined": "غير محدد"
+      "undefined": "غير محدد",
+      "completed": "مكتمل"
     }
   }
 }

@@ -20,7 +20,7 @@
                 <iconify-icon icon="material-symbols-light:account-box-sharp" width="24" height="24"
                   class="text-indigo-600"></iconify-icon>
                 <h3 class="text-xl font-semibold text-gray-900">
-                  {{ orderData.deliveryDetails.name }} {{ $t('dashboard.s_information') }}
+                  {{ isMerchantOrder ? orderData.name : orderData.deliveryDetails?.name }} {{ $t('dashboard.s_information') }}
                 </h3>
               </div>
 
@@ -30,7 +30,9 @@
                     class="mt-0.5 text-indigo-600"></iconify-icon>
                   <div>
                     <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.email') }}</p>
-                    <p class="text-base text-gray-700">{{ orderData.deliveryDetails.email }}</p>
+                    <p class="text-base text-gray-700">
+                      {{ isMerchantOrder ? orderData.merchantEmail : orderData.deliveryDetails?.email }}
+                    </p>
                   </div>
                 </div>
 
@@ -38,9 +40,10 @@
                   <iconify-icon icon="material-symbols:phone-in-talk-sharp" width="24" height="24"
                     class="mt-0.5 text-indigo-600"></iconify-icon>
                   <div>
-                    <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.phone_number') }}
+                    <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.phone_number') }}</p>
+                    <p class="text-base text-gray-700">
+                      {{ isMerchantOrder ? orderData.phoneNumber : orderData.deliveryDetails?.phoneNumber }}
                     </p>
-                    <p class="text-base text-gray-700">{{ orderData.deliveryDetails.phoneNumber }}</p>
                   </div>
                 </div>
 
@@ -50,8 +53,10 @@
                   <div>
                     <p class="text-sm font-medium text-gray-500">{{ $t('dashboard.location') }}</p>
                     <p class="text-base text-gray-700">
-                      {{ getTranslatedLocation(orderData.deliveryDetails.city) }}, 
-                      {{ getTranslatedLocation(orderData.deliveryDetails.country) }}
+                      {{ isMerchantOrder ? 
+                        getTranslatedLocation(orderData.fullAddress || orderData.city) + ', ' + getTranslatedLocation(orderData.country || 'Egypt') :
+                        getTranslatedLocation(orderData.deliveryDetails?.city) + ', ' + getTranslatedLocation(orderData.deliveryDetails?.country) 
+                      }}
                     </p>
                   </div>
                 </div>
@@ -61,97 +66,131 @@
               <div class="pt-6 mt-8 border-t">
                 <div class="flex items-center mb-4">
                   <iconify-icon icon="mdi:timer" width="24" height="24" class="text-indigo-600 me-2"></iconify-icon>
-                  <p class="text-base font-medium text-gray-900">{{ $t('dashboard.current_status')
-                  }}:
-                  </p>
+                  <p class="text-base font-medium text-gray-900">{{ $t('dashboard.current_status') }}:</p>
                   <div class="inline-flex px-3 py-1 text-xs font-medium rounded-full ms-2" :class="{
-                    'bg-green-100 text-green-800': currentStatusText === 'Order Placed',
-                    'bg-amber-100 text-amber-800': currentStatusText === 'Processing',
-                    'bg-blue-100 text-blue-800': currentStatusText === 'Shipped',
-                    'bg-indigo-100 text-indigo-800': currentStatusText === 'Out for Delivery',
-                    'bg-purple-100 text-purple-800': currentStatusText === 'Delivered'
+                    'bg-green-100 text-green-800': isMerchantOrder ? 
+                      (orderData.status || 'pending') === 'pending' : currentStatusText === 'Order Placed',
+                    'bg-amber-100 text-amber-800': isMerchantOrder ? 
+                      orderData.status === 'processing' : currentStatusText === 'Processing',
+                    'bg-blue-100 text-blue-800': isMerchantOrder ? 
+                      orderData.status === 'shipped' : currentStatusText === 'Shipped',
+                    'bg-indigo-100 text-indigo-800': isMerchantOrder ? 
+                      orderData.status === 'out_for_delivery' : currentStatusText === 'Out for Delivery',
+                    'bg-purple-100 text-purple-800': isMerchantOrder ? 
+                      orderData.status === 'completed' : currentStatusText === 'Delivered'
                   }">
                     <span class="inline-flex items-center">
-                      <iconify-icon :name="statusIcon" width="24" height="24" class="me-1.5"></iconify-icon>
-                      {{ $t(`permissions.status.${currentStatusText.toLowerCase().replace(/\s+/g, '_')}`) }}
+                      <iconify-icon :icon="isMerchantOrder ? 
+                        getMerchantStatusIcon(orderData.status || 'pending') : 
+                        statusIcon" 
+                        class="me-1.5"></iconify-icon>
+                      {{ isMerchantOrder ? 
+                        getMerchantTranslatedStatus(orderData.status || 'pending') : 
+                        $t(`permissions.status.${currentStatusText.toLowerCase().replace(/\s+/g, '_')}`) }}
                     </span>
                   </div>
                 </div>
 
                 <!-- Status Buttons -->
-                <p class="mb-3 text-sm font-medium text-gray-600">{{
-                  $t('dashboard.change_order_status') }}</p>
-                <div class="flex flex-wrap gap-4">
-                  <button type="button" :disabled="nextStatusId !== orderStatus[0]?.id"
-                    @click="updateOrderStatus(orderData.id, orderStatus[0]?.id)"
-                    class="flex items-center justify-center px-4 py-2 text-sm text-green-600 transition-colors bg-white border border-green-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-500 hover:text-white">
-                    <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[0]?.id">
-                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
-                      <span>{{ $t('btn.updating') }}...</span>
-                    </div>
-                    <span v-else class="flex items-center">
-                      <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
-                        class="me-1.5" />
-                      {{ $t('permissions.status.order_placed') }}
-                    </span>
-                  </button>
+                <template v-if="!isMerchantOrder">
+                  <p class="mb-3 text-sm font-medium text-gray-600">{{ $t('dashboard.change_order_status') }}</p>
+                  <div class="flex flex-wrap gap-4">
+                    <button type="button" :disabled="nextStatusId !== orderStatus[0]?.id"
+                      @click="updateOrderStatus(orderData.id, orderStatus[0]?.id)"
+                      class="flex items-center justify-center px-4 py-2 text-sm text-green-600 transition-colors bg-white border border-green-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-500 hover:text-white">
+                      <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[0]?.id">
+                        <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
+                        <span>{{ $t('btn.updating') }}...</span>
+                      </div>
+                      <span v-else class="flex items-center">
+                        <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
+                          class="me-1.5" />
+                        {{ $t('permissions.status.order_placed') }}
+                      </span>
+                    </button>
 
-                  <button type="button" :disabled="nextStatusId !== orderStatus[1]?.id"
-                    @click="updateOrderStatus(orderData.id, orderStatus[1]?.id)"
-                    class="flex items-center justify-center px-4 py-2 text-sm transition-colors bg-white border rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white">
-                    <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[1]?.id">
-                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
-                      <span>{{ $t('btn.updating') }}...</span>
-                    </div>
-                    <span v-else class="flex items-center">
-                      <iconify-icon icon="material-symbols:timer-outline" width="20" height="20"
-                        class="me-1.5"></iconify-icon>
-                      {{ $t('permissions.status.processing') }}
-                    </span>
-                  </button>
+                    <button type="button" :disabled="nextStatusId !== orderStatus[1]?.id"
+                      @click="updateOrderStatus(orderData.id, orderStatus[1]?.id)"
+                      class="flex items-center justify-center px-4 py-2 text-sm transition-colors bg-white border rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white">
+                      <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[1]?.id">
+                        <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
+                        <span>{{ $t('btn.updating') }}...</span>
+                      </div>
+                      <span v-else class="flex items-center">
+                        <iconify-icon icon="material-symbols:timer-outline" width="20" height="20"
+                          class="me-1.5"></iconify-icon>
+                        {{ $t('permissions.status.processing') }}
+                      </span>
+                    </button>
 
-                  <button type="button" :disabled="nextStatusId !== orderStatus[2]?.id"
-                    @click="updateOrderStatus(orderData.id, orderStatus[2]?.id)"
-                    class="flex items-center justify-center px-4 py-2 text-sm text-blue-600 transition-colors bg-white border border-blue-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 hover:text-white">
-                    <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[2]?.id">
-                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
-                      <span>{{ $t('btn.updating') }}...</span>
-                    </div>
-                    <span v-else class="flex items-center">
-                      <iconify-icon icon="material-symbols:local-shipping-outline" width="20" height="20"
-                        class="me-1.5"></iconify-icon>
-                      {{ $t('permissions.status.shipped') }}
-                    </span>
-                  </button>
+                    <button type="button" :disabled="nextStatusId !== orderStatus[2]?.id"
+                      @click="updateOrderStatus(orderData.id, orderStatus[2]?.id)"
+                      class="flex items-center justify-center px-4 py-2 text-sm text-blue-600 transition-colors bg-white border border-blue-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 hover:text-white">
+                      <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[2]?.id">
+                        <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
+                        <span>{{ $t('btn.updating') }}...</span>
+                      </div>
+                      <span v-else class="flex items-center">
+                        <iconify-icon icon="material-symbols:local-shipping-outline" width="20" height="20"
+                          class="me-1.5"></iconify-icon>
+                        {{ $t('permissions.status.shipped') }}
+                      </span>
+                    </button>
 
-                  <button type="button" :disabled="nextStatusId !== orderStatus[3]?.id"
-                    @click="updateOrderStatus(orderData.id, orderStatus[3]?.id)"
-                    class="flex items-center justify-center px-4 py-2 text-sm text-indigo-600 transition-colors bg-white border border-indigo-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-500 hover:text-white">
-                    <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[3]?.id">
-                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
-                      <span>{{ $t('btn.updating') }}...</span>
-                    </div>
-                    <span v-else class="flex items-center">
-                      <iconify-icon icon="material-symbols:package-outline" width="20" height="20"
-                        class="me-1.5"></iconify-icon>
-                      {{ $t('permissions.status.out_for_delivery') }}
-                    </span>
-                  </button>
+                    <button type="button" :disabled="nextStatusId !== orderStatus[3]?.id"
+                      @click="updateOrderStatus(orderData.id, orderStatus[3]?.id)"
+                      class="flex items-center justify-center px-4 py-2 text-sm text-indigo-600 transition-colors bg-white border border-indigo-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-500 hover:text-white">
+                      <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[3]?.id">
+                        <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
+                        <span>{{ $t('btn.updating') }}...</span>
+                      </div>
+                      <span v-else class="flex items-center">
+                        <iconify-icon icon="material-symbols:package-outline" width="20" height="20"
+                          class="me-1.5"></iconify-icon>
+                        {{ $t('permissions.status.out_for_delivery') }}
+                      </span>
+                    </button>
 
-                  <button type="button" :disabled="nextStatusId !== orderStatus[4]?.id"
-                    @click="updateOrderStatus(orderData.id, orderStatus[4]?.id)"
-                    class="flex items-center justify-center px-4 py-2 text-sm text-purple-600 transition-colors bg-white border border-purple-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-500 hover:text-white">
-                    <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[4]?.id">
-                      <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
-                      <span>{{ $t('btn.updating') }}...</span>
-                    </div>
-                    <span v-else class="flex items-center">
-                      <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
-                        class="me-1.5"></iconify-icon>
-                      {{ $t('permissions.status.delivered') }}
-                    </span>
-                  </button>
-                </div>
+                    <button type="button" :disabled="nextStatusId !== orderStatus[4]?.id"
+                      @click="updateOrderStatus(orderData.id, orderStatus[4]?.id)"
+                      class="flex items-center justify-center px-4 py-2 text-sm text-purple-600 transition-colors bg-white border border-purple-500 rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-500 hover:text-white">
+                      <div class="flex items-center" v-if="isLoading && activeStatusId === orderStatus[4]?.id">
+                        <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
+                        <span>{{ $t('btn.updating') }}...</span>
+                      </div>
+                      <span v-else class="flex items-center">
+                        <iconify-icon icon="material-symbols:check-circle-outline" width="20" height="20"
+                          class="me-1.5"></iconify-icon>
+                        {{ $t('permissions.status.delivered') }}
+                      </span>
+                    </button>
+                  </div>
+                </template>
+                <template v-else>
+                  <p class="mb-3 text-sm font-medium text-gray-600">{{ $t('dashboard.change_order_status') }}</p>
+                  <div class="flex flex-wrap gap-4">
+                    <button v-for="status in merchantOrderStatuses" :key="status.id"
+                      :disabled="orderData.status === status.id"
+                      @click="updateMerchantOrderStatus(orderData.id, status.id)"
+                      :class="{
+                        'flex items-center justify-center px-4 py-2 text-sm transition-colors bg-white border rounded-md focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed': true,
+                        'border-green-500 text-green-600 hover:bg-green-500 hover:text-white': status.id === 'pending',
+                        'border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white': status.id === 'processing',
+                        'border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white': status.id === 'shipped',
+                        'border-indigo-500 text-indigo-600 hover:bg-indigo-500 hover:text-white': status.id === 'out_for_delivery',
+                        'border-purple-500 text-purple-600 hover:bg-purple-500 hover:text-white': status.id === 'completed'
+                      }">
+                      <div class="flex items-center" v-if="isLoading && activeStatusId === status.id">
+                        <iconify-icon icon="line-md:loading-loop" width="20" height="20" class="me-1.5"></iconify-icon>
+                        <span>{{ $t('btn.updating') }}...</span>
+                      </div>
+                      <span v-else class="flex items-center">
+                        <iconify-icon :icon="getMerchantStatusIcon(status.id)" width="20" height="20" class="me-1.5" />
+                        {{ getMerchantTranslatedStatus(status.id) }}
+                      </span>
+                    </button>
+                  </div>
+                </template>
               </div>
             </div>
 
@@ -165,59 +204,86 @@
               </div>
 
               <div class="space-y-4 overflow-y-auto max-h-[400px] pe-2 custom-scrollbar">
-                <div v-for="(item, index) in orderData.cart || []" :key="item.productId"
-                  class="flex items-start p-3 transition-colors border border-gray-100 rounded-lg hover:bg-gray-50 space-s-4">
-                  <span
-                    class="flex items-center justify-center flex-shrink-0 w-6 h-6 text-sm font-bold text-indigo-700 bg-indigo-100 rounded-full">
-                    {{ index + 1 }}
-                  </span>
-                  <img :src="item.imageUrl1" class="flex-shrink-0 object-cover w-16 h-16 rounded-md shadow-sm" />
-                  <div class="flex-1 min-w-0">
-                    <p class="text-base font-semibold text-gray-900 truncate">
-                      {{ $i18n.locale ===
-                        'ar' ? item.titleAr :
-                        item.title }}
-                    </p>
-                    <div class="flex flex-wrap gap-2 mt-1">
-                      <!-- <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
-                        <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.category')
-                          }}:</span>
-                        <span class="text-xs text-gray-700 ms-1">{{ item.category }}</span>
-                      </div> -->
-                      <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
-                        <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.quantity')
-                        }}:</span>
-                        <span class="text-xs text-gray-700 ms-1">{{ item.quantity }}</span>
-                      </div>
-                      <div class="inline-flex items-center px-2 py-1 bg-indigo-100 rounded-md">
-                        <span class="text-xs font-medium text-indigo-700">{{ $t('dashboard.price')
-                        }}:</span>
-                        <span class="text-xs text-indigo-700 ms-1">{{ $n((parseFloat(item.discountedPrice || 0) *
-                          (item.quantity || 1)), 'currency',
-                          currencyLocale(orderData.market === 'ksa' ? 'Saudi Arabia' : 'Egypt')) }}</span>
+                <template v-if="isMerchantOrder">
+                  <div class="flex items-start p-3 transition-colors border border-gray-100 rounded-lg hover:bg-gray-50 space-s-4">
+                    <span class="flex items-center justify-center flex-shrink-0 w-6 h-6 text-sm font-bold text-indigo-700 bg-indigo-100 rounded-full">
+                      1
+                    </span>
+                    <img :src="orderData.productImage" class="flex-shrink-0 object-cover w-16 h-16 rounded-md shadow-sm" />
+                    <div class="flex-1 min-w-0">
+                      <p class="text-base font-semibold text-gray-900 truncate">
+                        {{ locale === 'ar' ? orderData.productTitleAr : orderData.productTitle }}
+                      </p>
+                      <div class="flex flex-wrap gap-2 mt-1">
+                        <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
+                          <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.quantity') }}:</span>
+                          <span class="text-xs text-gray-700 ms-1">{{ orderData.quantity }}</span>
+                        </div>
+                        <div class="inline-flex items-center px-2 py-1 bg-indigo-100 rounded-md">
+                          <span class="text-xs font-medium text-indigo-700">{{ $t('dashboard.price') }}:</span>
+                          <span class="text-xs text-indigo-700 ms-1">
+                            {{ $n(orderData.totalAmount, 'currency', currencyLocale(orderData.targetMarket)) }}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </template>
+                <template v-else>
+                  <div v-for="(item, index) in orderData.cart || []" :key="item.productId"
+                    class="flex items-start p-3 transition-colors border border-gray-100 rounded-lg hover:bg-gray-50 space-s-4">
+                    <span
+                      class="flex items-center justify-center flex-shrink-0 w-6 h-6 text-sm font-bold text-indigo-700 bg-indigo-100 rounded-full">
+                      {{ index + 1 }}
+                    </span>
+                    <img :src="item.imageUrl1" class="flex-shrink-0 object-cover w-16 h-16 rounded-md shadow-sm" />
+                    <div class="flex-1 min-w-0">
+                      <p class="text-base font-semibold text-gray-900 truncate">
+                        {{ $i18n.locale ===
+                          'ar' ? item.titleAr :
+                          item.title }}
+                      </p>
+                      <div class="flex flex-wrap gap-2 mt-1">
+                        <!-- <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
+                          <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.category')
+                            }}:</span>
+                          <span class="text-xs text-gray-700 ms-1">{{ item.category }}</span>
+                        </div> -->
+                        <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
+                          <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.quantity')
+                          }}:</span>
+                          <span class="text-xs text-gray-700 ms-1">{{ item.quantity }}</span>
+                        </div>
+                        <div class="inline-flex items-center px-2 py-1 bg-indigo-100 rounded-md">
+                          <span class="text-xs font-medium text-indigo-700">{{ $t('dashboard.price')
+                          }}:</span>
+                          <span class="text-xs text-indigo-700 ms-1">{{ $n((parseFloat(item.discountedPrice || 0) *
+                            (item.quantity || 1)), 'currency',
+                            currencyLocale(orderData.market === 'ksa' ? 'Saudi Arabia' : 'Egypt')) }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
               </div>
 
               <!-- Order Summary -->
               <div class="pt-4 mt-6 border-t">
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-sm text-gray-600">{{ $t('dashboard.date') }}</span>
-                  <span class="text-sm font-medium text-gray-900">{{ orderData.date }}</span>
+                  <span class="text-sm font-medium text-gray-900">
+                    {{ formatDate(isMerchantOrder ? orderData.createdAt : orderData.date) }}
+                  </span>
                 </div>
-                <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center justify-between mb-2" v-if="!isMerchantOrder">
                   <span class="text-sm text-gray-600">{{ $t('dashboard.estimated_delivery') }}</span>
-                  <span class="text-sm font-medium text-gray-900">{{ orderData.estimatedDelivery || 'N/A'
-                  }}</span>
+                  <span class="text-sm font-medium text-gray-900">{{ orderData.estimatedDelivery || 'N/A' }}</span>
                 </div>
                 <div class="flex items-center justify-between mt-4">
-                  <span class="text-base font-semibold text-gray-700">{{ $t('dashboard.total')
-                  }}</span>
+                  <span class="text-base font-semibold text-gray-700">{{ $t('dashboard.total') }}</span>
                   <span class="text-lg font-bold text-indigo-600">
-                    {{ $n(calculateTotal(orderData.cart), 'currency', currencyLocale(orderData.market === 'ksa' ? 'Saudi Arabia'
-                    : 'Egypt')) }}
+                    {{ $n(isMerchantOrder ? orderData.totalAmount : calculateTotal(orderData.cart), 'currency', 
+                      currencyLocale(isMerchantOrder ? orderData.targetMarket : (orderData.market === 'ksa' ? 'Saudi Arabia' : 'Egypt'))) }}
                   </span>
                 </div>
               </div>
@@ -238,8 +304,10 @@
 </template>
 
 <script setup>
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { getTranslatedLocation } = useLocationTranslations()
+const checkoutStore = useCheckoutStore()
+const merchantsOrdersStore = useMerchantsOrdersStore()
 
 const props = defineProps({
   modelValue: {
@@ -258,126 +326,165 @@ const closeDialog = () => {
   emit('update:modelValue', false)
 }
 
-const checkoutStore = useCheckoutStore();
-// const categoryStore = useCategoriesStore();
-const orders = computed(() => checkoutStore?.orders || []);
+// Determine if this is a merchant order
+const isMerchantOrder = computed(() => {
+  return props.orderData && 'merchantEmail' in props.orderData
+})
 
-const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast()
+const isLoading = ref(false)
+const activeStatusId = ref(null)
 
-const isLoading = ref(false);
-const activeStatusId = ref(null);
+// Format date function
+const formatDate = (timestamp) => {
+  try {
+    // Handle Firestore Timestamp
+    if (timestamp && typeof timestamp === 'object' && 'seconds' in timestamp) {
+      const date = new Date(timestamp.seconds * 1000);
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const year = date.getFullYear();
+      return `${month}/${day}/${year}`;
+    }
+    
+    // Handle regular date string
+    const date = new Date(timestamp);
+    if (isNaN(date)) return timestamp;
+    
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return timestamp;
+  }
+};
 
-const updateOrderStatus = (orderId, newStatus) => {
-  const order = checkoutStore.paginatedOrders.find((o) => o.id === orderId);
-  if (!order) return;
-  order.loading = true;
-  order.targetStatus = newStatus;
+// Merchant order status handling
+const merchantOrderStatuses = [
+  { id: 'pending', status: 'Pending' },
+  { id: 'processing', status: 'Processing' },
+  { id: 'shipped', status: 'Shipped' },
+  { id: 'out_for_delivery', status: 'Out for Delivery' },
+  { id: 'completed', status: 'Completed' }
+]
+
+const getMerchantStatusIcon = (status) => {
+  switch (status) {
+    case 'pending':
+      return 'mdi:clock-outline';
+    case 'processing':
+      return 'mdi:cog-outline';
+    case 'shipped':
+      return 'mdi:truck-outline';
+    case 'out_for_delivery':
+      return 'mdi:package-variant';
+    case 'completed':
+      return 'mdi:check-circle';
+    default:
+      return 'mdi:clock-outline';
+  }
+}
+
+const getMerchantTranslatedStatus = (status) => {
+  return t(`permissions.status.${status || 'pending'}`);
+}
+
+const updateMerchantOrderStatus = async (orderId, newStatus) => {
   activeStatusId.value = newStatus;
   isLoading.value = true;
-  const newStatusObj = checkoutStore.status.find(s => s.id === newStatus);
-  new Promise((resolve) => setTimeout(resolve, 3000))
-    .then(() => {
-      return checkoutStore.updateOrderStatus(orderId, newStatus);
-    })
-    .then(() => {
-      props.orderData.statusId = newStatus;
-      currentStatus.value = newStatusObj?.status;
-      return checkoutStore.fetchOrders();
-    })
-    .then(() => {
+
+  try {
+    const result = await merchantsOrdersStore.updateOrderStatus(orderId, newStatus);
+    if (result.success) {
+      props.orderData.status = newStatus;
       triggerToast({
         message: t('toast.order_status_updated'),
         type: 'success',
-        icon: 'mdi-check-circle',
+        icon: 'mdi:check-circle',
       });
-    })
-    .catch((error) => {
-      console.error(error);
-      triggerToast({
-        message: t('toast.failed_to_update_order'),
-        type: 'error',
-        icon: 'mdi:alert-circle',
-      });
-    })
-    .finally(() => {
-      const order = checkoutStore.paginatedOrders.find((o) => o.id === orderId);
-      if (order) {
-        order.loading = false;
-        order.targetStatus = null;
-      }
-      isLoading.value = false;
-      activeStatusId.value = null;
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    triggerToast({
+      message: t('toast.status_update_failed'),
+      type: 'error',
+      icon: 'mdi:alert-circle',
     });
-};
+  } finally {
+    isLoading.value = false;
+    activeStatusId.value = null;
+  }
+}
 
-onMounted(() => {
-  checkoutStore.fetchOrders();
-});
-
+// Admin order handling (existing code)
+const orders = computed(() => checkoutStore?.orders || [])
 const orderStatus = ref([])
-// const categories = ref([])
 const currentStatus = ref('')
 
 onMounted(() => {
-  checkoutStore.fetchStatus();
-  const statusOrder = ['Order Placed', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered'];
-  orderStatus.value = checkoutStore.status.sort((a, b) => {
-    return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
-  });
-  orderStatus.value = checkoutStore.status
-  // categoryStore.fetchCategories();
-  // categories.value = categoryStore.categories;
-  currentStatus.value = checkoutStore.status.find((s) => s.id === props.orderData.statusId)?.status;
-});
+  if (!isMerchantOrder.value) {
+    checkoutStore.fetchStatus()
+    const statusOrder = ['Order Placed', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered']
+    orderStatus.value = checkoutStore.status.sort((a, b) => {
+      return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
+    })
+    currentStatus.value = checkoutStore.status.find((s) => s.id === props.orderData.statusId)?.status
+  }
+})
 
 const currentStatusText = computed(() => {
-  // First try from the currentStatus value that we update directly
-  if (currentStatus.value) {
-    return currentStatus.value;
+  if (isMerchantOrder.value) {
+    return props.orderData.status || 'pending'
   }
-
-  // Fallback to looking it up from the store
-  return checkoutStore.status.find((s) => s.id === props.orderData.statusId)?.status || 'Unknown';
-});
+  if (currentStatus.value) {
+    return currentStatus.value
+  }
+  return checkoutStore.status.find((s) => s.id === props.orderData.statusId)?.status || 'Unknown'
+})
 
 const currentStatusIndex = computed(() => {
-  return orderStatus.value.findIndex(s => s.id === props.orderData.statusId);
-});
+  if (isMerchantOrder.value) {
+    return merchantOrderStatuses.findIndex(s => s.id === props.orderData.status)
+  }
+  return orderStatus.value.findIndex(s => s.id === props.orderData.statusId)
+})
 
 const nextStatusId = computed(() => {
   if (currentStatusIndex.value === -1 || currentStatusIndex.value >= orderStatus.value.length - 1) {
-    return null;
+    return null
   }
-  return orderStatus.value[currentStatusIndex.value + 1]?.id;
-});
+  return orderStatus.value[currentStatusIndex.value + 1]?.id
+})
 
-// Calculate total price for the order
 const calculateTotal = (cartItems) => {
-  if (!cartItems || !cartItems.length) return 0;
+  if (!cartItems || !cartItems.length) return 0
   return cartItems.reduce((total, item) => {
-    return total + (parseFloat(item.discountedPrice || 0) * (item.quantity || 1));
-  }, 0);
-};
+    return total + (parseFloat(item.discountedPrice || 0) * (item.quantity || 1))
+  }, 0)
+}
 
 const getStatusIcon = (status) => {
   switch (status) {
     case 'Order Placed':
-      return 'mdi:check-circle';
+      return 'mdi:check-circle'
     case 'Processing':
-      return 'mdi:clock-outline';
+      return 'mdi:clock-outline'
     case 'Shipped':
-      return 'mdi:truck-outline';
+      return 'mdi:truck-outline'
     case 'Out for Delivery':
-      return 'mdi:package-variant';
+      return 'mdi:package-variant'
     case 'Delivered':
-      return 'mdi:check-circle';
+      return 'mdi:check-circle'
     default:
-      return 'mdi:help-circle';
+      return 'mdi:help-circle'
   }
-};
+}
 
-const statusIcon = computed(() => getStatusIcon(currentStatusText.value));
+const statusIcon = computed(() => getStatusIcon(currentStatusText.value))
 
-//currency composable
-const { currencyLocale } = useCurrencyLocale();
+const { currencyLocale } = useCurrencyLocale()
 </script>
