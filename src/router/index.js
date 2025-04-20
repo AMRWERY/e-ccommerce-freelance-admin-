@@ -76,7 +76,7 @@ const router = createRouter({
           meta: {
             title: "meta.orders",
             requiresAuth: true,
-            allowedRoles: ["admin", "employee"],
+            allowedRoles: ["admin", "employee", "market_owner"],
           },
         },
         {

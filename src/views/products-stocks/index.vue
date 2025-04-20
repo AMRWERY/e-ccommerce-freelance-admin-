@@ -245,6 +245,7 @@
 </template>
 
 <script setup>
+const merchantsOrdersStore = useMerchantsOrdersStore()
 const { t, locale } = useI18n()
 const { userRole } = useUserRole()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
@@ -254,8 +255,21 @@ const productStore = useProductsStore();
 
 onMounted(async () => {
     const startTime = Date.now();
+    showSkeleton.value = true;
+    
     try {
+        // First fetch products
         await productStore.fetchProducts();
+        
+        // Then initialize merchant store if user is a market owner
+        if (userRole?.role === 'market_owner') {
+            await merchantsOrdersStore.initializeStore({
+                role: userRole.role,
+                email: userRole.email
+            });
+        }
+    } catch (error) {
+        console.error('Error initializing:', error);
     } finally {
         const elapsed = Date.now() - startTime;
         const remaining = Math.max(3000 - elapsed, 0);
@@ -412,15 +426,66 @@ const resetOrderButton = (productId) => {
     completedProductIds.value.delete(productId)
 }
 
-const handleOrderPlaced = () => {
-    triggerToast({
-        message: t('toast.order_created_successfully'),
-        type: 'success',
-        icon: 'material-symbols:check-circle'
-    })
-    showOrderDialog.value = false
-    selectedProduct.value = null
-    // Refresh the products list to update stock numbers
-    productStore.fetchProducts()
-}
+const handleOrderPlaced = async (orderData) => {
+    try {
+        // Ensure orderData exists
+        if (!orderData) {
+            throw new Error('Order data is required');
+        }
+
+        // Access the value of the computed ref
+        const currentUserRole = userRole.value;
+        console.log('Current userRole value:', currentUserRole);
+        console.log('Order data before adding role:', orderData);
+
+        if (!currentUserRole) {
+            throw new Error('User role information is missing');
+        }
+
+        // Get user data from localStorage
+        const userData = localStorage.getItem('user');
+        if (!userData) {
+            throw new Error('User data not found in localStorage');
+        }
+
+        const user = JSON.parse(userData);
+        if (!user.uid) {
+            throw new Error('User ID is missing from localStorage');
+        }
+
+        // Create a clean order object with only the necessary fields
+        const orderWithRole = {
+            ...orderData,
+            merchantId: user.uid, // Set merchantId from localStorage
+            merchantEmail: currentUserRole.email,
+            merchantName: currentUserRole.name
+        };
+
+        console.log('Order data with role:', orderWithRole);
+
+        const result = await merchantsOrdersStore.createMerchantOrder(orderWithRole);
+        
+        if (result.success) {
+            triggerToast({
+                message: t('toast.order_created_successfully'),
+                type: 'success',
+                icon: 'material-symbols:check-circle'
+            });
+            // Reset UI states
+            showOrderDialog.value = false;
+            selectedProduct.value = null;
+            // Refresh the products list to update stock numbers
+            await productStore.fetchProducts();
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (error) {
+        console.error('Error creating order:', error);
+        triggerToast({
+            message: error.message || t('toast.order_creation_failed'),
+            type: 'error',
+            icon: 'material-symbols:error'
+        });
+    }
+};
 </script>

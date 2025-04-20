@@ -99,7 +99,7 @@
                   {{ $t('dashboard.order_id') }}
                 </p>
               </th>
-              <th class="p-4 border-b border-slate-200 bg-slate-50">
+              <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
                 <p class="text-sm font-normal leading-none text-slate-500">
                   {{ $t('dashboard.email') }}
                 </p>
@@ -124,7 +124,7 @@
                   {{ $t('dashboard.country') }}
                 </p>
               </th>
-              <th class="p-4 border-b border-slate-200 bg-slate-50">
+              <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
                 <p class="text-sm font-normal leading-none text-slate-500">
                   {{ $t('dashboard.governorate') }}
                 </p>
@@ -138,7 +138,8 @@
             </tr>
           </thead>
 
-          <tbody v-if="checkoutStore.paginatedOrders.length === 0">
+          <tbody
+            v-if="(userRole?.role === 'market_owner' ? merchantsOrdersStore.paginatedOrders.length === 0 : checkoutStore.paginatedOrders.length === 0)">
             <tr>
               <td colspan="10" class="p-4 text-center">
                 <!-- NoDataMessage component -->
@@ -149,58 +150,75 @@
 
           <tbody v-else>
             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"
-              v-for="(order, index) in checkoutStore.paginatedOrders" :key="order.id">
+              v-for="(order, index) in (userRole?.role === 'market_owner' ? merchantsOrdersStore.paginatedOrders : checkoutStore.paginatedOrders)"
+              :key="order.id">
               <td class="p-4">
-                <p class="block text-sm font-semibold text-slate-800">{{ (checkoutStore.currentPage -
-                  1) *
-                  checkoutStore.ordersPerPage +
+                <p class="block text-sm font-semibold text-slate-800">{{ (userRole?.role === 'market_owner' ?
+                  merchantsOrdersStore.currentPage - 1 : checkoutStore.currentPage - 1) *
+                  (userRole?.role === 'market_owner' ? merchantsOrdersStore.ordersPerPage : checkoutStore.ordersPerPage)
+                  +
                   index +
                   1 }}</p>
               </td>
               <td class="p-4">
                 <p class="block text-sm font-semibold text-slate-800">{{ order.orderId }}</p>
               </td>
-              <td class="p-4">
+              <td class="p-4" v-if="userRole?.role !== 'market_owner'">
                 <p>{{ order.deliveryDetails.email
                 }}</p>
               </td>
               <td class="p-4">
-                <p>{{ order.deliveryDetails.name }}
+                <p>{{ userRole?.role === 'market_owner' ? order.name : order.deliveryDetails?.name }}
                 </p>
               </td>
               <td class="p-4">
-                <p>{{ order.date }}</p>
+                <p>{{ formatDate(userRole?.role === 'market_owner' ? order.createdAt : order.date) }}</p>
               </td>
               <td class="p-4">
-                <p>{{
-                  order.deliveryDetails.phoneNumber }}</p>
+                <p>{{ userRole?.role === 'market_owner' ? order.phoneNumber : order.deliveryDetails?.phoneNumber }}</p>
               </td>
               <td class="p-4">
                 <div class="flex items-center gap-2">
                   <p>
-                    {{ getTranslatedLocation(order.deliveryDetails.country) }}
+                    {{ getTranslatedLocation(userRole?.role === 'market_owner' ? (order.country || 'Egypt') :
+                      order.deliveryDetails?.country) }}
                   </p>
-                  <img v-if="getCountryFlag(order.deliveryDetails?.country)"
-                    :src="getCountryFlag(order.deliveryDetails?.country)" :alt="order.deliveryDetails?.country"
+                  <img
+                    :src="getCountryFlag(userRole?.role === 'market_owner' ? (order.country || 'Egypt') : order.deliveryDetails?.country)"
+                    :alt="userRole?.role === 'market_owner' ? (order.country || 'Egypt') : order.deliveryDetails?.country"
                     class="w-5 h-4" />
                 </div>
               </td>
-              <td class="p-4">
+              <td class="p-4" v-if="userRole?.role !== 'market_owner'">
                 <p>
-                  {{ getTranslatedLocation(order.deliveryDetails.city) }}
+                  {{ getTranslatedLocation(order.deliveryDetails?.city) }}
                 </p>
               </td>
               <td class="p-4">
                 <div class="inline-flex px-3 py-1 text-xs font-medium rounded-full" :class="{
-                  'bg-green-100 text-green-800': getStatusTitle(order.statusId)?.status === 'Order Placed',
-                  'bg-amber-100 text-amber-800': getStatusTitle(order.statusId)?.status === 'Processing',
-                  'bg-blue-100 text-blue-800': getStatusTitle(order.statusId)?.status === 'Shipped',
-                  'bg-indigo-100 text-indigo-800': getStatusTitle(order.statusId)?.status === 'Out for Delivery',
-                  'bg-purple-100 text-purple-800': getStatusTitle(order.statusId)?.status === 'Delivered'
+                  'bg-green-100 text-green-800': userRole?.role === 'market_owner' ?
+                    (order.status || 'pending') === 'pending' :
+                    getStatusTitle(order.statusId)?.status === 'Order Placed',
+                  'bg-amber-100 text-amber-800': userRole?.role === 'market_owner' ?
+                    order.status === 'processing' :
+                    getStatusTitle(order.statusId)?.status === 'Processing',
+                  'bg-blue-100 text-blue-800': userRole?.role === 'market_owner' ?
+                    order.status === 'shipped' :
+                    getStatusTitle(order.statusId)?.status === 'Shipped',
+                  'bg-indigo-100 text-indigo-800': userRole?.role === 'market_owner' ?
+                    order.status === 'out_for_delivery' :
+                    getStatusTitle(order.statusId)?.status === 'Out for Delivery',
+                  'bg-purple-100 text-purple-800': userRole?.role === 'market_owner' ?
+                    order.status === 'completed' :
+                    getStatusTitle(order.statusId)?.status === 'Delivered'
                 }">
                   <span class="inline-flex items-center">
-                    <iconify-icon :icon="getStatusIcon(order.statusId)" class="me-1.5" width="15" height="15" />
-                    {{ getTranslatedStatus(order.statusId) }}
+                    <iconify-icon :icon="userRole?.role === 'market_owner' ?
+                      getMerchantStatusIcon(order.status || 'pending') :
+                      getStatusIcon(order.statusId)" class="me-1.5" width="15" height="15" />
+                    {{ userRole?.role === 'market_owner' ?
+                      getMerchantTranslatedStatus(order.status || 'pending') :
+                      getTranslatedStatus(order.statusId) }}
                   </span>
                 </div>
               </td>
@@ -223,9 +241,11 @@
     </div>
 
     <!-- paginationControls component -->
-    <pagination-controls v-if="!showSkeleton && checkoutStore.paginatedOrders.length > 0"
-      :current-page="checkoutStore.currentPage" :total-pages="checkoutStore.totalPages"
-      @page-change="checkoutStore.changePage" />
+    <pagination-controls
+      v-if="!showSkeleton && (userRole?.role === 'market_owner' ? merchantsOrdersStore.paginatedOrders.length > 0 : checkoutStore.paginatedOrders.length > 0)"
+      :current-page="userRole?.role === 'market_owner' ? merchantsOrdersStore.currentPage : checkoutStore.currentPage"
+      :total-pages="userRole?.role === 'market_owner' ? merchantsOrdersStore.totalPages : checkoutStore.totalPages"
+      @page-change="userRole?.role === 'market_owner' ? merchantsOrdersStore.changePage : checkoutStore.changePage" />
 
     <!-- order-details-dialog component -->
     <order-details-dialog v-model="isDialogOpen" :order-data="selectedOrder" v-if="selectedOrder" />
@@ -241,6 +261,7 @@
 </template>
 
 <script setup>
+const merchantsOrdersStore = useMerchantsOrdersStore()
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
 
@@ -254,22 +275,35 @@ const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast
 
 const orderStatus = ref([])
 
+const userRole = ref(null);
+
 onMounted(async () => {
+  showSkeleton.value = true
   const startTime = Date.now()
 
   try {
-    // Fetch data
-    await Promise.all([
-      checkoutStore.fetchOrders(),
-      checkoutStore.fetchStatus()
-    ])
-    orderStatus.value = checkoutStore.status
-  } finally {
-    // Calculate remaining time to complete 3 seconds
-    const elapsed = Date.now() - startTime
-    const remaining = Math.max(3000 - elapsed, 0)
+    userRole.value = user.value
 
-    // Wait for remaining time before hiding skeleton
+    if (userRole.value?.role === 'market_owner') {
+      // For market owners, fetch only their orders
+      await merchantsOrdersStore.initializeStore(userRole.value)
+      orderStatus.value = [
+        { id: 'pending', status: 'Pending' },
+        { id: 'completed', status: 'Completed' }
+      ]
+    } else {
+      // For admin, fetch all orders using checkoutStore
+      await Promise.all([
+        checkoutStore.fetchOrders(),
+        checkoutStore.fetchStatus()
+      ])
+      orderStatus.value = checkoutStore.status
+    }
+  } catch (error) {
+    console.error('Error initializing orders:', error)
+  } finally {
+    const elapsed = Date.now() - startTime
+    const remaining = Math.max(1000 - elapsed, 0)
     setTimeout(() => {
       showSkeleton.value = false
     }, remaining)
@@ -304,35 +338,35 @@ const filterOrdersByDate = () => {
   checkoutStore.paginatedOrders = filteredOrders;
 };
 
-const deleteOrder = (orderId) => {
-  const order = checkoutStore.paginatedOrders.find(o => o.id === orderId);
-  if (order) {
-    order.loading = true;
-  }
-  checkoutStore.deleteOrder(orderId)
-    .then(() => {
-      checkoutStore.paginatedOrders = checkoutStore.paginatedOrders.filter(order => order.id !== orderId);
+const deleteOrder = async (orderId) => {
+  try {
+    if (userRole.value?.role === 'market_owner') {
+      const result = await merchantsOrdersStore.deleteOrder(orderId)
+      if (result.success) {
+        triggerToast({
+          message: t('toast.order_deleted_successfully'),
+          type: 'success',
+          icon: 'mdi:check-circle',
+        })
+      } else {
+        throw new Error(result.message)
+      }
+    } else {
+      await checkoutStore.deleteOrder(orderId)
       triggerToast({
         message: t('toast.order_deleted_successfully'),
         type: 'success',
         icon: 'mdi:check-circle',
-      });
+      })
+    }
+  } catch (error) {
+    triggerToast({
+      message: t('toast.order_deletion_failed'),
+      type: 'error',
+      icon: 'mdi:alert-circle',
     })
-    .catch((error) => {
-      triggerToast({
-        message: t('toast.order_deletion_failed'),
-        type: 'error',
-        icon: 'mdi:alert-circle',
-      });
-    })
-    .finally(() => {
-      setTimeout(() => {
-        if (order) {
-          order.loading = false;
-        }
-      }, 3000);
-    });
-};
+  }
+}
 
 const getStatusTitle = (statusId) => {
   return checkoutStore.status.find((s) => s.id === statusId);
@@ -423,37 +457,115 @@ const defaultMarket = 'Egypt'
 
 // Computed properties for statistics
 const totalEarnings = computed(() => {
+  if (userRole.value?.role === 'market_owner') {
+    return merchantsOrdersStore.totalEarnings
+  }
   return checkoutStore.orders.reduce((total, order) => {
     if (order.cart && Array.isArray(order.cart)) {
       return total + order.cart.reduce((orderTotal, item) => {
-        return orderTotal + (parseFloat(item.discountedPrice || 0) * (item.quantity || 1));
-      }, 0);
+        return orderTotal + (parseFloat(item.discountedPrice || 0) * (item.quantity || 1))
+      }, 0)
     }
-    return total;
-  }, 0);
-});
+    return total
+  }, 0)
+})
 
-const totalOrders = computed(() => checkoutStore.orders.length);
+const totalOrders = computed(() => {
+  if (userRole.value?.role === 'market_owner') {
+    return merchantsOrdersStore.totalOrders
+  }
+  return checkoutStore.orders.length
+})
 
 const completedOrders = computed(() => {
+  if (userRole.value?.role === 'market_owner') {
+    return merchantsOrdersStore.completedOrders
+  }
   return checkoutStore.orders.filter(order => {
-    const status = getStatusTitle(order.statusId)?.status;
-    return status === 'Delivered';
-  }).length;
-});
+    const status = getStatusTitle(order.statusId)?.status
+    return status === 'Delivered'
+  }).length
+})
 
 const pendingOrders = computed(() => {
+  if (userRole.value?.role === 'market_owner') {
+    return merchantsOrdersStore.pendingOrders
+  }
   return checkoutStore.orders.filter(order => {
-    const status = getStatusTitle(order.statusId)?.status;
-    return status !== 'Delivered';
-  }).length;
-});
+    const status = getStatusTitle(order.statusId)?.status
+    return status !== 'Delivered'
+  }).length
+})
 
 const getCountryFlag = (country) => {
   const flagMap = {
     'Egypt': '/egypt-flag.svg',
     'KSA': '/ksa-flag.svg',
-  }
-  return flagMap[country] || ''
+    'Saudi Arabia': '/ksa-flag.svg',
+  };
+  return flagMap[country] || flagMap['Egypt']; // Default to Egypt flag
 }
+
+// Update order status for merchants
+const updateOrderStatus = async (orderId, status) => {
+  if (userRole.value?.role === 'market_owner') {
+    try {
+      const result = await merchantsOrdersStore.updateOrderStatus(orderId, status)
+      if (result.success) {
+        triggerToast({
+          message: t('toast.order_status_updated'),
+          type: 'success',
+          icon: 'mdi:check-circle',
+        })
+      } else {
+        throw new Error(result.message)
+      }
+    } catch (error) {
+      triggerToast({
+        message: t('toast.status_update_failed'),
+        type: 'error',
+        icon: 'mdi:alert-circle',
+      })
+    }
+  }
+}
+
+// Add this function before the template
+const formatDate = (dateString) => {
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date)) return dateString;
+
+    const month = date.getMonth() + 1; // getMonth() returns 0-11
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+    return `${month}/${day}/${year}`;
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return dateString;
+  }
+};
+
+// Add merchant status handling functions
+const getMerchantStatusIcon = (status) => {
+  switch (status) {
+    case 'pending':
+      return 'mdi:clock-outline';
+    case 'processing':
+      return 'mdi:cog-outline';
+    case 'shipped':
+      return 'mdi:truck-outline';
+    case 'out_for_delivery':
+      return 'mdi:package-variant';
+    case 'completed':
+      return 'mdi:check-circle';
+    default:
+      return 'mdi:clock-outline'; // Default to pending icon
+  }
+};
+
+const getMerchantTranslatedStatus = (status) => {
+  return t(`permissions.status.${status || 'pending'}`);
+};
 </script>

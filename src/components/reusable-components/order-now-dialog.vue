@@ -57,25 +57,25 @@
               <label for="customerName" class="block mb-2 text-sm font-medium text-gray-700">
                 {{ $t('form.customer_name') }} <span class="text-red-500">*</span>
               </label>
-              <input type="text" id="customerName" v-model="formData.customerName"
+              <input type="text" id="customerName" v-model="formData.name"
                 class="block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 required>
             </div>
 
             <div>
-              <label for="customerPhone" class="block mb-2 text-sm font-medium text-gray-700">
+              <label for="phone" class="block mb-2 text-sm font-medium text-gray-700">
                 {{ $t('form.customer_phone') }} <span class="text-red-500">*</span>
               </label>
-              <input type="tel" id="customerPhone" v-model="formData.customerPhone"
+              <input type="tel" id="phone" v-model="formData.phoneNumber"
                 class="block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 required>
             </div>
 
             <div>
-              <label for="customerAddress" class="block mb-2 text-sm font-medium text-gray-700">
+              <label for="fullAddress" class="block mb-2 text-sm font-medium text-gray-700">
                 {{ $t('form.delivery_address') }} <span class="text-red-500">*</span>
               </label>
-              <textarea id="customerAddress" v-model="formData.customerAddress" rows="3"
+              <textarea id="fullAddress" v-model="formData.fullAddress" rows="3"
                 class="block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 required></textarea>
             </div>
@@ -123,9 +123,9 @@ const emit = defineEmits(['update:isDialogOpen', 'order-placed'])
 
 const formData = ref({
   quantity: 1,
-  customerName: '',
-  customerPhone: '',
-  customerAddress: '',
+  name: '',
+  phoneNumber: '',
+  fullAddress: '',
   notes: ''
 })
 
@@ -133,17 +133,17 @@ const isFormValid = computed(() => {
   if (!props.product) return false
   return formData.value.quantity > 0 &&
     formData.value.quantity <= props.product.numberOfStock &&
-    formData.value.customerName.trim() &&
-    formData.value.customerPhone.trim() &&
-    formData.value.customerAddress.trim()
+    formData.value.name.trim() &&
+    formData.value.phoneNumber.trim() &&
+    formData.value.fullAddress.trim()
 })
 
 const closeDialog = () => {
   formData.value = {
     quantity: 1,
-    customerName: '',
-    customerPhone: '',
-    customerAddress: '',
+    name: '',
+    phoneNumber: '',
+    fullAddress: '',
     notes: ''
   }
   emit('update:isDialogOpen', false)
@@ -165,7 +165,7 @@ const submitOrder = async () => {
       createdAt: new Date().toISOString()
     }
     // await ordersStore.createOrder(orderData)
-    emit('order-placed')
+    emit('order-placed', orderData)
     closeDialog()
   } catch (error) {
     console.error('Error placing order:', error)

@@ -179,7 +179,8 @@
     "order_deleted_successfully": "تم حذف الطلب بنجاح",
     "order_deletion_failed": "فشل حذف الطلب",
     "order_status_updated": "تم تحديث حالة الطلب",
-    "failed_to_update_order": "فشل في تحديث الطلب"
+    "failed_to_update_order": "فشل في تحديث الطلب",
+    "status_update_failed": "فشل تحديث الحالة"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
@@ -307,7 +308,9 @@
       "shipped": "تم الشحن",
       "out_for_delivery": "خرج للتسليم",
       "delivered": "تم التوصيل",
-      "unknown": "مجهول"
+      "unknown": "مجهول",
+      "pending": "قيد الانتظار",
+      "undefined": "غير محدد"
     }
   }
 }
