@@ -14,7 +14,18 @@ const router = createRouter({
       children: [
         {
           path: "",
-          redirect: "/dashboard",
+          redirect: (to) => {
+            const storedUser = localStorage.getItem("user");
+            let userRole = null;
+            if (storedUser) {
+              try {
+                userRole = JSON.parse(storedUser).role;
+              } catch (error) {
+                console.error("Error parsing user data from localStorage:", error);
+              }
+            }
+            return userRole === 'admin' ? "/dashboard" : "/products-stocks";
+          },
         },
         //products routes
         {
@@ -24,7 +35,7 @@ const router = createRouter({
           meta: {
             title: "meta.dashboard",
             requiresAuth: true,
-            allowedRoles: ["admin", "market_owner", "employee"],
+            allowedRoles: ["admin"],  // Only admin can access dashboard
           },
         },
         {
@@ -105,6 +116,16 @@ const router = createRouter({
           component: () => import("../views/new-merchants.vue"),
           meta: {
             title: "meta.new_merchants",
+            requiresAuth: true,
+            allowedRoles: ["admin", "employee"],
+          },
+        },
+        {
+          path: "/orders-from-merchants",
+          name: "orders-from-merchants",
+          component: () => import("../views/orders-from-merchants.vue"),
+          meta: {
+            title: "meta.orders_from_merchants",
             requiresAuth: true,
             allowedRoles: ["admin", "employee"],
           },
@@ -193,24 +214,34 @@ router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   const { hasPermission } = usePermissions();
   await authStore.init();
+
+  // Get user role
+  const storedUser = localStorage.getItem("user");
+  let userRole = null;
+  if (storedUser) {
+    try {
+      userRole = JSON.parse(storedUser).role;
+    } catch (error) {
+      console.error("Error parsing user data from localStorage:", error);
+    }
+  }
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!authStore.isAuthenticated) {
       next("/auth/login");
       return;
     }
+
+    // Redirect from dashboard if not admin
+    if (to.path === '/dashboard' && userRole !== 'admin') {
+      next('/products-stocks');
+      return;
+    }
   }
+
   if (authStore.isAuthenticated) {
     const requiredRoles = to.meta.allowedRoles;
     if (requiredRoles) {
-      const storedUser = localStorage.getItem("user");
-      let userRole = null;
-      if (storedUser) {
-        try {
-          userRole = JSON.parse(storedUser).role;
-        } catch (error) {
-          console.error("Error parsing user data from localStorage:", error);
-        }
-      }
       // Admin has full access
       if (userRole === "admin") {
         next();
@@ -220,32 +251,32 @@ router.beforeEach(async (to, from, next) => {
       if (userRole === "employee") {
         // First check if the role is allowed
         if (!requiredRoles.includes("employee")) {
-          next("/");
+          next("/products-stocks");
           return;
         }
         // Then check specific permissions
         switch (to.name) {
           case "products-stocks":
             if (!hasPermission("products", "view")) {
-              next("/");
+              next("/products-stocks");
               return;
             }
             break;
           case "categories":
             if (!hasPermission("categories", "view")) {
-              next("/");
+              next("/products-stocks");
               return;
             }
             break;
           case "orders":
             if (!hasPermission("orders", "view")) {
-              next("/");
+              next("/products-stocks");
               return;
             }
             break;
           case "users":
             if (!hasPermission("users", "view")) {
-              next("/");
+              next("/products-stocks");
               return;
             }
             break;
@@ -257,22 +288,34 @@ router.beforeEach(async (to, from, next) => {
           //   break;
           case "new-merchants":
             if (!hasPermission("new-merchants", "view")) {
-              next("/");
+              next("/products-stocks");
+              return;
+            }
+            break;
+          case "orders-from-merchants":
+            if (!hasPermission("orders-from-merchants", "view")) {
+              next("/products-stocks");
               return;
             }
             break;
           // Add other cases as needed
         }
       }
+      // For market_owner
+      if (userRole === "market_owner" && !requiredRoles.includes("market_owner")) {
+        next("/products-stocks");
+        return;
+      }
       // For other roles, just check if role is allowed
       if (requiredRoles.includes(userRole)) {
         next();
         return;
       }
-      next("/");
+      next("/products-stocks");
       return;
     }
   }
+
   if (authStore.isAuthenticated && to.path.startsWith("/auth")) {
     next("/");
     return;
