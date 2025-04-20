@@ -118,6 +118,16 @@
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.new_merchants') }}</span>
                             </router-link>
                         </li>
+                        <li
+                            v-if="userRole.role === 'admin' || (userRole.role === 'employee' && hasPermission('orders', 'view'))">
+                            <router-link to="/orders-from-merchants" exact-active-class="bg-gray-100 dark:bg-gray-700"
+                                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                @click="closeSidebarOnMobile">
+                                <iconify-icon icon="mdi:clipboard-list" width="24" height="24"
+                                    class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.orders_from_merchants') }}</span>
+                            </router-link>
+                        </li>
                     </ul>
                 </div>
                 <div
