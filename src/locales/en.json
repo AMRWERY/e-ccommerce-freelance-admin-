@@ -72,7 +72,10 @@
     "end_date": "End date",
     "select_date": "Select date",
     "commission": "Commission",
-    "enter_commission": "Enter commission"
+    "enter_commission": "Enter commission",
+    "search_categories": "Search for categories",
+    "enter_category_title": "Enter category title",
+    "enter_category_title_ar": "Enter category title ar"
   },
   "btn": {
     "login": "Login",
@@ -183,7 +186,12 @@
     "order_status_updated": "Order status updated",
     "failed_to_update_order": "Failed to update order",
     "status_update_failed": "Status update failed",
-    "order_creation_failed": "Order creation failed"
+    "order_creation_failed": "Order creation failed",
+    "category_deleted_successfully": "Category deleted successfully",
+    "category_deletion_failed": "Category deletion failed",
+    "fill_all_fields": "Fill all fields",
+    "category_updated_successfully": "Category updated successfully",
+    "category_added_successfully": "Category added successfully"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",
@@ -267,17 +275,24 @@
     "joined_date": "Joined date",
     "merchants_orders": "Merchants orders",
     "order_date": "Order date",
-    "delete_confirmation_order": "You are about to delete this order. This action cannot be undone."
+    "delete_confirmation_order": "You are about to delete this order. This action cannot be undone.",
+    "categories": "Categories",
+    "image": "Image",
+    "category_name": "Category name",
+    "delete_confirmation_category": "You are about to delete this category. This action cannot be undone."
   },
   "tooltip": {
-    "download_excel": "Download Excel"
+    "download_excel": "Download Excel",
+    "view_details": "View details",
+    "delete_order": "Delete order"
   },
   "no_data": {
     "no_products_found": "No products found",
     "no_users_found": "No users found",
     "no_merchants_found": "No merchants found",
     "no_employees_found": "No employees found",
-    "no_orders_found": "No orders found"
+    "no_orders_found": "No orders found",
+    "no_categories_found": "No categories found"
   },
   "tabs": {
     "daily": "Daily",

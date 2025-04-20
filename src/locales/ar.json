@@ -72,7 +72,10 @@
     "end_date": "تاريخ الانتهاء",
     "select_date": "حدد التاريخ",
     "commission": "عموله",
-    "enter_commission": "ادخل العموله"
+    "enter_commission": "ادخل العموله",
+    "search_categories": "البحث عن الفئات",
+    "enter_category_title": "أدخل اسم الفئة",
+    "enter_category_title_ar": "اسم عنوان الفئة عربي"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -183,7 +186,12 @@
     "order_status_updated": "تم تحديث حالة الطلب",
     "failed_to_update_order": "فشل في تحديث الطلب",
     "status_update_failed": "فشل تحديث الحالة",
-    "order_creation_failed": "فشل إنشاء الطلب"
+    "order_creation_failed": "فشل إنشاء الطلب",
+    "category_deleted_successfully": "تم حذف الفئة بنجاح",
+    "category_deletion_failed": "فشل حذف الفئة",
+    "fill_all_fields": "املأ جميع الحقول",
+    "category_updated_successfully": "تم تحديث الفئة بنجاح",
+    "category_added_successfully": "تمت إضافة الفئة بنجاح"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
@@ -267,17 +275,24 @@
     "joined_date": "تاريخ الانضمام",
     "merchants_orders": "طلبات التجار",
     "order_date": "تاريخ الطلب",
-    "delete_confirmation_order": "أنت على وشك حذف هذا الطلب. لا يمكن التراجع عن هذا الإجراء."
+    "delete_confirmation_order": "أنت على وشك حذف هذا الطلب. لا يمكن التراجع عن هذا الإجراء.",
+    "categories": "الفئات",
+    "image": "صورة",
+    "category_name": "اسم الفئه",
+    "delete_confirmation_category": "أنت على وشك حذف هذا الفئه. لا يمكن التراجع عن هذا الإجراء."
   },
   "tooltip": {
-    "download_excel": "تنزيل إكسل"
+    "download_excel": "تنزيل إكسل",
+    "view_details": "عرض التفاصيل",
+    "delete_order": "حذف الطلب"
   },
   "no_data": {
     "no_products_found": "لم يتم العثور على أي منتجات",
     "no_users_found": "لم يتم العثور على أي مستخدمين",
     "no_merchants_found": "لم يتم العثور على التجار",
     "no_employees_found": "لم يتم العثور على موظفين",
-    "no_orders_found": "لم يتم العثور على أي طلبات"
+    "no_orders_found": "لم يتم العثور على أي طلبات",
+    "no_categories_found": "لم يتم العثور على أي فئات"
   },
   "tabs": {
     "daily": "يومي",

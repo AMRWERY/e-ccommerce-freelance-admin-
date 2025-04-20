@@ -198,19 +198,23 @@
                                                 {{ $t('btn.order_now') }}
                                             </button>
                                         </div>
-                                        <button role="button" @click.stop="openEditDialog(product.id)"
+                                        <div class="flex items-center justify-center px-6 py-4 space-s-5">
+                                            <button role="button" @click.stop="openEditDialog(product.id)"
                                             v-if="hasPermission('products', 'edit')"
-                                            class="font-semibold text-blue-600 hover:underline">{{ $t('btn.edit')
-                                            }}</button>
+                                            class="flex items-center justify-center font-medium text-blue-600 hover:text-blue-800">
+                                            <span>{{ $t('btn.edit') }}</span>
+                                            <iconify-icon icon="material-symbols:edit" width="24" height="24" />
+                                        </button>
                                         <button role="button"
                                             v-if="userRole?.role === 'admin' || hasPermission('products', 'delete')">
                                             <span class="flex items-center font-semibold text-red-600"
                                                 @click.stop="openDeleteDialog(product)">
+                                                <span>{{ $t('btn.delete') }}</span>
                                                 <iconify-icon icon="material-symbols:delete" width="20" height="20"
                                                     class="me-1"></iconify-icon>
-                                                {{ $t('btn.delete') }}
                                             </span>
                                         </button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

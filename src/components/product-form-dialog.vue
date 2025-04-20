@@ -2,74 +2,75 @@
     <div>
         <div v-if="isOpen"
             class="overflow-y-auto overflow-x-hidden fixed top-0 end-0 start-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <!-- Overlay -->
-                <div class="fixed inset-0 transition-opacity bg-black/50"></div>
-                <div class="relative w-full max-w-2xl max-h-full p-4">
-                    <div class="relative flex flex-col h-full bg-white rounded-lg shadow-md">
-                        <div class="flex items-center justify-between p-2 border-b border-gray-200 rounded-t md:p-3">
-                            <h3 class="text-xl font-semibold text-gray-900">
-                                {{ isEdit ? $t('form.edit_product') : $t('form.add_product') }}
-                            </h3>
-                            <button type="button"
-                                class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto"
+            <!-- Overlay -->
+            <div class="fixed inset-0 transition-opacity bg-black/50"></div>
+            <div class="relative w-full max-w-2xl max-h-full p-4">
+                <div class="relative flex flex-col h-full bg-white rounded-lg shadow-md">
+                    <div class="flex items-center justify-between p-2 border-b border-gray-200 rounded-t md:p-3">
+                        <h3 class="text-xl font-semibold text-gray-900">
+                            {{ isEdit ? $t('form.edit_product') : $t('form.add_product') }}
+                        </h3>
+                        <button type="button"
+                            class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto"
                             @click="closeDialog">
-                                <iconify-icon icon="material-symbols:close-small-rounded" width="24"
-                                    height="24"></iconify-icon>
-                                <span class="sr-only">Close modal</span>
-                            </button>
-                        </div>
-                        <div class="p-4 space-y-4 md:p-5">
-                            <ol
-                                class="flex items-center w-full max-w-2xl text-sm font-medium text-center text-gray-500 sm:text-base">
-                                <li :class="step === 1 ? 'text-blue-600' : 'text-gray-400'"
-                                    class="after:border-1 flex items-center after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
-                                    <span
-                                        class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
+                            <iconify-icon icon="material-symbols:close-small-rounded" width="24"
+                                height="24"></iconify-icon>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+
+                    <div class="p-4 space-y-4 md:p-5">
+                        <ol
+                            class="flex items-center w-full max-w-2xl text-sm font-medium text-center text-gray-500 sm:text-base">
+                            <li :class="step === 1 ? 'text-blue-600' : 'text-gray-400'"
+                                class="after:border-1 flex items-center after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
+                                <span
+                                    class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
                                     <iconify-icon icon="material-symbols:looks-one-outline" width="60"
                                         height="60"></iconify-icon>
-                                    </span>
-                                </li>
-                                <li :class="step === 2 ? 'text-blue-600' : 'text-gray-400'"
-                                    class="after:border-1 flex items-center after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
-                                    <span
-                                        class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
+                                </span>
+                            </li>
+                            <li :class="step === 2 ? 'text-blue-600' : 'text-gray-400'"
+                                class="after:border-1 flex items-center after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
+                                <span
+                                    class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
                                     <iconify-icon icon="material-symbols:looks-two-outline" width="60"
                                         height="60"></iconify-icon>
-                                    </span>
-                                </li>
-                                <li class="flex items-center shrink-0"
-                                    :class="step === 3 ? 'text-blue-600' : 'text-gray-400'">
-                                    <span
-                                        class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
+                                </span>
+                            </li>
+                            <li class="flex items-center shrink-0"
+                                :class="step === 3 ? 'text-blue-600' : 'text-gray-400'">
+                                <span
+                                    class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden">
                                     <iconify-icon icon="material-symbols:looks-3-outline" width="60"
                                         height="60"></iconify-icon>
-                                    </span>
-                                </li>
-                            </ol>
+                                </span>
+                            </li>
+                        </ol>
 
-                            <Transition name="fade">
-                                <div v-if="step === 1">
-                                    <div class="mb-4">
-                                        <dynamic-inputs :label="t('form.product_title')"
-                                            :placeholder="t('form.enter_your_product_title')" type="text"
-                                            :name="t('form.product_title')" :rules="'required'" :required="true"
+                        <Transition name="fade">
+                            <div v-if="step === 1">
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.product_title')"
+                                        :placeholder="t('form.enter_your_product_title')" type="text"
+                                        :name="t('form.product_title')" :rules="'required'" :required="true"
                                         prefixIcon="tabler:brand-producthunt" v-model="formData.title" />
-                                    </div>
+                                </div>
 
-                                    <div class="mb-4">
-                                        <dynamic-inputs :label="t('form.product_title_ar')"
-                                            :placeholder="t('form.enter_your_product_title_ar')" type="text"
-                                            :name="t('form.product_title_ar')" :rules="'required'" :required="true"
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.product_title_ar')"
+                                        :placeholder="t('form.enter_your_product_title_ar')" type="text"
+                                        :name="t('form.product_title_ar')" :rules="'required'" :required="true"
                                         prefixIcon="tabler:brand-producthunt" v-model="formData.titleAr" />
-                                    </div>
+                                </div>
 
-                                    <div class="mb-4">
+                                <div class="mb-4">
                                     <label class="block mb-2 text-sm font-medium text-gray-700">
                                         {{ $t('form.images') }}
                                     </label>
                                     <div class="grid grid-cols-2 gap-6 px-4 mx-auto mt-3 md:grid-cols-4 lg:px-6">
                                         <!-- img 1 -->
-                                                            <div class="flex flex-col items-center">
+                                        <div class="flex flex-col items-center">
                                             <div v-if="imagePreview.imageUrl1" class="relative mb-2 w-28 h-28">
                                                 <img :src="imagePreview.imageUrl1"
                                                     class="object-cover w-full h-full rounded-lg" />
@@ -78,7 +79,7 @@
                                                     <iconify-icon icon="material-symbols:close-small-rounded" width="20"
                                                         height="20"></iconify-icon>
                                                 </button>
-                                                            </div>
+                                            </div>
                                             <div v-else
                                                 class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
                                                 <label for="imageUrl1"
@@ -87,12 +88,12 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
-                                                        </div>
+                                            </div>
                                             <input id="imageUrl1" type="file" class="hidden" accept="image/*"
                                                 @change="handleSingleImageUpload($event, 'imageUrl1')" />
-                                                    </div>
+                                        </div>
 
                                         <!-- img 2 -->
                                         <div class="flex flex-col items-center">
@@ -104,7 +105,7 @@
                                                     <iconify-icon icon="material-symbols:close-small-rounded" width="20"
                                                         height="20"></iconify-icon>
                                                 </button>
-                                                </div>
+                                            </div>
                                             <div v-else
                                                 class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
                                                 <label for="imageUrl2"
@@ -113,7 +114,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl2" type="file" class="hidden" accept="image/*"
@@ -139,7 +140,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl3" type="file" class="hidden" accept="image/*"
@@ -165,7 +166,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl4" type="file" class="hidden" accept="image/*"
@@ -175,41 +176,41 @@
                                 </div>
 
                                 <div class="flex flex-wrap items-center justify-end gap-4 mt-8">
-                                        <button role="button" @click="nextStep"
-                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                            {{ $t('btn.next_step') }}
-                                        </button>
-                                    </div>
+                                    <button role="button" @click="nextStep"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                        {{ $t('btn.next_step') }}
+                                    </button>
                                 </div>
-                            </Transition>
+                            </div>
+                        </Transition>
 
-                            <Transition name="fade">
-                                <div v-if="step === 2">
-                                    <div class="mb-4">
-                                        <dynamic-inputs :label="t('form.product_description')"
-                                            :placeholder="t('form.enter_your_product_description')" type="textarea"
-                                            :name="t('form.product_description')" :rules="'required'" :required="true"
+                        <Transition name="fade">
+                            <div v-if="step === 2">
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.product_description')"
+                                        :placeholder="t('form.enter_your_product_description')" type="textarea"
+                                        :name="t('form.product_description')" :rules="'required'" :required="true"
                                         prefixIcon="tabler:file-description" v-model="formData.description" />
-                                    </div>
+                                </div>
 
-                                    <div class="mb-4">
-                                        <dynamic-inputs :label="t('form.product_description_ar')"
-                                            :placeholder="t('form.enter_your_product_description_ar')" type="textarea"
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.product_description_ar')"
+                                        :placeholder="t('form.enter_your_product_description_ar')" type="textarea"
                                         :name="t('form.product_description_ar')" :rules="'required'" :required="true"
                                         prefixIcon="tabler:file-description" v-model="formData.descriptionAr" />
-                                    </div>
+                                </div>
 
-                                    <div class="mb-4">
-                                        <dynamic-inputs :label="t('form.original_price')"
-                                            :placeholder="t('form.enter_original_price')" type="number"
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.original_price')"
+                                        :placeholder="t('form.enter_original_price')" type="number"
                                         :name="t('form.original_price')" prefixIcon="mdi:money"
                                         v-model="formData.originalPrice" />
-                                    </div>
+                                </div>
 
-                                    <div class="mb-4">
-                                        <dynamic-inputs :label="t('form.discounted_price')"
-                                            :placeholder="t('form.enter_discounted_price')" type="number"
-                                            :name="t('form.discounted_price')" :rules="'required'" :required="true"
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.discounted_price')"
+                                        :placeholder="t('form.enter_discounted_price')" type="number"
+                                        :name="t('form.discounted_price')" :rules="'required'" :required="true"
                                         prefixIcon="mdi:money" v-model="formData.discountedPrice" />
                                 </div>
 
@@ -218,42 +219,42 @@
                                         :placeholder="t('form.enter_commission')" type="number"
                                         :name="t('form.commission')" :rules="'required'" :required="true"
                                         prefixIcon="mdi:percent" v-model="formData.commission" />
-                                    </div>
+                                </div>
 
                                 <div class="flex flex-wrap items-center justify-end gap-4 mt-8">
-                                        <button v-if="step > 1" @click="prevStep" type="button"
-                                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
-                                            {{ $t('btn.back') }}
-                                        </button>
-                                        <button role="button" @click="nextStep"
-                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                            {{ $t('btn.next_step') }}
-                                        </button>
-                                    </div>
+                                    <button v-if="step > 1" @click="prevStep" type="button"
+                                        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
+                                        {{ $t('btn.back') }}
+                                    </button>
+                                    <button role="button" @click="nextStep"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                        {{ $t('btn.next_step') }}
+                                    </button>
                                 </div>
-                            </Transition>
+                            </div>
+                        </Transition>
 
-                            <Transition name="fade">
-                                <div v-if="step === 3">
-                                    <div class="mb-4">
-                                        <dynamic-inputs :label="t('form.discount')"
-                                            :placeholder="t('form.enter_the_discount_percentage')" type="number"
+                        <Transition name="fade">
+                            <div v-if="step === 3">
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.discount')"
+                                        :placeholder="t('form.enter_the_discount_percentage')" type="number"
                                         :name="t('form.discount')" prefixIcon="mdi:discount-circle-outline"
                                         v-model="formData.discount" />
-                                    </div>
+                                </div>
 
-                                    <div class="mb-4">
-                                        <label for="availability" class="block mb-2 font-medium text-gray-700">{{
-                                            $t('form.availability')
-                                            }}</label>
-                                        <select id="availability" :name="t('form.availability')"
+                                <div class="mb-4">
+                                    <label for="availability" class="block mb-2 font-medium text-gray-700">{{
+                                        $t('form.availability')
+                                    }}</label>
+                                    <select id="availability" :name="t('form.availability')"
                                         v-model="formData.availability"
-                                            class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
-                                            <option value="" disabled>{{ $t('form.select_availability') }}</option>
+                                        class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
+                                        <option value="" disabled>{{ $t('form.select_availability') }}</option>
                                         <option value="in_stock">{{ $t('form.in_stock') }}</option>
                                         <option value="out_of_stock">{{ $t('form.out_of_stock') }}</option>
-                                        </select>
-                                    </div>
+                                    </select>
+                                </div>
 
                                 <div class="mb-4" v-if="formData.availability === 'in_stock'">
                                     <dynamic-inputs :label="t('form.number_of_stock')"
@@ -264,51 +265,51 @@
                                 </div>
 
                                 <div class="mb-4" v-if="userRole?.role !== 'market_owner'">
-                                        <label for="country" class="block mb-2 font-medium text-gray-700">{{
-                                            $t('form.select_market_country')
-                                            }}</label>
-                                        <select id="country" :name="t('form.select_market_country')"
+                                    <label for="country" class="block mb-2 font-medium text-gray-700">{{
+                                        $t('form.select_market_country')
+                                    }}</label>
+                                    <select id="country" :name="t('form.select_market_country')"
                                         v-model="selectedCountry" @change="updateMarketValues"
-                                            class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
-                                            <option value="" disabled>{{ $t('form.select_market_country') }}
-                                            </option>
+                                        class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
+                                        <option value="" disabled>{{ $t('form.select_market_country') }}
+                                        </option>
                                         <option v-for="country in countryOptions" :key="country.key"
                                             :value="country.key">
                                             {{ $i18n.locale === 'ar' ? country.ar : country.en }}
                                         </option>
-                                        </select>
-                                    </div>
+                                    </select>
+                                </div>
 
                                 <div class="flex flex-wrap items-center justify-end gap-4 mt-8">
-                                        <button @click="prevStep" type="button"
-                                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
-                                            {{ $t('btn.back') }}
-                                        </button>
-                                        <button type="submit" :disabled="loading" @click="handleSubmit"
-                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                            <div class="flex items-center justify-center" v-if="loading">
-                                                <span class="text-center me-2">{{ $t('btn.please_wait') }}...</span>
-                                                <iconify-icon icon="line-md:loading-loop" width="24"
-                                                    height="24"></iconify-icon>
-                                            </div>
-                                            <span v-else>
-                                                {{ isEdit ? $t('btn.edit_product') : $t('btn.add_product') }}
-                                            </span>
-                                        </button>
-                                    </div>
+                                    <button @click="prevStep" type="button"
+                                        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
+                                        {{ $t('btn.back') }}
+                                    </button>
+                                    <button type="submit" :disabled="loading" @click="handleSubmit"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                        <div class="flex items-center justify-center" v-if="loading">
+                                            <span class="text-center me-2">{{ $t('btn.please_wait') }}...</span>
+                                            <iconify-icon icon="line-md:loading-loop" width="24"
+                                                height="24"></iconify-icon>
+                                        </div>
+                                        <span v-else>
+                                            {{ isEdit ? $t('btn.edit_product') : $t('btn.add_product') }}
+                                        </span>
+                                    </button>
                                 </div>
-                            </Transition>
-                        </div>
+                            </div>
+                        </Transition>
                     </div>
                 </div>
             </div>
-    </div>
-
-    <!-- dynamic-toast component  -->
-    <div class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
-        <div class="pointer-events-auto">
-            <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
-                :toastIcon="toastIcon" @toastClosed="showToast = false" />
+        </div>
+        
+        <!-- dynamic-toast component  -->
+        <div class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
+            </div>
         </div>
     </div>
 </template>

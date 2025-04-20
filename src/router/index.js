@@ -60,27 +60,6 @@ const router = createRouter({
           },
         },
         {
-          path: "/categories/add",
-          name: "add-category",
-          component: () => import("../views/categories/category-form.vue"),
-          meta: {
-            title: "meta.add_category",
-            requiresAuth: true,
-            allowedRoles: ["admin", "employee"],
-          },
-        },
-        {
-          path: "/categories/edit/:id",
-          name: "edit-category",
-          component: () => import("../views/categories/category-form.vue"),
-          meta: {
-            title: "meta.edit_category",
-            requiresAuth: true,
-            allowedRoles: ["admin", "employee"],
-          },
-          props: true,
-        },
-        {
           path: "/orders",
           name: "orders",
           component: () => import("../views/orders.vue"),

@@ -223,25 +223,38 @@
                 </div>
               </td>
               <td class="p-4">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center justify-center px-6 py-4 space-s-5" v-flowbite>
                   <button @click="openOrderDetails(order)" v-if="hasPermission('orders', 'changeStatus')"
-                    class="flex items-center justify-center w-8 h-8 text-blue-500 rounded hover:text-blue-600">
-                    <iconify-icon icon="material-symbols:edit" width="24" height="24" />
+                    class="flex items-center justify-center w-8 h-8 text-blue-500 rounded hover:text-blue-600"
+                    data-tooltip-target="tooltip-view-details">
+                    <iconify-icon icon="ic:round-remove-red-eye" width="24" height="24"></iconify-icon>
                   </button>
+                  <div id="tooltip-view-details" role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                    {{ $t('tooltip.view_details') }}
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+
                   <button @click.stop="openDeleteDialog(order)" v-if="hasPermission('orders', 'delete')"
-                    class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600">
+                    class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600"
+                    data-tooltip-target="tooltip-delete-order">
                     <iconify-icon icon="material-symbols:delete" width="24" height="24" />
                   </button>
+                  <div id="tooltip-delete-order" role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                    {{ $t('tooltip.delete_order') }}
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
                 </div>
               </td>
             </tr>
-
-            <!-- delete-dialog component -->
-            <delete-dialog v-model="showDeleteDialog"
-                                :message="$t('dashboard.delete_confirmation_order')" @confirm="handleDelete" />
           </tbody>
         </table>
       </template>
+
+      <!-- delete-dialog component -->
+      <delete-dialog v-model="showDeleteDialog" :message="$t('dashboard.delete_confirmation_order')"
+        @confirm="handleDelete" />
     </div>
 
     <!-- paginationControls component -->
@@ -346,7 +359,7 @@ const deletingOrders = ref({});
 
 const openDeleteDialog = (product) => {
   selectedOrderId.value = product.id;
-    showDeleteDialog.value = true;
+  showDeleteDialog.value = true;
 };
 
 const handleDelete = async () => {
