@@ -157,7 +157,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                        }}</span>
+                                            }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4">
@@ -275,12 +275,11 @@
 
 <script setup>
 const merchantsOrdersStore = useMerchantsOrdersStore()
+const productStore = useProductsStore();
 const { t, locale } = useI18n()
 const { userRole } = useUserRole()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const showSkeleton = ref(true);
-
-const productStore = useProductsStore();
 
 onMounted(async () => {
     const startTime = Date.now();
@@ -394,7 +393,13 @@ const excelConfig = ref({
         },
         {
             label: t('dashboard.discount'),
-            key: "discount"
+            key: "discount",
+            mapper: (item) => item.discount ? `${item.discount}%` : t('dashboard.no_discount')
+        },
+        {
+            label: t('dashboard.commission'),
+            key: "Commission",
+            mapper: (item) => item.commission ? `${item.commission}%` : t('dashboard.no_commission')
         },
         {
             label: t('dashboard.availability'),
@@ -413,17 +418,6 @@ const user = computed(() => authStore.user);
 
 //usePermissions composables
 const { hasPermission } = usePermissions(user);
-
-const skeletonHeaders = [
-    { label: '#', loaderWidth: 'w-8' },
-    { label: 'Product Image', type: 'image' },
-    { label: 'Product Name', loaderWidth: 'w-32' },
-    { label: 'Target Market', loaderWidth: 'w-24' },
-    { label: 'Price', loaderWidth: 'w-24' },
-    { label: 'Discount', loaderWidth: 'w-24' },
-    { label: 'Availability', loaderWidth: 'w-24' },
-    { label: 'Actions', type: 'action' }
-];
 
 const showOrderDialog = ref(false)
 const selectedProduct = ref(null)
@@ -507,4 +501,16 @@ const handleOrderPlaced = async (orderData) => {
         });
     }
 };
+
+const skeletonHeaders = [
+    { label: '#', loaderWidth: 'w-8' },
+    { label: 'Product Image', type: 'image' },
+    { label: 'Product Name', loaderWidth: 'w-32' },
+    { label: 'Target Market', loaderWidth: 'w-24' },
+    { label: 'Price', loaderWidth: 'w-24' },
+    { label: 'Discount', loaderWidth: 'w-24' },
+    { label: 'Commission', loaderWidth: 'w-24' },
+    { label: 'Availability', loaderWidth: 'w-24' },
+    { label: 'Actions', type: 'action' }
+];
 </script>

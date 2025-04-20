@@ -171,7 +171,6 @@ const removeUser = async (userId) => {
     try {
         deletingUsers.value[userId] = true;
         await userStore.deleteUser(userId);
-
         triggerToast({
             message: t('toast.user_deleted_successfully'),
             type: 'success',
@@ -248,8 +247,8 @@ const { hasPermission } = usePermissions(user);
 const skeletonHeaders = [
     { label: '#', loaderWidth: 'w-8' },
     { label: 'Email', type: 'image' },
-    { label: 'First Name', loaderWidth: 'w-32' },
-    { label: 'Last Name', loaderWidth: 'w-24' },
+    { label: 'Name', loaderWidth: 'w-32' },
+    { label: 'Role', loaderWidth: 'w-24' },
     { label: 'Status', loaderWidth: 'w-24' },
 ];
 </script>

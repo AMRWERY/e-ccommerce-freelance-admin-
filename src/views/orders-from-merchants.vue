@@ -14,7 +14,7 @@
           <date-picker v-model="endDate" />
         </div>
         <button @click="filterOrdersByDate"
-          class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
+          class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-3 text-center inline-flex items-center me-2">
           {{ $t('btn.filter') }}
         </button>
         <div>
@@ -101,11 +101,6 @@
               </th>
               <th class="p-4 border-b border-slate-200 bg-slate-50">
                 <p class="text-sm font-normal leading-none text-slate-500">
-                  {{ $t('dashboard.product_img') }}
-                </p>
-              </th>
-              <th class="p-4 border-b border-slate-200 bg-slate-50">
-                <p class="text-sm font-normal leading-none text-slate-500">
                   {{ $t('dashboard.merchant_name') }}
                 </p>
               </th>
@@ -157,9 +152,6 @@
               </td>
               <td class="p-4">
                 <p class="block text-sm font-semibold text-slate-800">{{ order.orderId }}</p>
-              </td>
-              <td lass="p4">
-                <img :src="order.productImage" alt="product-logo" class="object-cover w-12 h-12 rounded-lg">
               </td>
               <td class="p-4">
                 <p>{{ order.merchantName }}</p>
@@ -253,13 +245,12 @@
 const merchantsOrdersStore = useMerchantsOrdersStore()
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
-
-//usePermissions composables
-const { hasPermission } = usePermissions(user);
-
 const { t, locale } = useI18n()
 const showSkeleton = ref(true);
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast()
+
+//usePermissions composables
+const { hasPermission } = usePermissions(user);
 
 const orderStatus = ref([
   { id: 'pending', status: 'Pending' },
@@ -396,50 +387,47 @@ const excelConfig = ref({
   sheetName: 'Orders',
   headers: [
     {
-      label: t('dashboard.product_name'),
-      key: "title",
-      mapper: (item) => locale.value === 'ar' ? item.titleAr : item.title
+      label: t('dashboard.order_id'),
+      key: "orderId"
     },
     {
-      label: t('dashboard.target_market'),
-      key: "targetMarket"
+      label: t('dashboard.merchant_name'),
+      key: "merchantName"
     },
     {
-      label: t('dashboard.price'),
-      key: "discountedPrice",
-      type: "n",
-      numberFormat: '0',
-      mapper: (item) => Math.round(parseFloat(item.discountedPrice)),
-      cellStyle: { font: { color: { rgb: "00AA00" }, bold: true } }
+      label: t('dashboard.order_date'),
+      key: "createdAt",
+      mapper: (item) => formatDate(item.createdAt)
     },
     {
-      label: t('dashboard.discount'),
-      key: "discount"
+      label: t('dashboard.phone_number'),
+      key: "phoneNumber"
     },
     {
-      label: t('dashboard.availability'),
-      key: "numberOfStock"
+      label: t('dashboard.country'),
+      key: "country",
+      mapper: (item) => item.country || 'Egypt'
+    },
+    {
+      label: t('dashboard.quantity'),
+      key: "quantity"
     }
   ],
-  columnWidths: [5, 15, 25, 20, 15, 15, 10]
+  columnWidths: [15, 25, 20, 20, 15, 15]
 });
 
 const handleExport = () => {
-  exportDataToExcel(merchantsOrdersStore.orders, excelConfig.value);
+  const transformedData = merchantsOrdersStore.orders.map(order => ({
+    orderId: order.orderId,
+    merchantName: order.merchantName,
+    createdAt: order.createdAt,
+    phoneNumber: order.phoneNumber,
+    country: order.country || 'Egypt',
+    quantity: order.quantity
+  }));
+  
+  exportDataToExcel(transformedData, excelConfig.value);
 };
-
-const skeletonHeaders = [
-  { label: '#', loaderWidth: 'w-8' },
-  { label: 'Order ID', loaderWidth: 'w-32' },
-  { label: 'Email', loaderWidth: 'w-24' },
-  { label: 'Customer name', loaderWidth: 'w-24' },
-  { label: 'Date', loaderWidth: 'w-24' },
-  { label: 'Phone number', loaderWidth: 'w-24' },
-  { label: 'Country', loaderWidth: 'w-24' },
-  { label: 'Governorate', loaderWidth: 'w-24' },
-  { label: 'Status', loaderWidth: 'w-24' },
-  { label: 'Actions', type: 'action' }
-];
 
 const { getTranslatedLocation } = useLocationTranslations();
 
@@ -541,4 +529,16 @@ const getMerchantStatusIcon = (status) => {
 const getMerchantTranslatedStatus = (status) => {
   return t(`permissions.status.${status || 'pending'}`);
 };
+
+const skeletonHeaders = [
+  { label: '#', loaderWidth: 'w-8' },
+  { label: 'Order ID', loaderWidth: 'w-32' },
+  { label: 'Merchant Name', loaderWidth: 'w-24' },
+  { label: 'Order date', loaderWidth: 'w-24' },
+  { label: 'Phone number', loaderWidth: 'w-24' },
+  { label: 'Country', loaderWidth: 'w-24' },
+  { label: 'Quantity', loaderWidth: 'w-24' },
+  { label: 'Status', loaderWidth: 'w-24' },
+  { label: 'Actions', type: 'action' }
+];
 </script>

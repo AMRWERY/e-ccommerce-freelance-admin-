@@ -243,5 +243,6 @@ const skeletonHeaders = [
     { label: 'Name', loaderWidth: 'w-24' },
     { label: 'Merchant ID', loaderWidth: 'w-24' },
     { label: 'Status', loaderWidth: 'w-24' },
+    { label: 'Actions', type: 'action' }
 ];
 </script>

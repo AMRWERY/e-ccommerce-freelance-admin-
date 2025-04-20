@@ -126,6 +126,7 @@ const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast
 const showSkeleton = ref(true);
 
 const user = computed(() => authStore.user);
+
 const { hasPermission } = usePermissions(user);
 
 // Dialog control
@@ -179,7 +180,6 @@ const handleDialogClose = () => {
 const handleSuccess = async () => {
     showSkeleton.value = true;
     const startTime = Date.now();
-
     try {
         await categoriesStore.fetchCategories();
     } finally {
@@ -199,12 +199,9 @@ const handleDelete = async () => {
             type: 'success',
             icon: 'material-symbols:check-circle',
         });
-
         showSkeleton.value = true;
         const startTime = Date.now();
-
         await categoriesStore.fetchCategories();
-
         const elapsed = Date.now() - startTime;
         const remaining = Math.max(3000 - elapsed, 0);
         setTimeout(() => {
@@ -225,7 +222,7 @@ const handleDelete = async () => {
 // Skeleton headers
 const skeletonHeaders = [
     { label: '#', loaderWidth: 'w-8' },
-    { label: 'Image', loaderWidth: 'w-16' },
+    { label: 'Image', type: 'image' },
     { label: 'Category Name', loaderWidth: 'w-32' },
     { label: 'Actions', type: 'action' }
 ];

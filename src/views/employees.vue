@@ -296,6 +296,7 @@ const skeletonHeaders = [
     { label: 'Employee Name', loaderWidth: 'w-32' },
     { label: 'Employee Email', loaderWidth: 'w-24' },
     { label: 'Created At', loaderWidth: 'w-24' },
+    { label: 'Permissions', loaderWidth: 'w-24' },
     { label: 'Actions', type: 'action' }
 ];
 </script>

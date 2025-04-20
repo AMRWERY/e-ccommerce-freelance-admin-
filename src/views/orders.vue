@@ -14,7 +14,7 @@
           <date-picker v-model="endDate" />
         </div>
         <button @click="filterOrdersByDate"
-          class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
+          class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-3 text-center inline-flex items-center me-2">
           {{ $t('btn.filter') }}
         </button>
         <div>
@@ -441,50 +441,46 @@ const excelConfig = ref({
   sheetName: 'Orders',
   headers: [
     {
-      label: t('dashboard.product_name'),
-      key: "title",
-      mapper: (item) => locale.value === 'ar' ? item.titleAr : item.title
+      label: t('dashboard.order_id'),
+      key: "orderId",
     },
     {
-      label: t('dashboard.target_market'),
-      key: "targetMarket"
+      label: t('dashboard.customer_name'),
+      key: "deliveryDetails.name",
     },
     {
-      label: t('dashboard.price'),
-      key: "discountedPrice",
-      type: "n",
-      numberFormat: '0',
-      mapper: (item) => Math.round(parseFloat(item.discountedPrice)),
-      cellStyle: { font: { color: { rgb: "00AA00" }, bold: true } }
+      label: t('dashboard.date'),
+      key: "date",
     },
     {
-      label: t('dashboard.discount'),
-      key: "discount"
+      label: t('dashboard.phone_number'),
+      key: "deliveryDetails.phoneNumber"
     },
     {
-      label: t('dashboard.availability'),
-      key: "numberOfStock"
-    }
+      label: t('dashboard.country'),
+      key: "deliveryDetails.country"
+    },
+    {
+      label: t('dashboard.governorate'),
+      key: "deliveryDetails.city"
+    },
   ],
   columnWidths: [5, 15, 25, 20, 15, 15, 10]
 });
 
 const handleExport = () => {
-  exportDataToExcel(checkoutStore.orders, excelConfig.value);
+  // Transform the data to handle nested properties
+  const transformedData = checkoutStore.orders.map(order => ({
+    orderId: order.orderId,
+    'deliveryDetails.name': order.deliveryDetails?.name || '',
+    date: formatDate(order.date),
+    'deliveryDetails.phoneNumber': order.deliveryDetails?.phoneNumber || '',
+    'deliveryDetails.country': order.deliveryDetails?.country || '',
+    'deliveryDetails.city': order.deliveryDetails?.city || ''
+  }));
+  
+  exportDataToExcel(transformedData, excelConfig.value);
 };
-
-const skeletonHeaders = [
-  { label: '#', loaderWidth: 'w-8' },
-  { label: 'Order ID', loaderWidth: 'w-32' },
-  { label: 'Email', loaderWidth: 'w-24' },
-  { label: 'Customer name', loaderWidth: 'w-24' },
-  { label: 'Date', loaderWidth: 'w-24' },
-  { label: 'Phone number', loaderWidth: 'w-24' },
-  { label: 'Country', loaderWidth: 'w-24' },
-  { label: 'Governorate', loaderWidth: 'w-24' },
-  { label: 'Status', loaderWidth: 'w-24' },
-  { label: 'Actions', type: 'action' }
-];
 
 const { getTranslatedLocation } = useLocationTranslations();
 
@@ -604,4 +600,17 @@ const getMerchantStatusIcon = (status) => {
 const getMerchantTranslatedStatus = (status) => {
   return t(`permissions.status.${status || 'pending'}`);
 };
+
+const skeletonHeaders = [
+  { label: '#', loaderWidth: 'w-8' },
+  { label: 'Order ID', loaderWidth: 'w-32' },
+  { label: 'Email', loaderWidth: 'w-24' },
+  { label: 'Customer name', loaderWidth: 'w-24' },
+  { label: 'Date', loaderWidth: 'w-24' },
+  { label: 'Phone number', loaderWidth: 'w-24' },
+  { label: 'Country', loaderWidth: 'w-24' },
+  { label: 'Governorate', loaderWidth: 'w-24' },
+  { label: 'Status', loaderWidth: 'w-24' },
+  { label: 'Actions', type: 'action' }
+];
 </script>
