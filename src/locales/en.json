@@ -75,7 +75,8 @@
     "enter_commission": "Enter commission",
     "search_categories": "Search for categories",
     "enter_category_title": "Enter category title",
-    "enter_category_title_ar": "Enter category title ar"
+    "enter_category_title_ar": "Enter category title ar",
+    "select_category": "Select category"
   },
   "btn": {
     "login": "Login",
@@ -279,7 +280,8 @@
     "categories": "Categories",
     "image": "Image",
     "category_name": "Category name",
-    "delete_confirmation_category": "You are about to delete this category. This action cannot be undone."
+    "delete_confirmation_category": "You are about to delete this category. This action cannot be undone.",
+    "no_category": "No category"
   },
   "tooltip": {
     "download_excel": "Download Excel",

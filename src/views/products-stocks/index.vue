@@ -55,6 +55,9 @@
                                     {{ $t('dashboard.product_name') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    {{ $t('dashboard.category') }}
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     {{ $t('dashboard.target_market') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -105,6 +108,12 @@
                                         'ar' ? product.titleAr :
                                         product.title }}
                                 </th>
+                                <td class="px-6 py-4">
+                                    {{ product.categoryId ? (locale === 'ar' ?
+                                        categoriesStore.getCategoryById(product.categoryId)?.titleAr :
+                                        categoriesStore.getCategoryById(product.categoryId)?.title) :
+                                        $t('dashboard.no_category') }}
+                                </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
                                         <img src="/ksa-flag.svg" alt="ksa-flag" class="w-5 h-4"
@@ -276,6 +285,7 @@
 <script setup>
 const merchantsOrdersStore = useMerchantsOrdersStore()
 const productStore = useProductsStore();
+const categoriesStore = useCategoriesStore();
 const { t, locale } = useI18n()
 const { userRole } = useUserRole()
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
@@ -285,7 +295,9 @@ onMounted(async () => {
     const startTime = Date.now();
     showSkeleton.value = true;
     try {
-        // First fetch products
+        // First fetch categories
+        await categoriesStore.fetchCategories();
+        // Then fetch products
         await productStore.fetchProducts();
         // Then initialize merchant store if user is a market owner
         if (userRole?.role === 'market_owner') {
@@ -506,6 +518,7 @@ const skeletonHeaders = [
     { label: '#', loaderWidth: 'w-8' },
     { label: 'Product Image', type: 'image' },
     { label: 'Product Name', loaderWidth: 'w-32' },
+    { label: 'Category', loaderWidth: 'w-24' },
     { label: 'Target Market', loaderWidth: 'w-24' },
     { label: 'Price', loaderWidth: 'w-24' },
     { label: 'Discount', loaderWidth: 'w-24' },

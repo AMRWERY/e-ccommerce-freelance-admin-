@@ -180,5 +180,9 @@ export const useCategoriesStore = defineStore("categoriesStore", {
         return title.includes(searchTerm) || titleAr.includes(searchTerm);
       });
     },
+
+    getCategoryById: (state) => (categoryId) => {
+      return state.categories.find(category => category.id === categoryId);
+    }
   },
 });

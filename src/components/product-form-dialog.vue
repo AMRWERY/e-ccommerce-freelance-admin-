@@ -51,6 +51,17 @@
                         <Transition name="fade">
                             <div v-if="step === 1">
                                 <div class="mb-4">
+                                    <label for="category" class="block mb-2 font-medium text-gray-700">{{ $t('form.select_category') }}</label>
+                                    <select id="category" v-model="formData.categoryId"
+                                        class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
+                                        <option value="" disabled>{{ $t('form.select_category') }}</option>
+                                        <option v-for="category in categoriesStore.categories" :key="category.id" :value="category.id">
+                                            {{ $i18n.locale === 'ar' ? category.titleAr : category.title }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
                                     <dynamic-inputs :label="t('form.product_title')"
                                         :placeholder="t('form.enter_your_product_title')" type="text"
                                         :name="t('form.product_title')" :rules="'required'" :required="true"
@@ -315,8 +326,11 @@
 </template>
 
 <script setup>
-const { t } = useI18n()
+import { onMounted } from 'vue';
+
+const { t, locale } = useI18n()
 const productsStore = useProductsStore();
+const categoriesStore = useCategoriesStore();
 const { userRole } = useUserRole();
 const loading = ref(false);
 const step = ref(1);
@@ -367,6 +381,7 @@ const closeDialog = () => {
 const isEdit = computed(() => props.productId && props.productId !== 'add-product');
 
 const formData = ref({
+    categoryId: '',
     title: '',
     titleAr: '',
     description: '',
@@ -517,6 +532,7 @@ const updateMarketValues = () => {
 
 const resetForm = () => {
     formData.value = {
+        categoryId: '',
         title: '',
         titleAr: '',
         description: '',
@@ -556,6 +572,10 @@ const prevStep = () => {
         step.value--;
     }
 };
+
+onMounted(async () => {
+    await categoriesStore.fetchCategories();
+});
 </script>
 
 <style scoped>

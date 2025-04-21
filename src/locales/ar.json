@@ -75,7 +75,8 @@
     "enter_commission": "ادخل العموله",
     "search_categories": "البحث عن الفئات",
     "enter_category_title": "أدخل اسم الفئة",
-    "enter_category_title_ar": "اسم عنوان الفئة عربي"
+    "enter_category_title_ar": "اسم عنوان الفئة عربي",
+    "select_category": "اختر الفئة"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -279,7 +280,8 @@
     "categories": "الفئات",
     "image": "صورة",
     "category_name": "اسم الفئه",
-    "delete_confirmation_category": "أنت على وشك حذف هذا الفئه. لا يمكن التراجع عن هذا الإجراء."
+    "delete_confirmation_category": "أنت على وشك حذف هذا الفئه. لا يمكن التراجع عن هذا الإجراء.",
+    "no_category": "لا يوجد فئة"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل",
