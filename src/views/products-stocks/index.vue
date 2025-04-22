@@ -42,7 +42,7 @@
                 </template>
 
                 <template v-else>
-                    <table class="w-full text-sm text-gray-500 table-fixed text-start">
+                    <table class="w-full text-sm text-gray-500 table-auto text-start">
                         <thead class="text-xs text-gray-700 capitalize bg-gray-50">
                             <tr>
                                 <th scope="col" class="w-[4%] px-6 py-3">
@@ -169,7 +169,7 @@
                                     <div class="flex items-center">
                                         <template v-if="product.shippingCost">
                                             {{ $n(parseFloat(product.shippingCost), 'currency',
-                                            currencyLocale(product.targetMarket)) }}
+                                                currencyLocale(product.targetMarket)) }}
                                         </template>
                                         <template v-else>
                                             <iconify-icon icon="mdi:truck-remove" width="24" height="24"
@@ -195,7 +195,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                        }}</span>
+                                            }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
