@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
 
 /* logo-label */
-@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap");
 
 /* body */
 body {
@@ -13,7 +13,7 @@ body {
 
 /* logo-label */
 .logo-label {
-  font-family: "Lobster", serif;
+  font-family: "Poetsen One", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
