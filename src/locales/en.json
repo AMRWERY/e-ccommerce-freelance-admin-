@@ -73,10 +73,14 @@
     "select_date": "Select date",
     "commission": "Commission",
     "enter_commission": "Enter commission",
+    "shipping_cost": "Shipping cost",
+    "enter_shipping_cost": "Enter shipping cost",
+    "hot_deal": "Hot deal",
     "search_categories": "Search for categories",
     "enter_category_title": "Enter category title",
     "enter_category_title_ar": "Enter category title ar",
-    "select_category": "Select category"
+    "select_category": "Select category",
+    "no_shipping_cost": "No shipping cost"
   },
   "btn": {
     "login": "Login",
@@ -153,7 +157,7 @@
   "error_page": {
     "error_404": "Error 404!",
     "page_not_found": "Page not found",
-    "the_page_you_are_looking_for_does_not_exist": "The page you’re looking for doesn’t exist."
+    "the_page_you_are_looking_for_does_not_exist": "The page you're looking for doesn't exist."
   },
   "toast": {
     "successfully_logged_in": "Successfully logged in",
@@ -257,6 +261,10 @@
     "completed_orders": "Completed orders",
     "pending_orders": "Pending orders",
     "commission": "Commission",
+    "shipping_cost": "Shipping cost",
+    "no_shipping_cost": "No shipping cost",
+    "hot_deal": "Hot deal",
+    "regular_product": "Regular product",
     "no_commission": "No commission",
     "total_products": "Total products",
     "total_customers": "Total customers",

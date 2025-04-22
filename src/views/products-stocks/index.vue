@@ -48,7 +48,7 @@
                                 <th scope="col" class="px-6 py-3">
                                     #
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.product_img') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -63,11 +63,17 @@
                                 <th scope="col" class="px-6 py-3">
                                     {{ $t('dashboard.price') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.discount') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     {{ $t('dashboard.commission') }}
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    {{ $t('dashboard.shipping_cost') }}
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    {{ $t('dashboard.hot_deal') }}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     {{ $t('dashboard.availability') }}
@@ -108,13 +114,13 @@
                                         'ar' ? product.titleAr :
                                         product.title }}
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     {{ product.categoryId ? (locale === 'ar' ?
                                         categoriesStore.getCategoryById(product.categoryId)?.titleAr :
                                         categoriesStore.getCategoryById(product.categoryId)?.title) :
                                         $t('dashboard.no_category') }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center gap-2">
                                         <img src="/ksa-flag.svg" alt="ksa-flag" class="w-5 h-4"
                                             v-if="product.targetMarket === 'Saudi Arabia'">
@@ -131,7 +137,7 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex flex-col">
                                         <p class="text-sm font-semibold text-gray-900">
                                             {{ $n(parseFloat(product.discountedPrice), 'currency',
@@ -143,7 +149,7 @@
                                         </p>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     <template v-if="product.discount > 0">
                                         {{ product.discount }}%
                                     </template>
@@ -151,7 +157,7 @@
                                         {{ $t('dashboard.no_discount') }}
                                     </template>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     <template v-if="product.commission">
                                         {{ product.commission }}%
                                     </template>
@@ -159,7 +165,19 @@
                                         {{ $t('dashboard.no_commission') }}
                                     </template>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ product.shippingCost ? $n(parseFloat(product.shippingCost), 'currency', currencyLocale(product.targetMarket)) : $t('dashboard.no_shipping_cost') }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div v-if="product.isHotDeal" class="flex items-center text-red-600">
+                                            <iconify-icon icon="material-symbols:local-fire-department" width="24" height="24" />
+                                            <span class="text-sm font-medium ms-1">{{ $t('dashboard.hot_deal') }}</span>
+                                        </div>
+                                        <span v-else class="text-sm text-gray-500">{{ $t('dashboard.regular_product') }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     <template v-if="product.numberOfStock > 0">
                                         <span class="font-semibold text-blue-700">{{ product.numberOfStock }}</span> {{
                                             $t('dashboard.pieces') }}
@@ -169,7 +187,7 @@
                                             }}</span>
                                     </template>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex gap-3">
                                         <div v-if="userRole?.role === 'market_owner'" class="flex items-center gap-1">
                                             <!-- Loading State -->
@@ -414,11 +432,24 @@ const excelConfig = ref({
             mapper: (item) => item.commission ? `${item.commission}%` : t('dashboard.no_commission')
         },
         {
+            label: t('dashboard.shipping_cost'),
+            key: "shippingCost",
+            type: "n",
+            numberFormat: '0',
+            mapper: (item) => Math.round(parseFloat(item.shippingCost)),
+            cellStyle: { font: { color: { rgb: "00AA00" }, bold: true } }
+        },
+        {
+            label: t('dashboard.hot_deal'),
+            key: "isHotDeal",
+            mapper: (item) => item.isHotDeal ? t('dashboard.hot_deal') : t('dashboard.regular_product')
+        },
+        {
             label: t('dashboard.availability'),
             key: "numberOfStock"
         }
     ],
-    columnWidths: [5, 15, 25, 20, 15, 15, 10]
+    columnWidths: [5, 15, 25, 20, 15, 15, 15, 15, 10]
 });
 
 const handleExport = () => {
@@ -523,6 +554,8 @@ const skeletonHeaders = [
     { label: 'Price', loaderWidth: 'w-24' },
     { label: 'Discount', loaderWidth: 'w-24' },
     { label: 'Commission', loaderWidth: 'w-24' },
+    { label: 'Shipping Cost', loaderWidth: 'w-24' },
+    { label: 'Hot Deal', loaderWidth: 'w-24' },
     { label: 'Availability', loaderWidth: 'w-24' },
     { label: 'Actions', type: 'action' }
 ];

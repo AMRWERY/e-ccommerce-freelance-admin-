@@ -232,6 +232,21 @@
                                         prefixIcon="mdi:percent" v-model="formData.commission" />
                                 </div>
 
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.shipping_cost')"
+                                        :placeholder="t('form.enter_shipping_cost')" type="number"
+                                        :name="t('form.shipping_cost')" :rules="'required'" :required="true"
+                                        prefixIcon="mdi:truck-delivery" v-model="formData.shippingCost" />
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" v-model="formData.isHotDeal" class="sr-only peer">
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                        <span class="text-sm font-medium text-gray-900 ms-3">{{ $t('form.hot_deal') }}</span>
+                                    </label>
+                                </div>
+
                                 <div class="flex flex-wrap items-center justify-end gap-4 mt-8">
                                     <button v-if="step > 1" @click="prevStep" type="button"
                                         class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
@@ -326,8 +341,6 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-
 const { t, locale } = useI18n()
 const productsStore = useProductsStore();
 const categoriesStore = useCategoriesStore();
@@ -393,7 +406,9 @@ const formData = ref({
     stock: null,
     availability: null,
     numberOfStock: null,
-    targetMarket: null
+    targetMarket: null,
+    shippingCost: null,
+    isHotDeal: false
 });
 
 const imageFiles = ref({
@@ -545,7 +560,9 @@ const resetForm = () => {
         availability: null,
         numberOfStock: null,
         targetMarket: '',
-        targetMarketAr: ''
+        targetMarketAr: '',
+        shippingCost: null,
+        isHotDeal: false
     };
     imageFiles.value = {
         imageUrl1: null,
