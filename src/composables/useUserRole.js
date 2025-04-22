@@ -6,6 +6,10 @@ export function useUserRole() {
         const parsed = JSON.parse(storedUser);
         return {
           role: parsed.role || "Unknown role",
+          firstName:
+            parsed.firstName || parsed.name?.split(" ")[0] || "No first name",
+          lastName:
+            parsed.lastName || parsed.name?.split(" ")[1] || "No last name",
           email: parsed.email || "No email",
           name: parsed.name || "No name",
           imageUrl: parsed.imageUrl || "No imageUrl",
