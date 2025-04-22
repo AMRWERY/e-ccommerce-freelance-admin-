@@ -42,43 +42,43 @@
                 </template>
 
                 <template v-else>
-                    <table class="w-full text-sm text-gray-500 text-start">
+                    <table class="w-full text-sm text-gray-500 table-fixed text-start">
                         <thead class="text-xs text-gray-700 capitalize bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[4%] px-6 py-3">
                                     #
                                 </th>
-                                <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.product_img') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[12%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.product_name') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[10%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.category') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[10%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.target_market') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[10%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.price') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                                <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.discount') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.commission') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.shipping_cost') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.hot_deal') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.availability') }}
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="w-[6%] px-6 py-3">
                                 </th>
                             </tr>
                         </thead>
@@ -166,15 +166,27 @@
                                     </template>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ product.shippingCost ? $n(parseFloat(product.shippingCost), 'currency', currencyLocale(product.targetMarket)) : $t('dashboard.no_shipping_cost') }}
+                                    <div class="flex items-center">
+                                        <template v-if="product.shippingCost">
+                                            {{ $n(parseFloat(product.shippingCost), 'currency',
+                                            currencyLocale(product.targetMarket)) }}
+                                        </template>
+                                        <template v-else>
+                                            <iconify-icon icon="mdi:truck-remove" width="24" height="24"
+                                                class="text-gray-400" />
+                                        </template>
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div v-if="product.isHotDeal" class="flex items-center text-red-600">
-                                            <iconify-icon icon="material-symbols:local-fire-department" width="24" height="24" />
-                                            <span class="text-sm font-medium ms-1">{{ $t('dashboard.hot_deal') }}</span>
+                                            <iconify-icon icon="material-symbols:local-fire-department" width="24"
+                                                height="24" />
+                                            <!-- <span class="text-sm font-medium ms-1">{{ $t('dashboard.hot_deal') }}</span> -->
                                         </div>
-                                        <span v-else class="text-sm text-gray-500">{{ $t('dashboard.regular_product') }}</span>
+                                        <div v-else class="flex items-center text-gray-400">
+                                            <iconify-icon icon="material-symbols:thermostat" width="24" height="24" />
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -184,7 +196,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                            }}</span>
+                                        }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -201,7 +213,7 @@
 
                                             <!-- Completed State with Check and Close Icons -->
                                             <template v-else-if="completedProductIds.has(product.id)">
-                                                <div class="flex items-center justify-center space-s-4" v-flowbite>
+                                                <div class="flex items-center justify-center space-s-4">
                                                     <button @click.stop="handleCloseClick(product)"
                                                         class="flex items-center gap-1 font-semibold text-blue-600 hover:text-blue-700"
                                                         data-tooltip-target="tooltip-order-now">
@@ -239,7 +251,7 @@
                                                 {{ $t('btn.order_now') }}
                                             </button>
                                         </div>
-                                        <div class="flex items-center justify-center px-6 py-4 space-s-5" v-flowbite>
+                                        <div class="flex items-center justify-center px-6 py-4 space-s-5">
                                             <button role="button" @click.stop="openEditDialog(product.id)"
                                                 v-if="hasPermission('products', 'edit')"
                                                 class="flex items-center justify-center font-medium text-blue-600 hover:text-blue-800"
