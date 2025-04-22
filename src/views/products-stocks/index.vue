@@ -51,13 +51,13 @@
                                 <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.product_img') }}
                                 </th>
-                                <th scope="col" class="w-[12%] px-6 py-3 whitespace-nowrap">
+                                <th scope="col" class="w-[17%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.product_name') }}
                                 </th>
                                 <th scope="col" class="w-[10%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.category') }}
                                 </th>
-                                <th scope="col" class="w-[10%] px-6 py-3 whitespace-nowrap">
+                                <th scope="col" class="w-[20%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.target_market') }}
                                 </th>
                                 <th scope="col" class="w-[10%] px-6 py-3 whitespace-nowrap">
@@ -66,7 +66,7 @@
                                 <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.discount') }}
                                 </th>
-                                <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
+                                <th scope="col" class="w-[12%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.commission') }}
                                 </th>
                                 <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
@@ -75,7 +75,7 @@
                                 <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.hot_deal') }}
                                 </th>
-                                <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
+                                <th scope="col" class="w-[12%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.availability') }}
                                 </th>
                                 <th scope="col" class="w-[6%] px-6 py-3">
@@ -182,7 +182,6 @@
                                         <div v-if="product.isHotDeal" class="flex items-center text-red-600">
                                             <iconify-icon icon="material-symbols:local-fire-department" width="24"
                                                 height="24" />
-                                            <!-- <span class="text-sm font-medium ms-1">{{ $t('dashboard.hot_deal') }}</span> -->
                                         </div>
                                         <div v-else class="flex items-center text-gray-400">
                                             <iconify-icon icon="material-symbols:thermostat" width="24" height="24" />
@@ -190,7 +189,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <template v-if="product.numberOfStock > 0">
+                                    <template v-if="product.numberOfStock > 0 && product.availability === 'in_stock'">
                                         <span class="font-semibold text-blue-700">{{ product.numberOfStock }}</span> {{
                                             $t('dashboard.pieces') }}
                                     </template>
