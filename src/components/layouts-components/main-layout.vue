@@ -14,7 +14,8 @@
                             </button>
                             <router-link to="/dashboard" class="flex ms-2 md:me-24 logo-label">
                                 <span
-                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">e-ccommerce</span>
+                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">BRAND
+                                    SHOP</span>
                             </router-link>
                         </div>
                         <div class="flex items-center">
@@ -30,18 +31,15 @@
                 </div>
             </nav>
 
-            <aside id="logo-sidebar"
-                :class="[
-                    'fixed top-0 z-40 w-64 h-screen pt-20 transition-transform bg-white dark:bg-gray-800 dark:border-gray-700',
-                    locale === 'ar' 
-                        ? 'right-0 border-l border-gray-200 translate-x-full sm:translate-x-0' 
-                        : 'left-0 border-r border-gray-200 -translate-x-full sm:translate-x-0'
-                ]"
-                aria-label="Sidebar">
+            <aside id="logo-sidebar" :class="[
+                'fixed top-0 z-40 w-64 h-screen pt-20 transition-transform bg-white dark:bg-gray-800 dark:border-gray-700',
+                locale === 'ar'
+                    ? 'right-0 border-l border-gray-200 translate-x-full sm:translate-x-0'
+                    : 'left-0 border-r border-gray-200 -translate-x-full sm:translate-x-0'
+            ]" aria-label="Sidebar">
                 <div class="relative h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                     <ul class="space-y-2 font-medium">
-                        <li
-                            v-if="userRole.role === 'admin'">
+                        <li v-if="userRole.role === 'admin'">
                             <router-link to="/dashboard" exact-active-class="bg-gray-100 dark:bg-gray-700"
                                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 @click="closeSidebarOnMobile">
@@ -125,7 +123,8 @@
                                 @click="closeSidebarOnMobile">
                                 <iconify-icon icon="mdi:clipboard-list" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
-                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.orders_from_merchants') }}</span>
+                                <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.orders_from_merchants')
+                                    }}</span>
                             </router-link>
                         </li>
                     </ul>
