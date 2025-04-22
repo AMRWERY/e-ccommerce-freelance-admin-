@@ -305,7 +305,8 @@
     "block": "Block",
     "delete_user": "Delete user",
     "delete_employee": "Delete employee",
-    "delete_merchant": "Delete merchant"
+    "delete_merchant": "Delete merchant",
+    "reload": "Reload"
   },
   "no_data": {
     "no_products_found": "No products found",

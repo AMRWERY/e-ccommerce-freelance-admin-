@@ -304,7 +304,8 @@
     "block": "حظر",
     "delete_user": "حذف المستخدم",
     "delete_employee": "حذف الموظف",
-    "delete_merchant": "حذف التاجر"
+    "delete_merchant": "حذف التاجر",
+    "reload": "إعادة التحميل"
   },
   "no_data": {
     "no_products_found": "لم يتم العثور على أي منتجات",

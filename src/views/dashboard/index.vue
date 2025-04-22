@@ -137,10 +137,15 @@
         <div class="p-6 bg-white rounded-lg shadow-md">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ $t('dashboard.most_sold_products') }}</h2>
-            <button @click="refreshTopProducts"
+            <button @click="refreshTopProducts" data-tooltip-target="tooltip-update-data"
               class="flex items-center justify-center p-2 text-gray-600 rounded-full hover:bg-gray-100">
               <iconify-icon icon="mdi:refresh" width="20" height="20" />
             </button>
+            <div id="tooltip-update-data" role="tooltip"
+              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              {{ $t('tooltip.reload') }}
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full">
@@ -192,10 +197,15 @@
         <div class="p-6 bg-white rounded-lg shadow-md">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ $t('dashboard.best_categories') }}</h2>
-            <button @click="refreshCategories"
+            <button @click="refreshCategories" data-tooltip-target="tooltip-update-data-one"
               class="flex items-center justify-center p-2 text-gray-600 rounded-full hover:bg-gray-100">
               <iconify-icon icon="mdi:refresh" width="20" height="20" />
             </button>
+            <div id="tooltip-update-data-one" role="tooltip"
+              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              {{ $t('tooltip.reload') }}
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
           </div>
           <div class="relative h-[300px]">
             <div v-if="categoriesChartLoading"
@@ -217,10 +227,15 @@
         <div class="p-6 bg-white rounded-lg shadow-md">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ $t('dashboard.active_employees') }}</h2>
-            <button @click="refreshEmployees"
+            <button @click="refreshEmployees" data-tooltip-target="tooltip-update-data-two"
               class="flex items-center justify-center p-2 text-gray-600 rounded-full hover:bg-gray-100">
               <iconify-icon icon="mdi:refresh" width="20" height="20" />
             </button>
+            <div id="tooltip-update-data-two" role="tooltip"
+              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              {{ $t('tooltip.reload') }}
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full">
@@ -271,10 +286,15 @@
         <div class="p-6 bg-white rounded-lg shadow-md">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ $t('dashboard.active_users') }}</h2>
-            <button @click="refreshUsers"
+            <button @click="refreshUsers" data-tooltip-target="tooltip-update-data-three"
               class="flex items-center justify-center p-2 text-gray-600 rounded-full hover:bg-gray-100">
               <iconify-icon icon="mdi:refresh" width="20" height="20" />
             </button>
+            <div id="tooltip-update-data-three" role="tooltip"
+              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+              {{ $t('tooltip.reload') }}
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full">
