@@ -80,7 +80,10 @@
     "enter_category_title": "Enter category title",
     "enter_category_title_ar": "Enter category title ar",
     "select_category": "Select category",
-    "no_shipping_cost": "No shipping cost"
+    "no_shipping_cost": "No shipping cost",
+    "enter_your_new_password": "Enter your new password",
+    "confirm_password": "Confirm password",
+    "confirm_your_password": "Confirm your password"
   },
   "btn": {
     "login": "Login",
@@ -111,7 +114,9 @@
     "loading": "loading...",
     "daily": "Daily",
     "weekly": "Weekly",
-    "monthly": "Monthly"
+    "monthly": "Monthly",
+    "change_password": "Change password",
+    "saving": "Saving"
   },
   "meta": {
     "dashboard": "Dashboard",
@@ -196,7 +201,12 @@
     "category_deletion_failed": "Category deletion failed",
     "fill_all_fields": "Fill all fields",
     "category_updated_successfully": "Category updated successfully",
-    "category_added_successfully": "Category added successfully"
+    "category_added_successfully": "Category added successfully",
+    "successfully_updated": "Successfully updated",
+    "failed_to_update_profile": "Failed to update profile",
+    "new_passwords_do_not_match": "New passwords do not match",
+    "your_password_has_been_successfully_updated": "Your password has been successfully updated",
+    "failed_to_update_password": "Failed to update password"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",

@@ -79,7 +79,10 @@
     "search_categories": "البحث عن الفئات",
     "enter_category_title": "أدخل اسم الفئة",
     "enter_category_title_ar": "اسم عنوان الفئة عربي",
-    "select_category": "اختر الفئة"
+    "select_category": "اختر الفئة",
+    "enter_your_new_password": "أدخل كلمة المرور الجديدة",
+    "confirm_password": "تأكيد كلمة المرور",
+    "confirm_your_password": "تأكيد كلمة المرور الخاصة بك"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -110,7 +113,9 @@
     "loading": "جاري التحميل...",
     "daily": "يومي",
     "weekly": "أسبوعي",
-    "monthly": "شهري"
+    "monthly": "شهري",
+    "change_password": "تغيير كلمة المرور",
+    "saving": "جاري الحفظ"
   },
   "meta": {
     "dashboard": "لوحة التحكم",
@@ -195,7 +200,12 @@
     "category_deletion_failed": "فشل حذف الفئة",
     "fill_all_fields": "املأ جميع الحقول",
     "category_updated_successfully": "تم تحديث الفئة بنجاح",
-    "category_added_successfully": "تمت إضافة الفئة بنجاح"
+    "category_added_successfully": "تمت إضافة الفئة بنجاح",
+    "successfully_updated": "تم التحديث بنجاح",
+    "failed_to_update_profile": "فشل تحديث الملف الشخصي",
+    "new_passwords_do_not_match": "كلمات المرور الجديدة لا تتطابق",
+    "your_password_has_been_successfully_updated": "لقد تم تحديث كلمة المرور الخاصة بك بنجاح",
+    "failed_to_update_password": "فشل في تحديث كلمة المرور"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",

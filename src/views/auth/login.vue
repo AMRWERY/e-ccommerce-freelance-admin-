@@ -25,10 +25,6 @@
 
                     <div class="mt-4 space-y-2 text-center">
                         <div>
-                            <router-link to="/auth/reset-password" class="hover:underline">{{ $t('form.forgot_password')
-                                }}</router-link>
-                        </div>
-                        <div>
                             <span>{{ $t('form.do_not_have_an_account') }}</span>
                             <router-link to="/auth/sign-up"
                                 class="font-semibold text-indigo-600 underline text-md hover:text-indigo-800 ms-1">{{

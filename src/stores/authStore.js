@@ -3,8 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  GoogleAuthProvider,
-  signInWithPopup,
+  updatePassword,
   setPersistence,
   browserLocalPersistence,
 } from "firebase/auth";
@@ -198,48 +197,6 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    async loginWithGoogle() {
-      try {
-        await setPersistence(auth, browserLocalPersistence);
-        const provider = new GoogleAuthProvider();
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        this.user = user;
-        const userDocRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userDocRef);
-        let userData;
-        if (!userDoc.exists()) {
-          userData = {
-            uid: user.uid,
-            email: user.email,
-            firstName: user.displayName?.split(" ")[0] || "FirstName",
-            lastName: user.displayName?.split(" ")[1] || "LastName",
-            role: "user",
-            loginType: "google",
-            createdAt: new Date(),
-          };
-          await setDoc(userDocRef, userData);
-        } else {
-          userData = userDoc.data();
-        }
-        const sessionUserData = {
-          uid: userData.uid,
-          email: userData.email,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          role: userData.role,
-          loginType: userData.loginType,
-        };
-        localStorage.setItem("user", JSON.stringify(sessionUserData));
-        this.role = userData.role || "user";
-        await this.fetchUserData(user.uid);
-        this.error = null;
-      } catch (err) {
-        this.error = err.message;
-        throw err;
-      }
-    },
-
     async logoutUser() {
       try {
         this.cleanupListeners();
@@ -253,6 +210,21 @@ export const useAuthStore = defineStore("auth", {
       } catch (err) {
         this.error = err.message;
         throw err;
+      }
+    },
+
+    async changePassword(newPassword) {
+      const user = auth.currentUser;
+      if (!user) throw new Error("User not authenticated");
+      try {
+        // Force token refresh to maintain authentication
+        await user.getIdToken(true);
+        // Update password directly
+        await updatePassword(user, newPassword);
+        return true;
+      } catch (error) {
+        console.error("Password change failed:", error);
+        throw error;
       }
     },
 

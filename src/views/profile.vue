@@ -3,64 +3,68 @@
         <div class="max-w-full mx-auto md:py-16">
             <div class="flex flex-col p-6 sm:flex-row">
                 <!-- First column (size 8) -->
-                <div class="w-full pe-4 sm:w-2/3">
-                    <form action="" class="space-y-8">
-                        <div class="grid grid-cols-1 mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="w-full space-y-4 pe-4 sm:w-2/3">
+                    <div class="p-3 border border-gray-200 rounded-lg">
+                        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div class="sm:col-span-3" v-if="userRole.role !== 'market_owner'">
-                                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">{{
-                                    $t('form.first_name') }}</label>
+                                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">
+                                    {{ $t('form.first_name') }}
+                                </label>
                                 <div class="mt-1">
                                     <input type="text" name="first-name" id="first-name" autocomplete="given-name"
-                                        v-model="userRole.firstName"
-                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                        disabled v-model="userRole.firstName"
+                                        class="w-full px-3 py-2 text-gray-600 transition-colors duration-200 bg-gray-100 border rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-gray-400 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed" />
                                 </div>
                             </div>
 
                             <div class="sm:col-span-3" v-if="userRole.role !== 'market_owner'">
-                                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">{{
-                                    $t('form.last_name') }}</label>
+                                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">
+                                    {{ $t('form.last_name') }}
+                                </label>
                                 <div class="mt-1">
                                     <input type="text" name="last-name" id="last-name" autocomplete="family-name"
-                                        v-model="userRole.lastName"
-                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                        disabled v-model="userRole.lastName"
+                                        class="w-full px-3 py-2 text-gray-600 transition-colors duration-200 bg-gray-100 border rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-gray-400 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed" />
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-span-full">
-                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">{{
-                                $t('form.email') }}</label>
+                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">
+                                {{ $t('form.email') }}
+                            </label>
                             <div class="mt-1">
-                                <input type="email" name="email" id="email" autocomplete="email"
+                                <input type="email" name="email" id="email" autocomplete="email" disabled
                                     v-model="userRole.email"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                    class="w-full px-3 py-2 text-gray-600 transition-colors duration-200 bg-gray-100 border rounded-md shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-gray-400 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed" />
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+                        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div class="sm:col-span-3">
-                                <label for="password" class="block text-sm font-medium leading-6 text-gray-900">{{
-                                    $t('form.new_password') }}</label>
-                                <div class="mt-1">
-                                    <input type="password" name="password" id="password" autocomplete="password"
-                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                                </div>
+                                <dynamic-inputs :label="t('form.new_password')"
+                                    :placeholder="t('form.enter_your_new_password')" type="password" name="password"
+                                    :rules="'required'" prefixIcon="ri:lock-password-fill" v-model="newPassword"
+                                    :disabled="!isEditing" />
                             </div>
 
                             <div class="sm:col-span-3">
-                                <label for="new-password" class="block text-sm font-medium leading-6 text-gray-900">{{
-                                    $t('form.confirm_new_password') }}</label>
-                                <div class="mt-1">
-                                    <input type="password" name="new-password" id="new-password" autocomplete="password"
-                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                                </div>
+                                <dynamic-inputs :label="t('form.confirm_password')"
+                                    :placeholder="t('form.confirm_your_password')" type="password" name="confirmation"
+                                    :rules="'required'" prefixIcon="ri:lock-password-fill" v-model="confirmNewPassword"
+                                    :disabled="!isEditing" />
                             </div>
                         </div>
+
                         <div class="flex items-center justify-end mt-6 gap-x-6">
-                            <button type="submit"
-                                class="px-3 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                {{ $t('btn.update') }}
+                            <button type="submit" @click="changePassword" :disabled="loading"
+                                class="flex items-center justify-center px-3 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                <iconify-icon icon="svg-spinners:90-ring" width="20" height="20" class="me-2"
+                                    v-if="loading" />
+                                <span v-else>{{ $t('btn.change_password') }}</span>
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
 
                 <div class="w-full mt-4 sm:w-1/3 sm:mt-0">
@@ -78,19 +82,66 @@
                                 class="object-cover object-center w-full h-32" alt="user-avatar" />
                         </div>
                         <div class="pb-4 mt-2 text-center">
-                            <h2 class="font-semibold">
+                            <h2 class="p-2 mx-auto font-semibold capitalize bg-gray-200 rounded-lg max-w-fit">
                                 {{ userRole.role === 'market_owner' ? userRole.name : userRole.role }}
                             </h2>
+                            <p class="font-medium text-gray-700 capitalize">{{ userRole.firstName }} {{
+                                userRole.lastName }}</p>
                             <p class="text-gray-500">{{ userRole.email }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- dynamic-toast component -->
+        <div class="fixed z-50 pointer-events-none bottom-5 start-5 w-96">
+            <div class="pointer-events-auto">
+                <dynamic-toast v-if="showToast" :message="toastMessage" :toastType="toastType" :duration="5000"
+                    :toastIcon="toastIcon" @toastClosed="showToast = false" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
+const { t } = useI18n()
+const authStore = useAuthStore();
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
+const newPassword = ref("");
+const confirmNewPassword = ref("");
+const isEditing = ref(false)
+const loading = ref(false)
+
+const changePassword = async () => {
+    loading.value = true;
+    try {
+        if (newPassword.value !== confirmNewPassword.value) {
+            throw new Error(t('toast.new_passwords_do_not_match'));
+        }
+        await authStore.changePassword(newPassword.value);
+        triggerToast({
+            message: t('toast.your_password_has_been_successfully_updated'),
+            type: 'success',
+            icon: 'mdi-check-circle',
+        });
+        resetForm();
+    } catch (error) {
+        triggerToast({
+            message: error.message || t('toast.failed_to_update_password'),
+            type: 'error',
+            icon: 'material-symbols:error-outline-rounded',
+        });
+    } finally {
+        loading.value = false;
+    }
+};
+
+const resetForm = () => {
+    newPassword.value = ''
+    confirmNewPassword.value = ''
+}
+
 //userRole composable
 const { userRole } = useUserRole()
 </script>

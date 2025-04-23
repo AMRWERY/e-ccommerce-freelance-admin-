@@ -21,10 +21,13 @@ const router = createRouter({
               try {
                 userRole = JSON.parse(storedUser).role;
               } catch (error) {
-                console.error("Error parsing user data from localStorage:", error);
+                console.error(
+                  "Error parsing user data from localStorage:",
+                  error
+                );
               }
             }
-            return userRole === 'admin' ? "/dashboard" : "/products-stocks";
+            return userRole === "admin" ? "/dashboard" : "/products-stocks";
           },
         },
         //products routes
@@ -35,7 +38,7 @@ const router = createRouter({
           meta: {
             title: "meta.dashboard",
             requiresAuth: true,
-            allowedRoles: ["admin"],  // Only admin can access dashboard
+            allowedRoles: ["admin"], // Only admin can access dashboard
           },
         },
         {
@@ -152,14 +155,6 @@ const router = createRouter({
       },
     },
     {
-      path: "/auth/reset-password",
-      name: "reset-password",
-      component: () => import("../views/auth/reset-password.vue"),
-      meta: {
-        title: "meta.reset_password",
-      },
-    },
-    {
       path: "/register-new-merchant",
       name: "register-new-merchant",
       component: () => import("../views/register-new-merchant.vue"),
@@ -212,8 +207,8 @@ router.beforeEach(async (to, from, next) => {
     }
 
     // Redirect from dashboard if not admin
-    if (to.path === '/dashboard' && userRole !== 'admin') {
-      next('/products-stocks');
+    if (to.path === "/dashboard" && userRole !== "admin") {
+      next("/products-stocks");
       return;
     }
   }
@@ -281,7 +276,10 @@ router.beforeEach(async (to, from, next) => {
         }
       }
       // For market_owner
-      if (userRole === "market_owner" && !requiredRoles.includes("market_owner")) {
+      if (
+        userRole === "market_owner" &&
+        !requiredRoles.includes("market_owner")
+      ) {
         next("/products-stocks");
         return;
       }
