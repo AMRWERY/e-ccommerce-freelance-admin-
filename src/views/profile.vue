@@ -6,7 +6,7 @@
                 <div class="w-full space-y-4 pe-4 sm:w-2/3">
                     <div class="p-3 border border-gray-200 rounded-lg">
                         <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <div class="sm:col-span-3" v-if="userRole.role !== 'market_owner'">
+                            <div class="sm:col-span-3">
                                 <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">
                                     {{ $t('form.first_name') }}
                                 </label>
@@ -17,7 +17,7 @@
                                 </div>
                             </div>
 
-                            <div class="sm:col-span-3" v-if="userRole.role !== 'market_owner'">
+                            <div class="sm:col-span-3">
                                 <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">
                                     {{ $t('form.last_name') }}
                                 </label>
@@ -85,7 +85,7 @@
                             <h2 class="p-2 mx-auto font-semibold capitalize bg-gray-200 rounded-lg max-w-fit">
                                 {{ userRole.role === 'market_owner' ? userRole.name : userRole.role }}
                             </h2>
-                            <p class="font-medium text-gray-700 capitalize">{{ userRole.firstName }} {{
+                            <p class="mt-1 font-medium text-gray-700 capitalize">{{ userRole.firstName }} {{
                                 userRole.lastName }}</p>
                             <p class="text-gray-500">{{ userRole.email }}</p>
                         </div>
