@@ -299,7 +299,8 @@
     "category_name": "اسم الفئه",
     "delete_confirmation_category": "أنت على وشك حذف هذا الفئه. لا يمكن التراجع عن هذا الإجراء.",
     "no_category": "لا يوجد فئة",
-    "whatsapp_number": "رقم الواتساب"
+    "whatsapp_number": "رقم الواتساب",
+    "address": "العنوان كاملا"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل",

@@ -499,6 +499,10 @@ const excelConfig = ref({
       label: t('dashboard.governorate'),
       key: "deliveryDetails.city"
     },
+    {
+      label: t('dashboard.address'),
+      key: "deliveryDetails.fullAddress"
+    },
   ],
   columnWidths: [5, 15, 25, 20, 15, 15, 10]
 });
@@ -514,7 +518,8 @@ const handleExport = () => {
     'deliveryDetails.phoneNumber': order.deliveryDetails?.phoneNumber || '',
     'deliveryDetails.whatsappNumber': order.deliveryDetails?.whatsappNumber || '',
     'deliveryDetails.country': order.deliveryDetails?.country || '',
-    'deliveryDetails.city': order.deliveryDetails?.city || ''
+    'deliveryDetails.city': order.deliveryDetails?.city || '',
+    'deliveryDetails.fullAddress': order.deliveryDetails?.fullAddress || '',
   }));
 
   exportDataToExcel(transformedData, excelConfig.value);
