@@ -244,11 +244,6 @@
                           item.title }}
                       </p>
                       <div class="flex flex-wrap gap-2 mt-1">
-                        <!-- <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
-                          <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.category')
-                            }}:</span>
-                          <span class="text-xs text-gray-700 ms-1">{{ item.category }}</span>
-                        </div> -->
                         <div class="inline-flex items-center px-2 py-1 bg-gray-100 rounded-md">
                           <span class="text-xs font-medium text-gray-600">{{ $t('dashboard.quantity')
                           }}:</span>
