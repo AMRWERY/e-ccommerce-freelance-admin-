@@ -101,6 +101,16 @@
               </th>
               <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
                 <p class="text-sm font-normal leading-none text-slate-500">
+                  {{ $t('dashboard.product_img') }}
+                </p>
+              </th>
+              <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
+                <p class="text-sm font-normal leading-none text-slate-500">
+                  {{ $t('dashboard.product_name') }}
+                </p>
+              </th>
+              <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
+                <p class="text-sm font-normal leading-none text-slate-500">
                   {{ $t('dashboard.email') }}
                 </p>
               </th>
@@ -163,6 +173,18 @@
               <td class="p-4">
                 <p class="block text-sm font-semibold text-slate-800">{{ order.orderId }}</p>
               </td>
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                <img :src="order.cart[0]?.imageUrl1" alt="product-logo" class="object-cover w-12 h-12 rounded-lg">
+              </th>
+              <td class="p-4">
+                {{ $i18n.locale === 'ar' ?
+                  order.cart[0]?.titleAr :
+                  order.cart[0]?.title }}
+              </td>
+              <!-- <td class="p-4" v-if="userRole?.role !== 'market_owner'">
+                <p>{{ order.deliveryDetails.email
+                }}</p>
+              </td> -->
               <td class="p-4" v-if="userRole?.role !== 'market_owner'">
                 <p>{{ order.deliveryDetails.email
                 }}</p>
@@ -478,7 +500,7 @@ const handleExport = () => {
     'deliveryDetails.country': order.deliveryDetails?.country || '',
     'deliveryDetails.city': order.deliveryDetails?.city || ''
   }));
-  
+
   exportDataToExcel(transformedData, excelConfig.value);
 };
 
