@@ -391,6 +391,11 @@ const excelConfig = ref({
       key: "orderId"
     },
     {
+      label: t('dashboard.product_name'),
+      key: "productTitle",
+      width: 35
+    },
+    {
       label: t('dashboard.merchant_name'),
       key: "merchantName"
     },
@@ -411,7 +416,11 @@ const excelConfig = ref({
     {
       label: t('dashboard.quantity'),
       key: "quantity"
-    }
+    },
+    {
+      label: t('dashboard.address'),
+      key: "fullAddress"
+    },
   ],
   columnWidths: [15, 25, 20, 20, 15, 15]
 });
@@ -419,13 +428,15 @@ const excelConfig = ref({
 const handleExport = () => {
   const transformedData = merchantsOrdersStore.orders.map(order => ({
     orderId: order.orderId,
+    productTitle: locale.value === 'ar' ? order.productTitleAr : order.productTitle,
     merchantName: order.merchantName,
     createdAt: order.createdAt,
     phoneNumber: order.phoneNumber,
     country: order.country || 'Egypt',
-    quantity: order.quantity
+    quantity: order.quantity,
+    fullAddress: order.fullAddress,
   }));
-  
+
   exportDataToExcel(transformedData, excelConfig.value);
 };
 

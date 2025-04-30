@@ -530,6 +530,7 @@ const handleExport = () => {
 
   exportDataToExcel(transformedData, excelConfig.value);
 };
+
 // const handleExport = () => {
 //   const transformedData = checkoutStore.orders.flatMap(order =>
 //     order.cart?.map(item => ({
