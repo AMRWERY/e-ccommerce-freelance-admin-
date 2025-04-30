@@ -99,7 +99,7 @@
                   {{ $t('dashboard.order_id') }}
                 </p>
               </th>
-              <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
+              <!-- <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
                 <p class="text-sm font-normal leading-none text-slate-500">
                   {{ $t('dashboard.product_img') }}
                 </p>
@@ -108,7 +108,7 @@
                 <p class="text-sm font-normal leading-none text-slate-500">
                   {{ $t('dashboard.product_name') }}
                 </p>
-              </th>
+              </th> -->
               <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
                 <p class="text-sm font-normal leading-none text-slate-500">
                   {{ $t('dashboard.email') }}
@@ -127,6 +127,11 @@
               <th class="p-4 border-b border-slate-200 bg-slate-50">
                 <p class="text-sm font-normal leading-none text-slate-500">
                   {{ $t('dashboard.phone_number') }}
+                </p>
+              </th>
+              <th class="p-4 border-b border-slate-200 bg-slate-50">
+                <p class="text-sm font-normal leading-none text-slate-500">
+                  {{ $t('dashboard.whatsapp_number') }}
                 </p>
               </th>
               <th class="p-4 border-b border-slate-200 bg-slate-50">
@@ -173,17 +178,13 @@
               <td class="p-4">
                 <p class="block text-sm font-semibold text-slate-800">{{ order.orderId }}</p>
               </td>
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+              <!-- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                 <img :src="order.cart[0]?.imageUrl1" alt="product-logo" class="object-cover w-12 h-12 rounded-lg">
               </th>
               <td class="p-4">
                 {{ $i18n.locale === 'ar' ?
                   order.cart[0]?.titleAr :
                   order.cart[0]?.title }}
-              </td>
-              <!-- <td class="p-4" v-if="userRole?.role !== 'market_owner'">
-                <p>{{ order.deliveryDetails.email
-                }}</p>
               </td> -->
               <td class="p-4" v-if="userRole?.role !== 'market_owner'">
                 <p>{{ order.deliveryDetails.email
@@ -198,6 +199,9 @@
               </td>
               <td class="p-4">
                 <p>{{ userRole?.role === 'market_owner' ? order.phoneNumber : order.deliveryDetails?.phoneNumber }}</p>
+              </td>
+              <td class="p-4">
+                <p>{{ userRole?.role === 'market_owner' ? order.whatsappNumber : order.deliveryDetails?.whatsappNumber }}</p>
               </td>
               <td class="p-4">
                 <div class="flex items-center gap-2">
@@ -466,6 +470,11 @@ const excelConfig = ref({
       label: t('dashboard.order_id'),
       key: "orderId",
     },
+    // { 
+    //   label: t('dashboard.product_name'), 
+    //   key: "title",
+    //   mapper: (order) => locale.value === 'ar' ? order.titleAr : order.title
+    // },
     {
       label: t('dashboard.customer_name'),
       key: "deliveryDetails.name",
@@ -477,6 +486,10 @@ const excelConfig = ref({
     {
       label: t('dashboard.phone_number'),
       key: "deliveryDetails.phoneNumber"
+    },
+    {
+      label: t('dashboard.whatsapp_number'),
+      key: "deliveryDetails.whatsappNumber"
     },
     {
       label: t('dashboard.country'),
@@ -492,11 +505,14 @@ const excelConfig = ref({
 
 const handleExport = () => {
   // Transform the data to handle nested properties
+  console.log('orders', checkoutStore.orders)
   const transformedData = checkoutStore.orders.map(order => ({
     orderId: order.orderId,
+    // title: order.cart[0].titleAr,
     'deliveryDetails.name': order.deliveryDetails?.name || '',
     date: formatDate(order.date),
     'deliveryDetails.phoneNumber': order.deliveryDetails?.phoneNumber || '',
+    'deliveryDetails.whatsappNumber': order.deliveryDetails?.whatsappNumber || '',
     'deliveryDetails.country': order.deliveryDetails?.country || '',
     'deliveryDetails.city': order.deliveryDetails?.city || ''
   }));
@@ -505,8 +521,6 @@ const handleExport = () => {
 };
 
 const { getTranslatedLocation } = useLocationTranslations();
-
-import { useCurrencyLocale } from '@/composables/useCurrencyLocale'
 
 const { currencyLocale } = useCurrencyLocale()
 const defaultMarket = 'Egypt'

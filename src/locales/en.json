@@ -299,7 +299,8 @@
     "image": "Image",
     "category_name": "Category name",
     "delete_confirmation_category": "You are about to delete this category. This action cannot be undone.",
-    "no_category": "No category"
+    "no_category": "No category",
+    "whatsapp_number": "Whatsapp number"
   },
   "tooltip": {
     "download_excel": "Download Excel",
