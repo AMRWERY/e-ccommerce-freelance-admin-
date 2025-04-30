@@ -201,7 +201,8 @@
                 <p>{{ userRole?.role === 'market_owner' ? order.phoneNumber : order.deliveryDetails?.phoneNumber }}</p>
               </td>
               <td class="p-4">
-                <p>{{ userRole?.role === 'market_owner' ? order.whatsappNumber : order.deliveryDetails?.whatsappNumber }}</p>
+                <p>{{ userRole?.role === 'market_owner' ? order.whatsappNumber : order.deliveryDetails?.whatsappNumber
+                }}</p>
               </td>
               <td class="p-4">
                 <div class="flex items-center gap-2">
@@ -470,10 +471,14 @@ const excelConfig = ref({
       label: t('dashboard.order_id'),
       key: "orderId",
     },
-    // { 
-    //   label: t('dashboard.product_name'), 
-    //   key: "title",
-    //   mapper: (order) => locale.value === 'ar' ? order.titleAr : order.title
+    {
+      label: t('dashboard.product_name'),
+      key: "productTitle",
+      width: 35
+    },
+    // {
+    //   label: t('dashboard.product_name'),
+    //   key: "productTitle",
     // },
     {
       label: t('dashboard.customer_name'),
@@ -508,22 +513,40 @@ const excelConfig = ref({
 });
 
 const handleExport = () => {
-  // Transform the data to handle nested properties
-  console.log('orders', checkoutStore.orders)
-  const transformedData = checkoutStore.orders.map(order => ({
-    orderId: order.orderId,
-    // title: order.cart[0].titleAr,
-    'deliveryDetails.name': order.deliveryDetails?.name || '',
-    date: formatDate(order.date),
-    'deliveryDetails.phoneNumber': order.deliveryDetails?.phoneNumber || '',
-    'deliveryDetails.whatsappNumber': order.deliveryDetails?.whatsappNumber || '',
-    'deliveryDetails.country': order.deliveryDetails?.country || '',
-    'deliveryDetails.city': order.deliveryDetails?.city || '',
-    'deliveryDetails.fullAddress': order.deliveryDetails?.fullAddress || '',
-  }));
+  const transformedData = checkoutStore.orders.flatMap(order => {
+    // Create one row per product in cart
+    return order.cart?.map(item => ({
+      orderId: order.orderId,
+      productTitle: locale.value === 'ar' ? item.titleAr : item.title,
+      quantity: item.quantity,
+      date: formatDate(order.date),
+      'deliveryDetails.name': order.deliveryDetails?.name || '',
+      'deliveryDetails.phoneNumber': order.deliveryDetails?.phoneNumber || '',
+      'deliveryDetails.country': order.deliveryDetails?.country || '',
+      'deliveryDetails.city': order.deliveryDetails?.city || '',
+      'deliveryDetails.fullAddress': order.deliveryDetails?.fullAddress || '',
+    })) || []; // Fallback for empty carts
+  });
 
   exportDataToExcel(transformedData, excelConfig.value);
 };
+// const handleExport = () => {
+//   const transformedData = checkoutStore.orders.flatMap(order =>
+//     order.cart?.map(item => ({
+//       orderId: order.orderId,
+//       productTitle: locale.value === 'ar' ? item.titleAr : item.title,
+//       'deliveryDetails.name': order.deliveryDetails?.name || '',
+//       date: formatDate(order.date),
+//       'deliveryDetails.phoneNumber': order.deliveryDetails?.phoneNumber || '',
+//       'deliveryDetails.whatsappNumber': order.deliveryDetails?.whatsappNumber || '',
+//       'deliveryDetails.country': order.deliveryDetails?.country || '',
+//       'deliveryDetails.city': order.deliveryDetails?.city || '',
+//       'deliveryDetails.fullAddress': order.deliveryDetails?.fullAddress || '',
+//     })) || []
+//   );
+
+//   exportDataToExcel(transformedData, excelConfig.value);
+// };
 
 const { getTranslatedLocation } = useLocationTranslations();
 
