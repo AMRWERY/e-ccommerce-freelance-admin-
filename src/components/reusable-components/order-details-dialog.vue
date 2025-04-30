@@ -346,11 +346,9 @@ const formatDate = (timestamp) => {
       const year = date.getFullYear();
       return `${month}/${day}/${year}`;
     }
-    
     // Handle regular date string
     const date = new Date(timestamp);
     if (isNaN(date)) return timestamp;
-    
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const year = date.getFullYear();
@@ -391,10 +389,65 @@ const getMerchantTranslatedStatus = (status) => {
   return t(`permissions.status.${status || 'pending'}`);
 }
 
+// const updateOrderStatus = async (orderId, newStatus) => {
+//   activeStatusId.value = newStatus;
+//   isLoading.value = true;
+//   try {
+//     const result = await checkoutStore.updateOrderStatus(orderId, newStatus);
+//     if (result.success) {
+//       props.orderData.status = newStatus;
+//       triggerToast({
+//         message: t('toast.order_status_updated'),
+//         type: 'success',
+//         icon: 'mdi:check-circle',
+//       });
+//     } else {
+//       throw new Error(result.message);
+//     }
+//   } catch (error) {
+//     console.error('Error updating order status:', error);
+//     triggerToast({
+//       message: t('toast.status_update_failed'),
+//       type: 'error',
+//       icon: 'mdi:alert-circle',
+//     });
+//   } finally {
+//     isLoading.value = false;
+//     activeStatusId.value = null;
+//   }
+// }
+
+const updateOrderStatus = async (orderId, newStatus) => {
+  activeStatusId.value = newStatus;
+  isLoading.value = true;
+  try {
+    const result = await checkoutStore.updateOrderStatus(orderId, newStatus);
+    if (result.success) {
+      // Update local order data
+      props.orderData.statusId = newStatus;
+      triggerToast({
+        message: t('toast.order_status_updated'),
+        type: 'success',
+        icon: 'mdi:check-circle',
+      });
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (error) {
+    triggerToast({
+      message: error.message || t('toast.status_update_failed'),
+      type: 'error',
+      icon: 'mdi:alert-circle',
+    });
+  } finally {
+    isLoading.value = false;
+    activeStatusId.value = null;
+  }
+};
+
 const updateMerchantOrderStatus = async (orderId, newStatus) => {
   activeStatusId.value = newStatus;
   isLoading.value = true;
-
   try {
     const result = await merchantsOrdersStore.updateOrderStatus(orderId, newStatus);
     if (result.success) {

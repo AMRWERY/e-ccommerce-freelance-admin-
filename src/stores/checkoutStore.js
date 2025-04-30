@@ -95,23 +95,40 @@ export const useCheckoutStore = defineStore("checkout", {
       }
     },
 
-    updateOrderStatus(orderId, newStatus) {
-      updateDoc(doc(collection(db, "checkout"), orderId), {
-        statusId: newStatus,
-      })
-        .then(() => {
-          const orderIndex = this.orders.findIndex(
-            (order) => order.id === orderId
-          );
-          if (orderIndex !== -1) {
-            this.orders[orderIndex].statusId = newStatus;
-          }
-          this.updatePagination();
-        })
-        .catch((error) => {
-          console.error("Error updating order status:", error);
-        });
+    async updateOrderStatus(orderId, newStatus) {
+      try {
+        const docRef = doc(db, "checkout", orderId);
+        await updateDoc(docRef, { statusId: newStatus });
+        // Update local state
+        const orderIndex = this.orders.findIndex((o) => o.id === orderId);
+        if (orderIndex !== -1) {
+          this.orders[orderIndex].statusId = newStatus;
+          this.paginatedOrders = [...this.orders]; // Force reactivity
+        }
+        return { success: true, message: "Status updated successfully" };
+      } catch (error) {
+        console.error("Update error:", error);
+        return { success: false, message: error.message };
+      }
     },
+    // updateOrderStatus(orderId, newStatus) {
+    //   updateDoc(doc(collection(db, "checkout"), orderId), {
+    //     statusId: newStatus,
+    //   })
+    //     .then(() => {
+    //       const orderIndex = this.orders.findIndex(
+    //         (order) => order.id === orderId
+    //       );
+    //       if (orderIndex !== -1) {
+    //         this.orders[orderIndex].statusId = newStatus;
+    //         this.paginatedOrders = [...this.orders];
+    //       }
+    //       this.updatePagination();
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error updating order status:", error);
+    //     });
+    // },
 
     fetchTotalCheckouts() {
       getDocs(collection(db, "checkout"))
