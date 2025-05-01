@@ -27,3 +27,16 @@ npm run dev
 ```sh
 npm run build
 ```
+
+```test credentials
+*admin credentials:
+admin@commerce.com
+admin@123456
+
+*employees credentials:
+employee-1@commerce.com
+employee@123456
+
+*test merchant credentials:
+vuhelegosi@mailinator.com
+Pa$$w0rd!
