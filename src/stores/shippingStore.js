@@ -58,6 +58,23 @@ export const useShippingStore = defineStore("shipping", {
       }
     },
 
+    async updateGovernorate(countryCode, { originalTitle, newData }) {
+      try {
+        const docRef = doc(db, "shipping-cost", "cwqaLQhGYdjOpVCBRH0s");
+        const currentGovernorates =
+          this.shippingCosts[countryCode].governorates;
+        const updatedGovernorates = currentGovernorates.map((g) =>
+          g.title === originalTitle ? { ...g, ...newData } : g
+        );
+        await updateDoc(docRef, {
+          [`${countryCode}.governorates`]: updatedGovernorates,
+        });
+        this.shippingCosts[countryCode].governorates = updatedGovernorates;
+      } catch (error) {
+        throw new Error("Update failed: " + error.message);
+      }
+    },
+
     async deleteGovernorate(countryCode, governorateTitle) {
       try {
         const docRef = doc(db, "shipping-cost", "cwqaLQhGYdjOpVCBRH0s");

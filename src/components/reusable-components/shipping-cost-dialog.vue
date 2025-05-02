@@ -39,7 +39,15 @@
 
                     <!-- Existing Governorates -->
                     <div v-for="(governorate, index) in governorates" :key="index" class="flex items-center gap-4">
-                        <span class="flex-1">{{ localeTitle(governorate) }}</span>
+                        <template v-if="governorate.editing">
+                            <input v-model="governorate.title" class="flex-1 px-2 py-1 border rounded"
+                                :placeholder="$t('form.governorate_en')">
+                            <input v-model="governorate.titleAr" class="flex-1 px-2 py-1 border rounded"
+                                :placeholder="$t('form.governorate_ar')">
+                        </template>
+                        <template v-else>
+                            <span class="flex-1">{{ localeTitle(governorate) }}</span>
+                        </template>
                         <input v-model.number="governorate.cost" type="number" :disabled="!governorate.editing"
                             class="w-24 px-2 py-1 border rounded" @keyup.enter="saveGovernorate(governorate)">
                         <div class="flex gap-1">
@@ -106,19 +114,28 @@ const handleEditAction = (governorate) => {
     if (governorate.editing) {
         saveGovernorate(governorate);
     } else {
+        // Store original values when entering edit mode
+        governorate.originalTitle = governorate.title;
+        governorate.originalTitleAr = governorate.titleAr;
+        governorate.originalCost = governorate.cost;
         governorate.editing = true;
     }
 };
 
 const saveGovernorate = async (governorate) => {
     try {
-        const numericCost = Number(governorate.cost);
-        await shippingStore.updateGovernorateCost(
+        await shippingStore.updateGovernorate(
             props.countryCode,
-            governorate.title,
-            numericCost
+            {
+                originalTitle: governorate.originalTitle,
+                newData: {
+                    title: governorate.title,
+                    titleAr: governorate.titleAr,
+                    cost: Number(governorate.cost)
+                }
+            }
         );
-        governorate.originalCost = numericCost;
+        governorate.originalCost = governorate.cost;
         governorate.editing = false;
         triggerToast({
             message: t('toast.shipping_cost_updated'),
@@ -126,6 +143,8 @@ const saveGovernorate = async (governorate) => {
             icon: 'material-symbols:check-circle',
         });
     } catch (error) {
+        governorate.title = governorate.originalTitle;
+        governorate.titleAr = governorate.originalTitleAr;
         governorate.cost = governorate.originalCost;
         triggerToast({
             message: t('toast.update_error'),
@@ -134,6 +153,31 @@ const saveGovernorate = async (governorate) => {
         });
     }
 };
+
+// const saveGovernorate = async (governorate) => {
+//     try {
+//         const numericCost = Number(governorate.cost);
+//         await shippingStore.updateGovernorateCost(
+//             props.countryCode,
+//             governorate.title,
+//             numericCost
+//         );
+//         governorate.originalCost = numericCost;
+//         governorate.editing = false;
+//         triggerToast({
+//             message: t('toast.shipping_cost_updated'),
+//             type: 'success',
+//             icon: 'material-symbols:check-circle',
+//         });
+//     } catch (error) {
+//         governorate.cost = governorate.originalCost;
+//         triggerToast({
+//             message: t('toast.update_error'),
+//             type: 'error',
+//             icon: 'material-symbols:error-rounded',
+//         });
+//     }
+// };
 
 const close = () => {
     emit('close');
