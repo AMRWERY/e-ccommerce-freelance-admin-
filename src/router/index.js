@@ -144,6 +144,16 @@ const router = createRouter({
             allowedRoles: ["admin"],
           },
         },
+        {
+          path: "/shipping-costs",
+          name: "shipping-costs",
+          component: () => import("../views/shipping-costs.vue"),
+          meta: {
+            title: "meta.shipping_costs",
+            requiresAuth: true,
+            allowedRoles: ["admin"],
+          },
+        },
       ],
     },
 

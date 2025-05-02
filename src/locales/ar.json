@@ -82,7 +82,8 @@
     "select_category": "اختر الفئة",
     "enter_your_new_password": "أدخل كلمة المرور الجديدة",
     "confirm_password": "تأكيد كلمة المرور",
-    "confirm_your_password": "تأكيد كلمة المرور الخاصة بك"
+    "confirm_your_password": "تأكيد كلمة المرور الخاصة بك",
+    "edit_shipping_cost": "تعديل تكلفة الشحن"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -141,7 +142,8 @@
     "messages": "الرسائل",
     "employees": "الموظفين",
     "orders_from_merchants": "الطلبات من التجار",
-    "users_ratings": "تقييمات المستخدمين"
+    "users_ratings": "تقييمات المستخدمين",
+    "shipping_costs": "مصاريف الشحن"
   },
   "layout": {
     "dashboard": "لوحة التحكم",
@@ -155,7 +157,8 @@
     "earnings": "الأرباح",
     "employees": "الموظفين",
     "orders_from_merchants": "الطلبات من التجار",
-    "users_ratings": "تقييمات المستخدمين"
+    "users_ratings": "تقييمات المستخدمين",
+    "shipping_costs": "مصاريف الشحن"
   },
   "profile_menu": {
     "profile": "الصفحه الشخصية",
@@ -209,7 +212,9 @@
     "new_passwords_do_not_match": "كلمات المرور الجديدة لا تتطابق",
     "your_password_has_been_successfully_updated": "لقد تم تحديث كلمة المرور الخاصة بك بنجاح",
     "failed_to_update_password": "فشل في تحديث كلمة المرور",
-    "comment_deleted": "تم حذف التعليق بنجاح"
+    "comment_deleted": "تم حذف التعليق بنجاح",
+    "shipping_cost_updated": "تم تحديث تكلفة الشحن",
+    "update_error": "فشل تحديث تكلفة الشحن"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
@@ -307,7 +312,9 @@
     "address": "العنوان كاملا",
     "users_ratings": "تقييمات المستخدمين",
     "anonymous": "مجهول",
-    "no_reviews_yet": "لا توجد تقييمات"
+    "no_reviews_yet": "لا توجد تقييمات",
+    "shipping_costs": "مصاريف الشحن",
+    "market": "السوق"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل",
@@ -325,7 +332,8 @@
     "delete_employee": "حذف الموظف",
     "delete_merchant": "حذف التاجر",
     "reload": "إعادة التحميل",
-    "show_reviews": "عرض التقييمات"
+    "show_reviews": "عرض التقييمات",
+    "edit_shipping_cost": "تعديل تكلفة الشحن"
   },
   "no_data": {
     "no_products_found": "لم يتم العثور على أي منتجات",
@@ -375,5 +383,9 @@
       "undefined": "غير محدد",
       "completed": "مكتمل"
     }
+  },
+  "countries": {
+    "egypt": "مصر",
+    "ksa": "المملكة العربية السعودية"
   }
 }

@@ -72,7 +72,7 @@
                         class="max-w-2xl mx-4 mt-6 text-gray-900 bg-white rounded-lg shadow-xl sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto">
                         <div class="h-32 overflow-hidden rounded-t-lg">
                             <img class="object-cover object-top w-full"
-                                src="https://justfields.com/storage/projects/7M5rV059/Mountain.jpg" alt="Mountain" />
+                                src="https://justfields.com/storage/projects/7M5rV059/Mountain.jpg" alt="mountain" />
                         </div>
                         <div
                             class="relative w-32 h-32 mx-auto -mt-16 overflow-hidden border-4 border-gray-200 rounded-full">
