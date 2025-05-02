@@ -25,6 +25,22 @@ export const useShippingStore = defineStore("shipping", {
       }
     },
 
+    async addGovernorate(countryCode, newGovernorate) {
+      try {
+        const docRef = doc(db, "shipping-cost", "cwqaLQhGYdjOpVCBRH0s");
+        const updatedGovernorates = [
+          ...this.shippingCosts[countryCode].governorates,
+          newGovernorate,
+        ];
+        await updateDoc(docRef, {
+          [`${countryCode}.governorates`]: updatedGovernorates,
+        });
+        this.shippingCosts[countryCode].governorates = updatedGovernorates;
+      } catch (error) {
+        throw new Error("Failed to add governorate: " + error.message);
+      }
+    },
+
     async updateGovernorateCost(countryCode, governorateName, newCost) {
       try {
         const docRef = doc(db, "shipping-cost", "cwqaLQhGYdjOpVCBRH0s");

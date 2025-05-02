@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="isDialogOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div class="w-full max-w-xl p-6 bg-white rounded-lg">
+            <div class="w-full max-w-2xl p-6 bg-white rounded-lg">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold">{{ countryName }}</h3>
                     <button @click="close" class="text-gray-500 hover:text-gray-700">
@@ -10,6 +10,34 @@
                 </div>
 
                 <div class="space-y-4">
+                    <!-- Add Governorate Button -->
+                    <div class="pb-4 border-b">
+                        <button v-if="!showAddGovernorate" @click="showAddGovernorate = true"
+                            class="flex items-center gap-2 text-blue-600 hover:text-blue-800">
+                            <iconify-icon icon="mdi:plus" width="20" height="20" />
+                            {{ $t('btn.add_governorate') }}
+                        </button>
+
+                        <!-- Add Governorate Form -->
+                        <div v-else class="flex items-center gap-4">
+                            <input v-model="newGovernorateTitle" :placeholder="$t('form.governorate_en')"
+                                class="flex-1 px-2 py-1 border rounded" type="text">
+                            <input v-model="newGovernorateTitleAr" :placeholder="$t('form.governorate_ar')"
+                                class="flex-1 px-2 py-1 border rounded" type="text">
+                            <input v-model.number="newGovernorateCost" :placeholder="$t('form.cost')"
+                                class="w-24 px-2 py-1 border rounded" type="number">
+                            <div class="flex gap-2">
+                                <button @click="addNewGovernorate" class="p-1 text-green-600 hover:text-green-800">
+                                    <iconify-icon icon="mdi:check" width="20" height="20" />
+                                </button>
+                                <button @click="cancelAddGovernorate" class="p-1 text-red-600 hover:text-red-800">
+                                    <iconify-icon icon="mdi:close" width="20" height="20" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Existing Governorates -->
                     <div v-for="(governorate, index) in governorates" :key="index" class="flex items-center gap-4">
                         <span class="flex-1">{{ localeTitle(governorate) }}</span>
                         <input v-model.number="governorate.cost" type="number" :disabled="!governorate.editing"
@@ -23,7 +51,7 @@
             </div>
         </div>
 
-        <!-- dynamic-toast component  -->
+        <!-- Toast Component -->
         <div
             class="fixed z-50 pointer-events-none bottom-5 start-5 sm:w-96 w-full max-w-[calc(100%-2rem)] mx-2 sm:mx-0">
             <div class="pointer-events-auto">
@@ -102,5 +130,54 @@ const saveGovernorate = async (governorate) => {
 
 const close = () => {
     emit('close');
+};
+
+const showAddGovernorate = ref(false);
+const newGovernorateTitle = ref('');
+const newGovernorateTitleAr = ref('');
+const newGovernorateCost = ref(0);
+
+const addNewGovernorate = async () => {
+    try {
+        if (!newGovernorateTitle.value || !newGovernorateTitleAr.value || !newGovernorateCost.value) {
+            triggerToast({
+                message: t('toast.fill_all_fields'),
+                type: 'error',
+                icon: 'material-symbols:error-rounded',
+            });
+            return;
+        }
+        await shippingStore.addGovernorate(props.countryCode, {
+            title: newGovernorateTitle.value,
+            titleAr: newGovernorateTitleAr.value,
+            cost: Number(newGovernorateCost.value)
+        });
+        governorates.value = shippingStore.getGovernorates(props.countryCode).map(g => ({
+            ...g,
+            editing: false,
+            originalCost: g.cost
+        }));
+        triggerToast({
+            message: t('toast.governorate_added'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
+        // Reset form
+        cancelAddGovernorate();
+    } catch (error) {
+        console.error('Error adding governorate:', error);
+        triggerToast({
+            message: t('toast.add_error'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
+    }
+};
+
+const cancelAddGovernorate = () => {
+    showAddGovernorate.value = false;
+    newGovernorateTitle.value = '';
+    newGovernorateTitleAr.value = '';
+    newGovernorateCost.value = 0;
 };
 </script>

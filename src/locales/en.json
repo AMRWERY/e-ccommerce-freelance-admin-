@@ -84,7 +84,10 @@
     "enter_your_new_password": "Enter your new password",
     "confirm_password": "Confirm password",
     "confirm_your_password": "Confirm your password",
-    "edit_shipping_cost": "Edit shipping cost"
+    "edit_shipping_cost": "Edit shipping cost",
+    "governorate_en": "Governorate en",
+    "governorate_ar": "Governorate ar",
+    "cost": "Cost"
   },
   "btn": {
     "login": "Login",
@@ -118,7 +121,8 @@
     "monthly": "Monthly",
     "change_password": "Change password",
     "saving": "Saving",
-    "close": "Close"
+    "close": "Close",
+    "add_governorate": "Add Governorate"
   },
   "meta": {
     "dashboard": "Dashboard",
@@ -215,7 +219,9 @@
     "failed_to_update_password": "Failed to update password",
     "comment_deleted": "Comment deleted successfully",
     "shipping_cost_updated": "Shipping cost updated",
-    "update_error": "Failed update cost"
+    "update_error": "Failed update cost",
+    "governorate_added": "Governorate added successfully",
+    "add_error": "Failed to add governorate"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",

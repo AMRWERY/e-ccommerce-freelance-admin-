@@ -83,7 +83,10 @@
     "enter_your_new_password": "أدخل كلمة المرور الجديدة",
     "confirm_password": "تأكيد كلمة المرور",
     "confirm_your_password": "تأكيد كلمة المرور الخاصة بك",
-    "edit_shipping_cost": "تعديل تكلفة الشحن"
+    "edit_shipping_cost": "تعديل تكلفة الشحن",
+    "governorate_en": "محافظة انجليزي",
+    "governorate_ar": "محافظة عربي",
+    "cost": "التكلفه"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -117,7 +120,8 @@
     "monthly": "شهري",
     "change_password": "تغيير كلمة المرور",
     "saving": "جاري الحفظ",
-    "close": "أغلاق"
+    "close": "أغلاق",
+    "add_governorate": "إضافة المحافظة"
   },
   "meta": {
     "dashboard": "لوحة التحكم",
@@ -214,7 +218,9 @@
     "failed_to_update_password": "فشل في تحديث كلمة المرور",
     "comment_deleted": "تم حذف التعليق بنجاح",
     "shipping_cost_updated": "تم تحديث تكلفة الشحن",
-    "update_error": "فشل تحديث تكلفة الشحن"
+    "update_error": "فشل تحديث تكلفة الشحن",
+    "governorate_added": "تمت إضافة المحافظة بنجاح",
+    "add_error": "فشل في إضافة المحافظة"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
@@ -320,7 +326,7 @@
     "download_excel": "تنزيل إكسل",
     "view_details": "عرض التفاصيل",
     "delete_order": "حذف الطلب",
-    "edit_category":"تعديل فئه",
+    "edit_category": "تعديل فئه",
     "delete_category": "حذف الفئة",
     "edit_product": "حذف المنتج",
     "delete_product": "حذف المنتج",
