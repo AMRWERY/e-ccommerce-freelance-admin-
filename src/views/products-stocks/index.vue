@@ -70,9 +70,6 @@
                                     {{ $t('dashboard.commission') }}
                                 </th>
                                 <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
-                                    {{ $t('dashboard.shipping_cost') }}
-                                </th>
-                                <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.hot_deal') }}
                                 </th>
                                 <th scope="col" class="w-[12%] px-6 py-3 whitespace-nowrap">
@@ -167,18 +164,6 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <template v-if="product.shippingCost">
-                                            {{ $n(parseFloat(product.shippingCost), 'currency',
-                                                currencyLocale(product.targetMarket)) }}
-                                        </template>
-                                        <template v-else>
-                                            <iconify-icon icon="mdi:truck-remove" width="24" height="24"
-                                                class="text-gray-400" />
-                                        </template>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
                                         <div v-if="product.isHotDeal" class="flex items-center text-red-600">
                                             <iconify-icon icon="material-symbols:local-fire-department" width="24"
                                                 height="24" />
@@ -195,7 +180,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                            }}</span>
+                                        }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -443,14 +428,6 @@ const excelConfig = ref({
             mapper: (item) => item.commission ? `${item.commission}%` : t('dashboard.no_commission')
         },
         {
-            label: t('dashboard.shipping_cost'),
-            key: "shippingCost",
-            type: "n",
-            numberFormat: '0',
-            mapper: (item) => Math.round(parseFloat(item.shippingCost)),
-            cellStyle: { font: { color: { rgb: "00AA00" }, bold: true } }
-        },
-        {
             label: t('dashboard.hot_deal'),
             key: "isHotDeal",
             mapper: (item) => item.isHotDeal ? t('dashboard.hot_deal') : t('dashboard.regular_product')
@@ -565,7 +542,6 @@ const skeletonHeaders = [
     { label: 'Price', loaderWidth: 'w-24' },
     { label: 'Discount', loaderWidth: 'w-24' },
     { label: 'Commission', loaderWidth: 'w-24' },
-    { label: 'Shipping Cost', loaderWidth: 'w-24' },
     { label: 'Hot Deal', loaderWidth: 'w-24' },
     { label: 'Availability', loaderWidth: 'w-24' },
     { label: 'Actions', type: 'action' }
