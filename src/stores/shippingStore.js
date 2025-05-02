@@ -57,6 +57,25 @@ export const useShippingStore = defineStore("shipping", {
         throw new Error("Failed to update cost: " + error.message);
       }
     },
+
+    async deleteGovernorate(countryCode, governorateTitle) {
+      try {
+        const docRef = doc(db, "shipping-cost", "cwqaLQhGYdjOpVCBRH0s");
+        const currentGovernorates =
+          this.shippingCosts[countryCode].governorates;
+        const updatedGovernorates = currentGovernorates.filter(
+          (g) => g.title !== governorateTitle
+        );
+        // Update Firestore
+        await updateDoc(docRef, {
+          [`${countryCode}.governorates`]: updatedGovernorates,
+        });
+        // Update local state
+        this.shippingCosts[countryCode].governorates = updatedGovernorates;
+      } catch (error) {
+        throw new Error("Failed to delete governorate: " + error.message);
+      }
+    },
   },
 
   getters: {

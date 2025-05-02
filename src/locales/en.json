@@ -221,7 +221,9 @@
     "shipping_cost_updated": "Shipping cost updated",
     "update_error": "Failed update cost",
     "governorate_added": "Governorate added successfully",
-    "add_error": "Failed to add governorate"
+    "add_error": "Failed to add governorate",
+    "governorate_deleted": "Governorate deleted successfully",
+    "delete_error": "Failed to delete governorate"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",

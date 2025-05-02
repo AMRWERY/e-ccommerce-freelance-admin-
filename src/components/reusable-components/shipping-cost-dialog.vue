@@ -42,10 +42,17 @@
                         <span class="flex-1">{{ localeTitle(governorate) }}</span>
                         <input v-model.number="governorate.cost" type="number" :disabled="!governorate.editing"
                             class="w-24 px-2 py-1 border rounded" @keyup.enter="saveGovernorate(governorate)">
-                        <button @click="handleEditAction(governorate)" class="p-1 text-blue-600 hover:text-blue-800">
-                            <iconify-icon :icon="governorate.editing ? 'mdi:content-save' : 'mdi:pencil'" width="20"
-                                height="20" />
-                        </button>
+                        <div class="flex gap-1">
+                            <button @click="handleEditAction(governorate)"
+                                class="p-1 text-blue-600 hover:text-blue-800">
+                                <iconify-icon :icon="governorate.editing ? 'mdi:content-save' : 'mdi:pencil'" width="20"
+                                    height="20" />
+                            </button>
+
+                            <button @click="deleteGovernorate(governorate)" class="p-1 text-red-600 hover:text-red-800">
+                                <iconify-icon icon="mdi:delete" width="20" height="20" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -179,5 +186,27 @@ const cancelAddGovernorate = () => {
     newGovernorateTitle.value = '';
     newGovernorateTitleAr.value = '';
     newGovernorateCost.value = 0;
+};
+
+const deleteGovernorate = async (governorate) => {
+    try {
+        await shippingStore.deleteGovernorate(
+            props.countryCode,
+            governorate.title
+        );
+        governorates.value = governorates.value.filter(g => g.title !== governorate.title);
+        triggerToast({
+            message: t('toast.governorate_deleted'),
+            type: 'success',
+            icon: 'material-symbols:check-circle',
+        });
+    } catch (error) {
+        console.error('Delete error:', error);
+        triggerToast({
+            message: t('toast.delete_error'),
+            type: 'error',
+            icon: 'material-symbols:error-rounded',
+        });
+    }
 };
 </script>

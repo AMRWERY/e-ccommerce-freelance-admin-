@@ -220,7 +220,9 @@
     "shipping_cost_updated": "تم تحديث تكلفة الشحن",
     "update_error": "فشل تحديث تكلفة الشحن",
     "governorate_added": "تمت إضافة المحافظة بنجاح",
-    "add_error": "فشل في إضافة المحافظة"
+    "add_error": "فشل في إضافة المحافظة",
+    "governorate_deleted": "تم حذف المحافظة بنجاح",
+    "delete_error": "فشل حذف المحافظة"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
