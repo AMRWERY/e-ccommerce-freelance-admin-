@@ -97,28 +97,62 @@ export const useProductsStore = defineStore("new-products", {
         });
     },
 
-    async updateProduct(productId, updatedData, imageFiles) {
+    async updateProduct(
+      productId,
+      updatedData,
+      imageFiles,
+      removedImages = {}
+    ) {
       try {
-        const filesArray = Object.values(imageFiles).filter((file) => file);
-        const imageUrls = await Promise.all(
-          filesArray.map(async (file) => {
-            const storagePath = `/products/${file.name}`;
+        const productRef = doc(db, "products", productId);
+        const existingProduct = await getDoc(productRef);
+        const existingData = existingProduct.data();
+        const uploadPromises = [];
+        const newImageUrls = {};
+        const updateData = { ...updatedData };
+        Object.keys(removedImages).forEach((imageKey) => {
+          updateData[imageKey] = null;
+        });
+        for (let i = 1; i <= 8; i++) {
+          const imageKey = `imageUrl${i}`;
+          const file = imageFiles[imageKey];
+          if (file) {
+            const storagePath = `/products/${productId}/${imageKey}_${file.name}`;
             const storageRef = ref(storage, storagePath);
-            await uploadBytes(storageRef, file);
-            return getDownloadURL(storageRef);
-          })
-        );
-        const imageUrlsObj = imageUrls.reduce((acc, url, index) => {
-          acc[`imageUrl${index + 1}`] = url;
-          return acc;
-        }, {});
+            uploadPromises.push(
+              uploadBytes(storageRef, file)
+                .then((snapshot) => getDownloadURL(snapshot.ref))
+                .then((url) => {
+                  newImageUrls[imageKey] = url;
+                })
+            );
+          } else if (!removedImages[imageKey] && existingData[imageKey]) {
+            newImageUrls[imageKey] = existingData[imageKey];
+          }
+        }
+        await Promise.all(uploadPromises);
+        const deletePromises = [];
+        Object.keys(removedImages).forEach((imageKey) => {
+          const oldUrl = existingData[imageKey];
+          if (oldUrl) {
+            try {
+              const path = decodeURIComponent(
+                oldUrl.split("/o/")[1].split("?")[0]
+              );
+              const storageRef = ref(storage, path);
+              deletePromises.push(deleteObject(storageRef));
+            } catch (error) {
+              console.error("Error deleting old image:", error);
+            }
+          }
+        });
+        await Promise.all(deletePromises);
         const finalData = {
-          ...updatedData,
-          ...imageUrlsObj,
+          ...updateData,
+          ...newImageUrls,
           originalPrice: Number(updatedData.originalPrice),
           discountedPrice: Number(updatedData.discountedPrice),
         };
-        const productRef = doc(db, "products", productId);
         await updateDoc(productRef, finalData);
         const index = this.products.findIndex((p) => p.id === productId);
         if (index !== -1) {

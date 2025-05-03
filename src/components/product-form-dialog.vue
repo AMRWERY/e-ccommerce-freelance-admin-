@@ -185,6 +185,110 @@
                                             <input id="imageUrl4" type="file" class="hidden" accept="image/*"
                                                 @change="handleSingleImageUpload($event, 'imageUrl4')" />
                                         </div>
+
+                                        <!-- img 5 -->
+                                        <div class="flex flex-col items-center">
+                                            <div v-if="imagePreview.imageUrl5" class="relative mb-2 w-28 h-28">
+                                                <img :src="imagePreview.imageUrl5"
+                                                    class="object-cover w-full h-full rounded-lg" />
+                                                <button type="button" @click="removeImagePreview('imageUrl5')"
+                                                    class="absolute p-0.5 text-white bg-red-500 rounded-full -top-2 -end-2 hover:bg-red-600 flex items-center">
+                                                    <iconify-icon icon="material-symbols:close-small-rounded" width="20"
+                                                        height="20"></iconify-icon>
+                                                </button>
+                                            </div>
+                                            <div v-else
+                                                class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
+                                                <label for="imageUrl5"
+                                                    class="flex flex-col items-center justify-center h-full gap-2 cursor-pointer">
+                                                    <iconify-icon icon="material-symbols:photo" width="30" height="30"
+                                                        class="text-indigo-600"></iconify-icon>
+                                                    <p class="font-medium text-center text-gray-600">{{
+                                                        $t('form.upload_file')
+                                                        }}</p>
+                                                </label>
+                                            </div>
+                                            <input id="imageUrl5" type="file" class="hidden" accept="image/*"
+                                                @change="handleSingleImageUpload($event, 'imageUrl5')" />
+                                        </div>
+
+                                        <!-- img 6 -->
+                                        <div class="flex flex-col items-center">
+                                            <div v-if="imagePreview.imageUrl6" class="relative mb-2 w-28 h-28">
+                                                <img :src="imagePreview.imageUrl6"
+                                                    class="object-cover w-full h-full rounded-lg" />
+                                                <button type="button" @click="removeImagePreview('imageUrl6')"
+                                                    class="absolute p-0.5 text-white bg-red-500 rounded-full -top-2 -end-2 hover:bg-red-600 flex items-center">
+                                                    <iconify-icon icon="material-symbols:close-small-rounded" width="20"
+                                                        height="20"></iconify-icon>
+                                                </button>
+                                            </div>
+                                            <div v-else
+                                                class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
+                                                <label for="imageUrl6"
+                                                    class="flex flex-col items-center justify-center h-full gap-2 cursor-pointer">
+                                                    <iconify-icon icon="material-symbols:photo" width="30" height="30"
+                                                        class="text-indigo-600"></iconify-icon>
+                                                    <p class="font-medium text-center text-gray-600">{{
+                                                        $t('form.upload_file')
+                                                        }}</p>
+                                                </label>
+                                            </div>
+                                            <input id="imageUrl6" type="file" class="hidden" accept="image/*"
+                                                @change="handleSingleImageUpload($event, 'imageUrl6')" />
+                                        </div>
+
+                                        <!-- img 7 -->
+                                        <div class="flex flex-col items-center">
+                                            <div v-if="imagePreview.imageUrl7" class="relative mb-2 w-28 h-28">
+                                                <img :src="imagePreview.imageUrl7"
+                                                    class="object-cover w-full h-full rounded-lg" />
+                                                <button type="button" @click="removeImagePreview('imageUrl7')"
+                                                    class="absolute p-0.5 text-white bg-red-500 rounded-full -top-2 -end-2 hover:bg-red-600 flex items-center">
+                                                    <iconify-icon icon="material-symbols:close-small-rounded" width="20"
+                                                        height="20"></iconify-icon>
+                                                </button>
+                                            </div>
+                                            <div v-else
+                                                class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
+                                                <label for="imageUrl7"
+                                                    class="flex flex-col items-center justify-center h-full gap-2 cursor-pointer">
+                                                    <iconify-icon icon="material-symbols:photo" width="30" height="30"
+                                                        class="text-indigo-600"></iconify-icon>
+                                                    <p class="font-medium text-center text-gray-600">{{
+                                                        $t('form.upload_file')
+                                                        }}</p>
+                                                </label>
+                                            </div>
+                                            <input id="imageUrl7" type="file" class="hidden" accept="image/*"
+                                                @change="handleSingleImageUpload($event, 'imageUrl7')" />
+                                        </div>
+
+                                        <!-- img 8 -->
+                                        <div class="flex flex-col items-center">
+                                            <div v-if="imagePreview.imageUrl8" class="relative mb-2 w-28 h-28">
+                                                <img :src="imagePreview.imageUrl8"
+                                                    class="object-cover w-full h-full rounded-lg" />
+                                                <button type="button" @click="removeImagePreview('imageUrl8')"
+                                                    class="absolute p-0.5 text-white bg-red-500 rounded-full -top-2 -end-2 hover:bg-red-600 flex items-center">
+                                                    <iconify-icon icon="material-symbols:close-small-rounded" width="20"
+                                                        height="20"></iconify-icon>
+                                                </button>
+                                            </div>
+                                            <div v-else
+                                                class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
+                                                <label for="imageUrl8"
+                                                    class="flex flex-col items-center justify-center h-full gap-2 cursor-pointer">
+                                                    <iconify-icon icon="material-symbols:photo" width="30" height="30"
+                                                        class="text-indigo-600"></iconify-icon>
+                                                    <p class="font-medium text-center text-gray-600">{{
+                                                        $t('form.upload_file')
+                                                        }}</p>
+                                                </label>
+                                            </div>
+                                            <input id="imageUrl8" type="file" class="hidden" accept="image/*"
+                                                @change="handleSingleImageUpload($event, 'imageUrl8')" />
+                                        </div>
                                     </div>
                                 </div>
 
@@ -403,6 +507,10 @@ watch(() => props.productId, async (newId) => {
         imagePreview.value.imageUrl2 = product.value.imageUrl2 || '';
         imagePreview.value.imageUrl3 = product.value.imageUrl3 || '';
         imagePreview.value.imageUrl4 = product.value.imageUrl4 || '';
+        imagePreview.value.imageUrl5 = product.value.imageUrl5 || '';
+        imagePreview.value.imageUrl6 = product.value.imageUrl6 || '';
+        imagePreview.value.imageUrl7 = product.value.imageUrl7 || '';
+        imagePreview.value.imageUrl8 = product.value.imageUrl8 || '';
     } else {
         resetForm();
     }
@@ -445,17 +553,30 @@ const imageFiles = ref({
     imageUrl1: null,
     imageUrl2: null,
     imageUrl3: null,
-    imageUrl4: null
+    imageUrl4: null,
+    imageUrl5: null,
+    imageUrl6: null,
+    imageUrl7: null,
+    imageUrl8: null,
 });
 
 const imagePreview = ref({
     imageUrl1: '',
     imageUrl2: '',
     imageUrl3: '',
-    imageUrl4: ''
+    imageUrl4: '',
+    imageUrl5: '',
+    imageUrl6: '',
+    imageUrl7: '',
+    imageUrl8: '',
 });
 
+const removedImages = ref({});
+
 const removeImagePreview = (imageKey) => {
+    if (product.value?.[imageKey]) {
+        removedImages.value[imageKey] = true;
+    }
     imagePreview.value[imageKey] = '';
     imageFiles.value[imageKey] = null;
     const fileInput = document.getElementById(imageKey);
@@ -516,7 +637,8 @@ const handleSubmit = async () => {
             await store.updateProduct(
                 props.productId,
                 productData,
-                imageFiles.value
+                imageFiles.value,
+                removedImages.value
             );
             triggerToast({
                 message: t('toast.product_updated_successfully'),
@@ -598,13 +720,21 @@ const resetForm = () => {
         imageUrl1: null,
         imageUrl2: null,
         imageUrl3: null,
-        imageUrl4: null
+        imageUrl4: null,
+        imageUrl5: null,
+        imageUrl6: null,
+        imageUrl7: null,
+        imageUrl8: null,
     };
     imagePreview.value = {
         imageUrl1: '',
         imageUrl2: '',
         imageUrl3: '',
-        imageUrl4: ''
+        imageUrl4: '',
+        imageUrl5: '',
+        imageUrl6: '',
+        imageUrl7: '',
+        imageUrl8: '',
     };
 };
 
