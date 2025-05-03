@@ -250,6 +250,24 @@
                                         <span class="text-sm font-medium text-gray-900 ms-3">{{ $t('form.hot_deal')
                                             }}</span>
                                     </label>
+
+                                    <div v-if="formData.isHotDeal"
+                                        class="grid grid-cols-1 gap-4 mt-3 mb-4 md:grid-cols-2">
+                                        <div>
+                                            <label class="block mb-1 text-sm font-medium text-gray-700">
+                                                {{ $t('form.start_date') }}
+                                            </label>
+                                            <!-- date-picker component -->
+                                            <date-picker v-model="formData.startDate" />
+                                        </div>
+                                        <div>
+                                            <label class="block mb-1 text-sm font-medium text-gray-700">
+                                                {{ $t('form.end_date') }}
+                                            </label>
+                                            <!-- date-picker component -->
+                                            <date-picker v-model="formData.endDate" />
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="flex flex-wrap items-center justify-end gap-4 mt-8">
@@ -376,7 +394,11 @@ watch(() => props.productId, async (newId) => {
     if (newId) {
         await store.fetchProductDetail(newId);
         product.value = { ...store.selectedProduct };
-        formData.value = { ...store.selectedProduct };
+        formData.value = {
+            ...store.selectedProduct,
+            startDate: store.selectedProduct?.startDate?.toDate() || null,
+            endDate: store.selectedProduct?.endDate?.toDate() || null
+        };
         imagePreview.value.imageUrl1 = product.value.imageUrl1 || '';
         imagePreview.value.imageUrl2 = product.value.imageUrl2 || '';
         imagePreview.value.imageUrl3 = product.value.imageUrl3 || '';
@@ -414,7 +436,9 @@ const formData = ref({
     numberOfStock: null,
     targetMarket: null,
     shippingCost: null,
-    isHotDeal: false
+    isHotDeal: false,
+    startDate: null,
+    endDate: null
 });
 
 const imageFiles = ref({
