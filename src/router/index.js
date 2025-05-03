@@ -154,6 +154,16 @@ const router = createRouter({
             allowedRoles: ["admin"],
           },
         },
+        {
+          path: "/settings",
+          name: "settings",
+          component: () => import("../views/settings.vue"),
+          meta: {
+            title: "meta.settings",
+            requiresAuth: true,
+            allowedRoles: ["admin"],
+          },
+        },
       ],
     },
 

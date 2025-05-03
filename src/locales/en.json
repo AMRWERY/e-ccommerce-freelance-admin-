@@ -148,7 +148,8 @@
     "employees": "Employees",
     "orders_from_merchants": "Orders from merchants",
     "users_ratings": "Users Ratings",
-    "shipping_costs": "Shipping costs"
+    "shipping_costs": "Shipping costs",
+    "settings": "Settings"
   },
   "layout": {
     "dashboard": "Dashboard",
@@ -163,7 +164,8 @@
     "employees": "Employees",
     "orders_from_merchants": "Orders from merchants",
     "users_ratings": "Users Ratings",
-    "shipping_costs": "Shipping costs"
+    "shipping_costs": "Shipping costs",
+    "settings": "Settings"
   },
   "profile_menu": {
     "profile": "Profile",
@@ -323,7 +325,8 @@
     "anonymous": "Anonymous",
     "no_reviews_yet": "No reviews yet",
     "shipping_costs": "Shipping costs",
-    "market": "Market"
+    "market": "Market",
+    "settings": "General Settings"
   },
   "tooltip": {
     "download_excel": "Download Excel",
