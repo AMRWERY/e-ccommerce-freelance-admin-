@@ -86,7 +86,26 @@
     "edit_shipping_cost": "تعديل تكلفة الشحن",
     "governorate_en": "محافظة انجليزي",
     "governorate_ar": "محافظة عربي",
-    "cost": "التكلفه"
+    "cost": "التكلفه",
+    "social_media": "وسائل التواصل الاجتماعي",
+    "facebook": "فيسبوك",
+    "enter_facebook_url": "ادخل رابط الفيسبوك",
+    "instagram": "إنستغرام",
+    "enter_instagram_url": "ادخل رابط الأنستغرام",
+    "snapchat": "سناب شات",
+    "enter_snapchat_url": "ادخل رابط سناب شات",
+    "tiktok": "تيك توك",
+    "enter_tiktok_url": "ادخل رابط تيك توك",
+    "contact_numbers": "أرقام الاتصال",
+    "phone_number": "رقم الهاتف",
+    "enter_phone_number": "أدخل رقم الهاتف",
+    "another_phone_number": "رقم هاتف آخر (إذا كان متاحًا)",
+    "whatsApp_number": "رقم الواتساب",
+    "enter_whatsApp_number": "أدخل رقم الواتساب",
+    "another_whatsApp_number": "رقم واتساب آخر (إذا كان متاحًا)",
+    "logo_name": "اسم العلامة التجارية",
+    "enter_logo_name": "أدخل اسم العلامة التجارية",
+    "home_sliders_images": "صور الصفحة الرئيسية"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -121,7 +140,8 @@
     "change_password": "تغيير كلمة المرور",
     "saving": "جاري الحفظ",
     "close": "أغلاق",
-    "add_governorate": "إضافة المحافظة"
+    "add_governorate": "إضافة المحافظة",
+    "save": "حفظ"
   },
   "meta": {
     "dashboard": "لوحة التحكم",

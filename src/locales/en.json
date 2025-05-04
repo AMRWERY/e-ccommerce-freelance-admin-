@@ -87,7 +87,26 @@
     "edit_shipping_cost": "Edit shipping cost",
     "governorate_en": "Governorate en",
     "governorate_ar": "Governorate ar",
-    "cost": "Cost"
+    "cost": "Cost",
+    "social_media": "Social Media",
+    "facebook": "Facebook",
+    "enter_facebook_url": "Enter Facebook URL",
+    "instagram": "Instagram",
+    "enter_instagram_url": "Enter Instagram URL",
+    "snapchat": "Snapchat",
+    "enter_snapchat_url": "Enter Snapchat URL",
+    "tiktok": "Tiktok",
+    "enter_tiktok_url": "Enter Tiktok URL",
+    "contact_numbers": "Contact Numbers",
+    "phone_number": "Phone Number",
+    "enter_phone_number": "Enter phone number",
+    "another_phone_number": "Another Phone Number (if available)",
+    "whatsApp_number": "WhatsApp Number",
+    "enter_whatsApp_number": "Enter WhatsApp number",
+    "another_whatsApp_number": "Another WhatsApp Number (if available)",
+    "logo_name": "Brand Name",
+    "enter_logo_name": "Enter brand name",
+    "home_sliders_images": "Home Images"
   },
   "btn": {
     "login": "Login",
@@ -122,7 +141,8 @@
     "change_password": "Change password",
     "saving": "Saving",
     "close": "Close",
-    "add_governorate": "Add Governorate"
+    "add_governorate": "Add Governorate",
+    "save": "Save"
   },
   "meta": {
     "dashboard": "Dashboard",
