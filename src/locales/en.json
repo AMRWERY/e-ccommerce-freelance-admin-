@@ -245,7 +245,13 @@
     "governorate_added": "Governorate added successfully",
     "add_error": "Failed to add governorate",
     "governorate_deleted": "Governorate deleted successfully",
-    "delete_error": "Failed to delete governorate"
+    "delete_error": "Failed to delete governorate",
+    "social_updated": "Social media updated",
+    "update_failed": "Update failed",
+    "contact_number_updated": "Contact number updated",
+    "brand_name_updated": "Brand name updated",
+    "sliders_updated": "Images updated",
+    "upload_failed": "Upload failed"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",

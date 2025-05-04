@@ -244,7 +244,13 @@
     "governorate_added": "تمت إضافة المحافظة بنجاح",
     "add_error": "فشل في إضافة المحافظة",
     "governorate_deleted": "تم حذف المحافظة بنجاح",
-    "delete_error": "فشل حذف المحافظة"
+    "delete_error": "فشل حذف المحافظة",
+    "social_updated": "تم تحديث وسائل التواصل الاجتماعي",
+    "update_failed": "فشل التحديث",
+    "contact_number_updated": "تم تحديث رقم الاتصال",
+    "brand_name_updated": "تم تحديث اسم العلامة التجارية",
+    "sliders_updated": "تم تحديث الصور",
+    "upload_failed": "فشل التحميل"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",
