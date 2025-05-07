@@ -1,5 +1,11 @@
 import { db, storage } from "@/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  deleteField,
+} from "firebase/firestore";
 import {
   ref as storageRef,
   uploadBytes,
@@ -37,27 +43,62 @@ export const useSettingsStore = defineStore("settings", {
     },
 
     async saveSection(section, data, imageFiles = {}, removedImages = {}) {
+      this.loading = true;
+      const settingsRef = doc(db, "settings", "appSettings");
       try {
-        this.loading = true;
-        let processedData = data;
         if (section === "homeSliders") {
+          // 1) Upload new files & get URLs
           const imageUrls = await this.handleHomeSliderImages(
             imageFiles,
             removedImages
           );
-          processedData = imageUrls;
+          // 2) Build update payload that both sets new URLs and deletes removed keys
+          const updatePayload = {};
+          for (const [key, url] of Object.entries(imageUrls)) {
+            updatePayload[`homeSliders.${key}`] = url;
+          }
+          // explicitly delete each removed slider key
+          for (const key of Object.keys(removedImages)) {
+            updatePayload[`homeSliders.${key}`] = deleteField();
+          }
+          await updateDoc(settingsRef, updatePayload);
+        } else {
+          // for everything else, just merge
+          await setDoc(settingsRef, { [section]: data }, { merge: true });
         }
-        await setDoc(
-          doc(db, "settings", "appSettings"),
-          { [section]: processedData },
-          { merge: true }
-        );
+        // refresh local copy
         await this.fetchSettings();
-      } catch (error) {
+      } catch (err) {
+        console.error("saveSection failed:", err);
+        this.error = err.message;
+        throw err;
       } finally {
         this.loading = false;
       }
     },
+
+    // async saveSection(section, data, imageFiles = {}, removedImages = {}) {
+    //   try {
+    //     this.loading = true;
+    //     let processedData = data;
+    //     if (section === "homeSliders") {
+    //       const imageUrls = await this.handleHomeSliderImages(
+    //         imageFiles,
+    //         removedImages
+    //       );
+    //       processedData = imageUrls;
+    //     }
+    //     await setDoc(
+    //       doc(db, "settings", "appSettings"),
+    //       { [section]: processedData },
+    //       { merge: true }
+    //     );
+    //     await this.fetchSettings();
+    //   } catch (error) {
+    //   } finally {
+    //     this.loading = false;
+    //   }
+    // },
 
     async handleHomeSliderImages(imageFiles, removedImages) {
       const imageUrls = { ...this.settings.homeSliders };
