@@ -8,6 +8,15 @@
                     <permissions-dialog v-model:isDialogOpen="showPermissionsDialog" :user-id="selectedEmployeeId"
                         @saved="handlePermissionsSaved" />
                 </div>
+
+                <button @click="openAddDialog" v-if="!showSkeleton"
+                    class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2">
+                    <iconify-icon icon="ic:baseline-plus" width="24" height="24" class="me-2"></iconify-icon>
+                    {{ $t('btn.add_employee') }}
+                </button>
+
+                <!-- add-employee component -->
+                <add-employee v-model="showAddDialog" @success="handleEmployeeAdded" />
             </div>
 
             <div class="flex justify-start pb-4 mb-4" v-if="!showSkeleton">
@@ -112,7 +121,8 @@
                                         <button @click="toggleBlockEmployee(employee.id)"
                                             v-if="hasPermission('employees', 'block') || hasPermission('employees', 'unblock')"
                                             class="flex items-center justify-center w-8 h-8 rounded"
-                                            :class="employee.isBlocked ? 'text-green-500 hover:text-green-700' : 'text-yellow-500 hover:text-yellow-600'" data-tooltip-target="tooltip-block-employee">
+                                            :class="employee.isBlocked ? 'text-green-500 hover:text-green-700' : 'text-yellow-500 hover:text-yellow-600'"
+                                            data-tooltip-target="tooltip-block-employee">
                                             <div v-if="blockingEmployee === employee.id"
                                                 class="flex items-center justify-center">
                                                 <iconify-icon icon="line-md:loading-loop" width="20" height="20"
@@ -126,10 +136,11 @@
                                             {{ employee.isBlocked ? $t('tooltip.unblock') : $t('tooltip.block') }}
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
-                                        
+
                                         <button @click.stop="openDeleteDialog(employee)"
                                             v-if="hasPermission('employees', 'delete')"
-                                            class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600" data-tooltip-target="tooltip-delete-employee">
+                                            class="flex items-center justify-center w-8 h-8 text-red-500 rounded hover:text-red-600"
+                                            data-tooltip-target="tooltip-delete-employee">
                                             <iconify-icon icon="line-md:loading-loop" width="20" height="20"
                                                 class="text-red-500"
                                                 v-if="removingEmployee === employee.id"></iconify-icon>
@@ -183,6 +194,15 @@ const selectedEmployeeId = ref(null);
 const deletingEmployees = ref({});
 const showPermissionsDialog = ref(false);
 const editingUserId = ref(null);
+const showAddDialog = ref(false);
+
+const openAddDialog = () => {
+    showAddDialog.value = true;
+};
+
+const handleEmployeeAdded = () => {
+    employeesStore.fetchEmployees();
+};
 
 onMounted(async () => {
     const startTime = Date.now();
@@ -203,17 +223,17 @@ const removeEmployee = async (userId) => {
     if (!userId) return;
     try {
         deletingEmployees.value[userId] = true;
-        await employeesStore.deleteUser(userId);
+        await employeesStore.deleteEmployees(userId);
         triggerToast({
-            message: t('toast.user_deleted_successfully'),
+            message: t('toast.employee_deleted_successfully'),
             type: 'success',
             icon: 'mdi-check-circle',
         });
         await employeesStore.fetchEmployees();
     } catch (error) {
-        console.error("Error removing user:", error);
+        console.error("Error removing employee:", error);
         triggerToast({
-            message: t('toast.failed_to_delete_user'),
+            message: t('toast.failed_to_delete_employee'),
             type: 'error',
             icon: 'mdi:alert-circle',
         });
@@ -232,8 +252,8 @@ const toggleBlockEmployee = (userId) => {
             .then(() => {
                 const user = employeesStore.paginatedEmployees.find(u => u.id === userId);
                 const message = user?.isBlocked
-                    ? t('toast.user_blocked_successfully')
-                    : t('toast.user_unblocked_successfully');
+                    ? t('toast.employee_blocked_successfully')
+                    : t('toast.employee_unblocked_successfully');
                 triggerToast({
                     message,
                     type: 'success',
@@ -243,7 +263,7 @@ const toggleBlockEmployee = (userId) => {
             .catch((error) => {
                 console.error("Error toggling user block status:", error);
                 triggerToast({
-                    message: t('toast.failed_to_update_user'),
+                    message: t('toast.failed_to_update_employee'),
                     type: 'error',
                     icon: 'mdi:alert-circle',
                 });
@@ -269,12 +289,12 @@ const formatDate = (date) => {
 const isEditing = (userId) => editingUserId.value === userId;
 
 const openPermissionsDialog = (employee) => {
-    editingUserId.value = employee.id
-    setTimeout(() => {
-        selectedEmployeeId.value = employee.id
-        showPermissionsDialog.value = true
-        editingUserId.value = null
-    }, 3000)
+    editingUserId.value = employee.id,
+        setTimeout(() => {
+            selectedEmployeeId.value = employee.id
+            showPermissionsDialog.value = true
+            editingUserId.value = null
+        }, 3000)
 }
 
 const handlePermissionsSaved = () => {

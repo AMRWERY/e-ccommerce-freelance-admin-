@@ -106,7 +106,12 @@
     "another_whatsApp_number": "Another WhatsApp Number (if available)",
     "logo_name": "Brand Name",
     "enter_logo_name": "Enter brand name",
-    "home_sliders_images": "Home Images"
+    "home_sliders_images": "Home Images",
+    "add_new_employee": "Add new Employee",
+    "enter_first_name": "Enter first name",
+    "enter_last_name": "Enter last name",
+    "enter_email": "Enter email",
+    "enter_password": "Enter password"
   },
   "btn": {
     "login": "Login",
@@ -142,7 +147,8 @@
     "saving": "Saving",
     "close": "Close",
     "add_governorate": "Add Governorate",
-    "save": "Save"
+    "save": "Save",
+    "add_employee": "Add Employee"
   },
   "meta": {
     "dashboard": "Dashboard",
@@ -251,7 +257,14 @@
     "contact_number_updated": "Contact number updated",
     "brand_name_updated": "Brand name updated",
     "sliders_updated": "Images updated",
-    "upload_failed": "Upload failed"
+    "upload_failed": "Upload failed",
+    "failed_add_new_employee": "Failed add new employee",
+    "successfully_add_new_employee": "Successfully add new employee",
+    "employee_blocked_successfully": "Employee blocked successfully",
+    "employee_unblocked_successfully": "Employee unblocked successfully",
+    "failed_to_update_employee": "Failed to update employee",
+    "employee_deleted_successfully": "Employee deleted successfully",
+    "failed_to_delete_employee": "Failed to delete employee"
   },
   "dashboard": {
     "products_stocks": "Products Stocks",

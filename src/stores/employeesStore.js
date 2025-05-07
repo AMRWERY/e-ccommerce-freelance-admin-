@@ -28,6 +28,8 @@ export const useEmployeesStore = defineStore("employees", {
       return getDocs(employeesQuery)
         .then((querySnapshot) => {
           this.employees = querySnapshot.docs.map((doc) => ({
+            permissions: [],
+            roledId: null,
             ...doc.data(),
             id: doc.id,
           }));

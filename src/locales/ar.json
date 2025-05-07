@@ -105,7 +105,12 @@
     "another_whatsApp_number": "رقم واتساب آخر (إذا كان متاحًا)",
     "logo_name": "اسم العلامة التجارية",
     "enter_logo_name": "أدخل اسم العلامة التجارية",
-    "home_sliders_images": "صور الصفحة الرئيسية"
+    "home_sliders_images": "صور الصفحة الرئيسية",
+    "add_new_employee": "أضافه موظف جديد",
+    "enter_first_name": "أدخل الاسم الأول",
+    "enter_last_name": "أدخل الاسم الأخير",
+    "enter_email": "أدخل البريد الإلكتروني",
+    "enter_password": "أدخل كلمة المرور"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -141,7 +146,8 @@
     "saving": "جاري الحفظ",
     "close": "أغلاق",
     "add_governorate": "إضافة المحافظة",
-    "save": "حفظ"
+    "save": "حفظ",
+    "add_employee": "أضافه موظف"
   },
   "meta": {
     "dashboard": "لوحة التحكم",
@@ -250,7 +256,14 @@
     "contact_number_updated": "تم تحديث رقم الاتصال",
     "brand_name_updated": "تم تحديث اسم العلامة التجارية",
     "sliders_updated": "تم تحديث الصور",
-    "upload_failed": "فشل التحميل"
+    "upload_failed": "فشل التحميل",
+    "failed_add_new_employee": "فشل إضافة موظف جديد",
+    "successfully_add_new_employee": "تمت إضافة موظف جديد بنجاح",
+    "employee_blocked_successfully": "تم حظر الموظف بنجاح",
+    "employee_unblocked_successfully": "تم إلغاء حظر الموظف بنجاح",
+    "failed_to_update_employee": "فشل تحديث الموظف",
+    "employee_deleted_successfully": "تم حذف الموظف بنجاح",
+    "failed_to_delete_employee": "فشل في حذف الموظف"
   },
   "dashboard": {
     "products_stocks": "مخزون المنتجات",

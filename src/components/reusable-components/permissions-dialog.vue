@@ -29,10 +29,6 @@
         </div>
 
         <div class="flex justify-end gap-3 mt-6">
-          <button @click="closeDialog"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50">
-            {{ $t('btn.cancel') }}
-          </button>
           <button @click="savePermissions"
             class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50">
             {{ $t('btn.save_changes') }}

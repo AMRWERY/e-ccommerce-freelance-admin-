@@ -72,12 +72,18 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    async registerUser(email, password, firstName, lastName, role = "user") {
+    async registerUser(
+      email,
+      password,
+      firstName,
+      lastName,
+      role = "employee"
+    ) {
       if (!["admin", "employee", "user"].includes(role)) {
         throw new Error("Invalid role specified");
       }
       // Only allow admins to create other admins/employees
-      if (this.role !== "admin" && role !== "user") {
+      if (this.role !== "admin" && role !== "employee") {
         throw new Error("Unauthorized role assignment");
       }
       try {
@@ -86,6 +92,11 @@ export const useAuthStore = defineStore("auth", {
           email,
           password
         );
+        const rolesRef = collection(db, "roles");
+        const q = query(rolesRef, where("name", "==", role));
+        const snap = await getDocs(q);
+        const roleDoc = snap.docs[0];
+        const roleData = roleDoc.data();
         const user = userCredential.user;
         const userData = {
           uid: user.uid,
@@ -95,9 +106,10 @@ export const useAuthStore = defineStore("auth", {
           role: role,
           loginType: "email",
           createdAt: new Date(),
+          roledId: roleDoc.id,
+          permissions: roleData.permissions,
         };
         await setDoc(doc(db, "users", user.uid), userData);
-        localStorage.setItem("user", JSON.stringify(userData));
         this.role = role;
         await this.fetchUserData(user.uid);
         this.error = null;
