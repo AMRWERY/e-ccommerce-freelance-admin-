@@ -111,7 +111,9 @@
     "enter_first_name": "Enter first name",
     "enter_last_name": "Enter last name",
     "enter_email": "Enter email",
-    "enter_password": "Enter password"
+    "enter_password": "Enter password",
+    "more_details_about_the_offer": "More details about the offer",
+    "enter_the_offer_details": "Enter the offer details"
   },
   "btn": {
     "login": "Login",
