@@ -23,14 +23,14 @@
                         <span v-else>{{ $t('btn.login') }}</span>
                     </button>
 
-                    <div class="mt-4 space-y-2 text-center">
+                    <!-- <div class="mt-4 space-y-2 text-center">
                         <div>
                             <span>{{ $t('form.do_not_have_an_account') }}</span>
                             <router-link to="/auth/sign-up"
                                 class="font-semibold text-indigo-600 underline text-md hover:text-indigo-800 ms-1">{{
                                     $t('form.create_one') }}</router-link>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
