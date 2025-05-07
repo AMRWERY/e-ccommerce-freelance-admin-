@@ -14,8 +14,8 @@
                             </button>
                             <router-link to="/dashboard" class="flex ms-2 md:me-24 logo-label">
                                 <span
-                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">BRAND
-                                    SHOP</span>
+                                    class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">{{
+                                    settingsStore.settings?.logo?.name }}</span>
                             </router-link>
                         </div>
                         <div class="flex items-center">
@@ -124,7 +124,7 @@
                                 <iconify-icon icon="mdi:clipboard-list" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.orders_from_merchants')
-                                }}</span>
+                                    }}</span>
                             </router-link>
                         </li>
                         <li v-if="userRole.role === 'admin'">
@@ -134,7 +134,7 @@
                                 <iconify-icon icon="material-symbols:comment" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.users_ratings')
-                                }}</span>
+                                    }}</span>
                             </router-link>
                         </li>
                         <li v-if="userRole.role === 'admin'">
@@ -144,7 +144,7 @@
                                 <iconify-icon icon="material-symbols-light:local-shipping-sharp" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.shipping_costs')
-                                }}</span>
+                                    }}</span>
                             </router-link>
                         </li>
                         <li v-if="userRole.role === 'admin'">
@@ -154,7 +154,7 @@
                                 <iconify-icon icon="material-symbols-light:settings" width="24" height="24"
                                     class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></iconify-icon>
                                 <span class="flex-1 ms-3 whitespace-nowrap">{{ $t('layout.settings')
-                                }}</span>
+                                    }}</span>
                             </router-link>
                         </li>
                     </ul>
@@ -202,6 +202,12 @@ const closeSidebarOnMobile = () => {
         }
     }
 };
+
+const settingsStore = useSettingsStore()
+
+onMounted(() => {
+    settingsStore.fetchSettings()
+})
 </script>
 
 <style scoped>
