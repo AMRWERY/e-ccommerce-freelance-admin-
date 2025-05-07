@@ -180,7 +180,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                        }}</span>
+                                            }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
