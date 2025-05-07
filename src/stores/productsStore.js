@@ -140,9 +140,17 @@ export const useProductsStore = defineStore("new-products", {
                 oldUrl.split("/o/")[1].split("?")[0]
               );
               const storageRef = ref(storage, path);
-              deletePromises.push(deleteObject(storageRef));
+              // Handle deletion errors, ignore if file not found
+              const deletePromise = deleteObject(storageRef).catch((error) => {
+                if (error.code === "storage/object-not-found") {
+                  console.log(`Image not found, skipping deletion: ${path}`);
+                  return; // Resolve promise to prevent rejection
+                }
+                throw error; // Re-throw other errors
+              });
+              deletePromises.push(deletePromise);
             } catch (error) {
-              console.error("Error deleting old image:", error);
+              console.error("Error preparing delete:", error);
             }
           }
         });
@@ -164,6 +172,74 @@ export const useProductsStore = defineStore("new-products", {
         throw error;
       }
     },
+
+    // async updateProduct(
+    //   productId,
+    //   updatedData,
+    //   imageFiles,
+    //   removedImages = {}
+    // ) {
+    //   try {
+    //     const productRef = doc(db, "products", productId);
+    //     const existingProduct = await getDoc(productRef);
+    //     const existingData = existingProduct.data();
+    //     const uploadPromises = [];
+    //     const newImageUrls = {};
+    //     const updateData = { ...updatedData };
+    //     Object.keys(removedImages).forEach((imageKey) => {
+    //       updateData[imageKey] = null;
+    //     });
+    //     for (let i = 1; i <= 8; i++) {
+    //       const imageKey = `imageUrl${i}`;
+    //       const file = imageFiles[imageKey];
+    //       if (file) {
+    //         const storagePath = `/products/${productId}/${imageKey}_${file.name}`;
+    //         const storageRef = ref(storage, storagePath);
+    //         uploadPromises.push(
+    //           uploadBytes(storageRef, file)
+    //             .then((snapshot) => getDownloadURL(snapshot.ref))
+    //             .then((url) => {
+    //               newImageUrls[imageKey] = url;
+    //             })
+    //         );
+    //       } else if (!removedImages[imageKey] && existingData[imageKey]) {
+    //         newImageUrls[imageKey] = existingData[imageKey];
+    //       }
+    //     }
+    //     await Promise.all(uploadPromises);
+    //     const deletePromises = [];
+    //     Object.keys(removedImages).forEach((imageKey) => {
+    //       const oldUrl = existingData[imageKey];
+    //       if (oldUrl) {
+    //         try {
+    //           const path = decodeURIComponent(
+    //             oldUrl.split("/o/")[1].split("?")[0]
+    //           );
+    //           const storageRef = ref(storage, path);
+    //           deletePromises.push(deleteObject(storageRef));
+    //         } catch (error) {
+    //           console.error("Error deleting old image:", error);
+    //         }
+    //       }
+    //     });
+    //     await Promise.all(deletePromises);
+    //     const finalData = {
+    //       ...updateData,
+    //       ...newImageUrls,
+    //       originalPrice: Number(updatedData.originalPrice),
+    //       discountedPrice: Number(updatedData.discountedPrice),
+    //     };
+    //     await updateDoc(productRef, finalData);
+    //     const index = this.products.findIndex((p) => p.id === productId);
+    //     if (index !== -1) {
+    //       this.products[index] = { ...this.products[index], ...finalData };
+    //     }
+    //     await this.fetchProducts();
+    //   } catch (error) {
+    //     console.error("Update error:", error);
+    //     throw error;
+    //   }
+    // },
 
     async deleteProduct(productId) {
       if (!productId) return;
