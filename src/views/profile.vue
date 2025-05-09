@@ -106,6 +106,7 @@
 
 <script setup>
 const { t } = useI18n()
+const router = useRouter();
 const authStore = useAuthStore();
 const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
 const newPassword = ref("");
@@ -134,6 +135,10 @@ const changePassword = async () => {
         });
     } finally {
         loading.value = false;
+        setTimeout(async () => {
+            await authStore.logoutUser();
+            router.replace('/auth/login');
+        }, 3000);
     }
 };
 
