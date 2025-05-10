@@ -113,7 +113,7 @@ export const useProductsStore = defineStore("new-products", {
         Object.keys(removedImages).forEach((imageKey) => {
           updateData[imageKey] = null;
         });
-        for (let i = 1; i <= 8; i++) {
+        for (let i = 1; i <= 20; i++) {
           const imageKey = `imageUrl${i}`;
           const file = imageFiles[imageKey];
           if (file) {

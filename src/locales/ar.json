@@ -112,7 +112,12 @@
     "enter_email": "أدخل البريد الإلكتروني",
     "enter_password": "أدخل كلمة المرور",
     "more_details_about_the_offer": "تفاصيل اكتر عن العرض",
-    "enter_the_offer_details": "ادخل تفاصيل العرض"
+    "enter_the_offer_details": "ادخل تفاصيل العرض",
+    "video_link": "رابط الفيديو",
+    "enter_video_link": "أدخل رابط الفيديو",
+    "embed_not_supported": "المعاينة المضمنة غير متاحة لهذا الرابط.",
+    "open_link_in_new_tab": "فتح الرابط في نافذة جديدة",
+    "video_preview": "معاينة الفيديو"
   },
   "btn": {
     "login": "تسجيل الدخول",
