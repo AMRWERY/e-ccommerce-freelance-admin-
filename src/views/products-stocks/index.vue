@@ -46,9 +46,12 @@
                         <thead class="text-xs text-gray-700 capitalize bg-gray-50">
                             <tr>
                                 <th scope="col" class="w-[4%] px-6 py-3">
+                                    <input type="checkbox" v-model="selectAll"
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                </th>
+                                <th scope="col" class="w-[4%] px-6 py-3">
                                     #
                                 </th>
-                                <th scope="col" class="w-[4%] px-6 py-3"></th>
                                 <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.product_img') }}
                                 </th>
@@ -191,7 +194,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                            }}</span>
+                                        }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -477,16 +480,10 @@ const handleExport = () => {
     const dataToExport = selectedProducts.value.length > 0
         ? productStore.products.filter(p => selectedProducts.value.includes(p.id))
         : productStore.products;
-
     exportDataToExcel(dataToExport, excelConfig.value);
-
     // Clear selection after export if needed
     selectedProducts.value = [];
 };
-
-// const handleExport = () => {
-//     exportDataToExcel(productStore.products, excelConfig.value);
-// };
 
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);

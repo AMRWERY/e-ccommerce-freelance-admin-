@@ -89,6 +89,10 @@
         <table class="w-full table-auto text-start min-w-max">
           <thead class="text-xs text-gray-700 capitalize bg-gray-50">
             <tr>
+              <th scope="col" class="w-[4%] px-6 py-3">
+                <input type="checkbox" v-model="selectAll"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+              </th>
               <th class="p-4 border-b border-slate-200 bg-slate-50">
                 <p class="text-sm font-normal leading-none text-slate-500">
                   #
@@ -109,6 +113,11 @@
                   {{ $t('dashboard.product_name') }}
                 </p>
               </th> -->
+              <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
+                <p class="text-sm font-normal leading-none text-slate-500">
+                  {{ $t('dashboard.product_code') }}
+                </p>
+              </th>
               <th class="p-4 border-b border-slate-200 bg-slate-50" v-if="userRole?.role !== 'market_owner'">
                 <p class="text-sm font-normal leading-none text-slate-500">
                   {{ $t('dashboard.email') }}
@@ -167,6 +176,10 @@
             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"
               v-for="(order, index) in (userRole?.role === 'market_owner' ? merchantsOrdersStore.paginatedOrders : checkoutStore.paginatedOrders)"
               :key="order.id">
+              <td class="px-6 py-4">
+                <input type="checkbox" v-model="selectedOrders" :value="order.id"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+              </td>
               <td class="p-4">
                 <p class="block text-sm font-semibold text-slate-800">{{ (userRole?.role === 'market_owner' ?
                   merchantsOrdersStore.currentPage - 1 : checkoutStore.currentPage - 1) *
@@ -186,6 +199,9 @@
                   order.cart[0]?.titleAr :
                   order.cart[0]?.title }}
               </td> -->
+              <td class="p-4" v-for="item in order.cart" :key="item.productId">
+                <p class="font-semibold">{{ item.productCode }}</p>
+              </td>
               <td class="p-4" v-if="userRole?.role !== 'market_owner'">
                 <p>{{ order.deliveryDetails.email
                 }}</p>
@@ -460,6 +476,24 @@ const getStatusIcon = (statusId) => {
   }
 };
 
+const selectedOrders = ref([]);
+const allSelected = ref(false);
+
+// Add these computed properties
+const selectAll = computed({
+  get: () => allSelected.value,
+  set: (value) => {
+    allSelected.value = value;
+    if (value) {
+      const pageIds = checkoutStore.paginatedOrders.map(p => p.id);
+      selectedOrders.value = [...new Set([...selectedOrders.value, ...pageIds])];
+    } else {
+      const pageIds = checkoutStore.paginatedOrders.map(p => p.id);
+      selectedOrders.value = selectedOrders.value.filter(id => !pageIds.includes(id));
+    }
+  }
+});
+
 // useExcelExport composable
 const { exportDataToExcel } = useExcelExport();
 
@@ -476,16 +510,21 @@ const excelConfig = ref({
       key: "productTitle",
       width: 35
     },
-    // {
-    //   label: t('dashboard.product_name'),
-    //   key: "productTitle",
-    // },
+    {
+      label: t('dashboard.product_code'),
+      key: "productCode",
+      width: 20
+    },
+    {
+      label: t('dashboard.email'),
+      key: "deliveryDetails.email",
+    },
     {
       label: t('dashboard.customer_name'),
       key: "deliveryDetails.name",
     },
     {
-      label: t('dashboard.date'),
+      label: t('dashboard.order_date'),
       key: "date",
     },
     {
@@ -513,13 +552,18 @@ const excelConfig = ref({
 });
 
 const handleExport = () => {
-  const transformedData = checkoutStore.orders.flatMap(order => {
+  const ordersToExport = selectedOrders.value.length > 0
+    ? checkoutStore.orders.filter(order => selectedOrders.value.includes(order.id))
+    : checkoutStore.orders;
+  const transformedData = ordersToExport.flatMap(order => {
     // Create one row per product in cart
     return order.cart?.map(item => ({
       orderId: order.orderId,
+      productCode: item.productCode,
       productTitle: locale.value === 'ar' ? item.titleAr : item.title,
       quantity: item.quantity,
       date: formatDate(order.date),
+      'deliveryDetails.email': order.deliveryDetails?.email || '',
       'deliveryDetails.name': order.deliveryDetails?.name || '',
       'deliveryDetails.phoneNumber': order.deliveryDetails?.phoneNumber || '',
       'deliveryDetails.country': order.deliveryDetails?.country || '',
@@ -669,6 +713,7 @@ const getMerchantTranslatedStatus = (status) => {
 const skeletonHeaders = [
   { label: '#', loaderWidth: 'w-8' },
   { label: 'Order ID', loaderWidth: 'w-32' },
+  { label: 'Product code', loaderWidth: 'w-24' },
   { label: 'Email', loaderWidth: 'w-24' },
   { label: 'Customer name', loaderWidth: 'w-24' },
   { label: 'Date', loaderWidth: 'w-24' },
