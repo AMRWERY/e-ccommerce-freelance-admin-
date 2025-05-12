@@ -48,6 +48,7 @@
                                 <th scope="col" class="w-[4%] px-6 py-3">
                                     #
                                 </th>
+                                <th scope="col" class="w-[4%] px-6 py-3"></th>
                                 <th scope="col" class="w-[8%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.product_img') }}
                                 </th>
@@ -96,6 +97,10 @@
                         <tbody>
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"
                                 v-for="(product, index) in productStore.paginatedProducts" :key="product.id">
+                                <td class="px-6 py-4">
+                                    <input type="checkbox" v-model="selectedProducts" :value="product.id"
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                </td>
                                 <td class="w-4 p-4">
                                     <div class="flex items-center">
                                         {{ (productStore.currentPage -
@@ -186,7 +191,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                        }}</span>
+                                            }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -399,6 +404,24 @@ const handleProductSuccess = () => {
 //currency composable
 const { currencyLocale } = useCurrencyLocale();
 
+const selectedProducts = ref([]);
+const allSelected = ref(false);
+
+// Add these computed properties
+const selectAll = computed({
+    get: () => allSelected.value,
+    set: (value) => {
+        allSelected.value = value;
+        if (value) {
+            const pageIds = productStore.paginatedProducts.map(p => p.id);
+            selectedProducts.value = [...new Set([...selectedProducts.value, ...pageIds])];
+        } else {
+            const pageIds = productStore.paginatedProducts.map(p => p.id);
+            selectedProducts.value = selectedProducts.value.filter(id => !pageIds.includes(id));
+        }
+    }
+});
+
 // useExcelExport composable
 const { exportDataToExcel } = useExcelExport();
 
@@ -410,6 +433,10 @@ const excelConfig = ref({
             label: t('dashboard.product_name'),
             key: "title",
             mapper: (item) => locale.value === 'ar' ? item.titleAr : item.title
+        },
+        {
+            label: t('dashboard.product_code'),
+            key: "productCode",
         },
         {
             label: t('dashboard.target_market'),
@@ -447,8 +474,19 @@ const excelConfig = ref({
 });
 
 const handleExport = () => {
-    exportDataToExcel(productStore.products, excelConfig.value);
+    const dataToExport = selectedProducts.value.length > 0
+        ? productStore.products.filter(p => selectedProducts.value.includes(p.id))
+        : productStore.products;
+
+    exportDataToExcel(dataToExport, excelConfig.value);
+
+    // Clear selection after export if needed
+    selectedProducts.value = [];
 };
+
+// const handleExport = () => {
+//     exportDataToExcel(productStore.products, excelConfig.value);
+// };
 
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);

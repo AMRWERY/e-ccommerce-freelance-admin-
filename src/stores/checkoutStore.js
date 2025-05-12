@@ -73,7 +73,7 @@ export const useCheckoutStore = defineStore("checkout", {
             ...doc.data(),
           }));
           this.updatePagination();
-          console.log(this.orders)
+          // console.log(this.orders)
           return this.fetchTotalCheckouts();
         })
         .catch((e) => {
