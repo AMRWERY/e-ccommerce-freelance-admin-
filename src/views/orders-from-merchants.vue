@@ -89,6 +89,10 @@
         <table class="w-full table-auto text-start min-w-max">
           <thead class="text-xs text-gray-700 capitalize bg-gray-50">
             <tr>
+              <th scope="col" class="w-[4%] px-6 py-3">
+                                    <input type="checkbox" v-model="selectAll"
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                </th>
               <th class="p-4 border-b border-slate-200 bg-slate-50">
                 <p class="text-sm font-normal leading-none text-slate-500">
                   #
@@ -145,6 +149,10 @@
           <tbody v-else>
             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"
               v-for="(order, index) in merchantsOrdersStore.paginatedOrders" :key="order.id">
+              <td class="px-6 py-4">
+                                    <input type="checkbox" v-model="selectedOrders" :value="order.id"
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                                </td>
               <td class="p-4">
                 <p class="block text-sm font-semibold text-slate-800">
                   {{ (merchantsOrdersStore.currentPage - 1) * merchantsOrdersStore.ordersPerPage + index + 1 }}
@@ -379,6 +387,24 @@ const getStatusIcon = (statusId) => {
   }
 };
 
+const selectedOrders = ref([]);
+const allSelected = ref(false);
+
+// Add these computed properties
+const selectAll = computed({
+  get: () => allSelected.value,
+  set: (value) => {
+    allSelected.value = value;
+    if (value) {
+      const pageIds = merchantsOrdersStore.paginatedOrders.map(p => p.id);
+      selectedOrders.value = [...new Set([...selectedOrders.value, ...pageIds])];
+    } else {
+      const pageIds = merchantsOrdersStore.paginatedOrders.map(p => p.id);
+      selectedOrders.value = selectedOrders.value.filter(id => !pageIds.includes(id));
+    }
+  }
+});
+
 // useExcelExport composable
 const { exportDataToExcel } = useExcelExport();
 
@@ -426,7 +452,10 @@ const excelConfig = ref({
 });
 
 const handleExport = () => {
-  const transformedData = merchantsOrdersStore.orders.map(order => ({
+  const ordersToExport = selectedOrders.value.length > 0
+    ? merchantsOrdersStore.orders.filter(order => selectedOrders.value.includes(order.id))
+    : merchantsOrdersStore.orders;
+  const transformedData = ordersToExport.map(order => ({
     orderId: order.orderId,
     productTitle: locale.value === 'ar' ? order.productTitleAr : order.productTitle,
     merchantName: order.merchantName,

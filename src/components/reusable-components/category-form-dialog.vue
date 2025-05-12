@@ -21,7 +21,7 @@
 
                     <div class="p-4 space-y-4 md:p-5">
                         <div class="mb-4">
-                            <dynamic-inputs :label="t('form.category_title')"
+                            <dynamic-inputs :label="t('form.category_title_en')"
                                 :placeholder="t('form.enter_category_title')" type="text" name="category"
                                 :rules="'required|alpha_spaces'" :required="true" prefixIcon="material-symbols:category"
                                 v-model="newCategoryTitle" />
