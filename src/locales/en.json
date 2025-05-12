@@ -120,7 +120,12 @@
     "open_link_in_new_tab": "Open link in new tab",
     "video_preview": "Video preview",
     "product_code": "Product code",
-    "enter_product_code": "Enter product code"
+    "enter_product_code": "Enter product code",
+    "offer_one": "Offer one",
+    "offer_two": "Offer two",
+    "offer_three": "Offer three",
+    "offer_four": "Offer four",
+    "enter_offer": "Enter offer"
   },
   "btn": {
     "login": "Login",

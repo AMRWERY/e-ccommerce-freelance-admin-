@@ -119,7 +119,12 @@
     "open_link_in_new_tab": "فتح الرابط في نافذة جديدة",
     "video_preview": "معاينة الفيديو",
     "product_code": "كود المنتج",
-    "enter_product_code": "ادخل كود المنتج"
+    "enter_product_code": "ادخل كود المنتج",
+    "offer_one": "العرض الأول",
+    "offer_two": "العرض الثاني",
+    "offer_three": "العرض الثالث",
+    "offer_four": "العرض الرابع",
+    "enter_offer": "أدخل العرض"
   },
   "btn": {
     "login": "تسجيل الدخول",
