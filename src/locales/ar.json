@@ -18,12 +18,12 @@
     "register_new_merchant": "تسجيل تاجر جديد",
     "market_info": "بيانات المتجر",
     "personal_info": "البيانات الشخصيه",
-    "product_title": "اسم المنتج",
+    "product_title_en": "اسم المنتج انجليزي",
     "enter_your_product_title": "ادخل اسم المنتج",
     "product_title_ar": "اسم المنتج عربي",
     "enter_your_product_title_ar": "ادخل اسم المنتج عربي",
     "attach_your_files_here": "قم بإرفاق ملفاتك هنا",
-    "product_description": "وصف المنتج",
+    "product_description_en": "وصف المنتج انجليزي",
     "enter_your_product_description": "ادخل وصف المنتج",
     "product_description_ar": "وصف المنتج هربي",
     "enter_your_product_description_ar": "ادخل وصف المنتج هربي",
@@ -117,7 +117,9 @@
     "enter_video_link": "أدخل رابط الفيديو",
     "embed_not_supported": "المعاينة المضمنة غير متاحة لهذا الرابط.",
     "open_link_in_new_tab": "فتح الرابط في نافذة جديدة",
-    "video_preview": "معاينة الفيديو"
+    "video_preview": "معاينة الفيديو",
+    "product_code": "كود المنتج",
+    "enter_product_code": "ادخل كود المنتج"
   },
   "btn": {
     "login": "تسجيل الدخول",
@@ -371,7 +373,8 @@
     "no_reviews_yet": "لا توجد تقييمات",
     "shipping_costs": "مصاريف الشحن",
     "market": "السوق",
-    "settings": "الإعدادات العامة"
+    "settings": "الإعدادات العامة",
+    "product_code": "كود المنتج"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل",

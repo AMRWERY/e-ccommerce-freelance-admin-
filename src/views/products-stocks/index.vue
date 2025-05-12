@@ -57,6 +57,9 @@
                                 <th scope="col" class="w-[10%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.category') }}
                                 </th>
+                                <th scope="col" class="w-[10%] px-6 py-3 whitespace-nowrap">
+                                    {{ $t('dashboard.product_code') }}
+                                </th>
                                 <th scope="col" class="w-[20%] px-6 py-3 whitespace-nowrap">
                                     {{ $t('dashboard.target_market') }}
                                 </th>
@@ -116,6 +119,9 @@
                                         categoriesStore.getCategoryById(product.categoryId)?.titleAr :
                                         categoriesStore.getCategoryById(product.categoryId)?.title) :
                                         $t('dashboard.no_category') }}
+                                </td>
+                                <td class="px-6 py-4 font-semibold whitespace-nowrap">
+                                    {{ product.productCode }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center gap-2">
@@ -180,7 +186,7 @@
                                     </template>
                                     <template v-else>
                                         <span class="font-semibold text-red-700">{{ $t('dashboard.out_of_stock')
-                                            }}</span>
+                                        }}</span>
                                     </template>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -538,6 +544,7 @@ const skeletonHeaders = [
     { label: 'Product Image', type: 'image' },
     { label: 'Product Name', loaderWidth: 'w-32' },
     { label: 'Category', loaderWidth: 'w-24' },
+    { label: 'Product code', loaderWidth: 'w-24' },
     { label: 'Target Market', loaderWidth: 'w-24' },
     { label: 'Price', loaderWidth: 'w-24' },
     { label: 'Discount', loaderWidth: 'w-24' },

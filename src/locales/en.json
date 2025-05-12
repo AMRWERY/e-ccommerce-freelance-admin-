@@ -18,12 +18,12 @@
     "register_new_merchant": "Register new Merchant",
     "market_info": "Market Info",
     "personal_info": "Personal Info",
-    "product_title": "Product title",
+    "product_title_en": "Product title english",
     "enter_your_product_title": "Enter your Product title",
-    "product_title_ar": "Product title ar",
+    "product_title_ar": "Product title arabic",
     "enter_your_product_title_ar": "Enter your Product title ar",
     "attach_your_files_here": "Attach your files here",
-    "product_description": "Product description",
+    "product_description_en": "Product description english",
     "enter_your_product_description": "Enter your Product description",
     "product_description_ar": "Product description ar",
     "enter_your_product_description_ar": "Enter your Product description ar",
@@ -118,7 +118,9 @@
     "enter_video_link": "Enter video link",
     "embed_not_supported": "Embedded preview not available for this link.",
     "open_link_in_new_tab": "Open link in new tab",
-    "video_preview": "Video preview"
+    "video_preview": "Video preview",
+    "product_code": "Product code",
+    "enter_product_code": "Enter product code"
   },
   "btn": {
     "login": "Login",
@@ -372,7 +374,8 @@
     "no_reviews_yet": "No reviews yet",
     "shipping_costs": "Shipping costs",
     "market": "Market",
-    "settings": "General Settings"
+    "settings": "General Settings",
+    "product_code": "Product code"
   },
   "tooltip": {
     "download_excel": "Download Excel",

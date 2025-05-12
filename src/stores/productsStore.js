@@ -327,9 +327,11 @@ export const useProductsStore = defineStore("new-products", {
       return state.products.filter((product) => {
         const title = product.title?.toLowerCase() || "";
         const titleAr = product.titleAr?.toLowerCase() || "";
+        const productCode = product.productCode?.toLowerCase() || "";
         return (
           title.includes(state.searchProductByTitle) ||
-          titleAr.includes(state.searchProductByTitle)
+          titleAr.includes(state.searchProductByTitle) ||
+          productCode.includes(state.searchProductByTitle)
         );
       });
     },

@@ -64,9 +64,9 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <dynamic-inputs :label="t('form.product_title')"
+                                    <dynamic-inputs :label="t('form.product_title_en')"
                                         :placeholder="t('form.enter_your_product_title')" type="text"
-                                        :name="t('form.product_title')" :rules="'required'" :required="true"
+                                        :name="t('form.product_title_en')" :rules="'required'" :required="true"
                                         prefixIcon="tabler:brand-producthunt" v-model="formData.title" />
                                 </div>
 
@@ -101,7 +101,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl1" type="file" class="hidden" accept="image/*"
@@ -127,7 +127,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl2" type="file" class="hidden" accept="image/*"
@@ -153,7 +153,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl3" type="file" class="hidden" accept="image/*"
@@ -179,7 +179,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl4" type="file" class="hidden" accept="image/*"
@@ -205,7 +205,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl5" type="file" class="hidden" accept="image/*"
@@ -231,7 +231,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl6" type="file" class="hidden" accept="image/*"
@@ -257,7 +257,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl7" type="file" class="hidden" accept="image/*"
@@ -283,7 +283,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl8" type="file" class="hidden" accept="image/*"
@@ -309,7 +309,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl9" type="file" class="hidden" accept="image/*"
@@ -335,7 +335,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl10" type="file" class="hidden" accept="image/*"
@@ -361,7 +361,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl11" type="file" class="hidden" accept="image/*"
@@ -387,7 +387,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl12" type="file" class="hidden" accept="image/*"
@@ -413,7 +413,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl13" type="file" class="hidden" accept="image/*"
@@ -439,7 +439,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl14" type="file" class="hidden" accept="image/*"
@@ -465,7 +465,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl15" type="file" class="hidden" accept="image/*"
@@ -491,7 +491,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl16" type="file" class="hidden" accept="image/*"
@@ -517,7 +517,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl17" type="file" class="hidden" accept="image/*"
@@ -543,7 +543,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl18" type="file" class="hidden" accept="image/*"
@@ -569,7 +569,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl19" type="file" class="hidden" accept="image/*"
@@ -595,7 +595,7 @@
                                                         class="text-indigo-600"></iconify-icon>
                                                     <p class="font-medium text-center text-gray-600">{{
                                                         $t('form.upload_file')
-                                                        }}</p>
+                                                    }}</p>
                                                 </label>
                                             </div>
                                             <input id="imageUrl20" type="file" class="hidden" accept="image/*"
@@ -646,9 +646,9 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <dynamic-inputs :label="t('form.product_description')"
+                                    <dynamic-inputs :label="t('form.product_description_en')"
                                         :placeholder="t('form.enter_your_product_description')" type="textarea"
-                                        :name="t('form.product_description')" :rules="'required'" :required="true"
+                                        :name="t('form.product_description_en')" :rules="'required'" :required="true"
                                         prefixIcon="tabler:file-description" v-model="formData.description" />
                                 </div>
 
@@ -657,6 +657,13 @@
                                         :placeholder="t('form.enter_your_product_description_ar')" type="textarea"
                                         :name="t('form.product_description_ar')" :rules="'required'" :required="true"
                                         prefixIcon="tabler:file-description" v-model="formData.descriptionAr" />
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <dynamic-inputs :label="t('form.product_code')"
+                                        :placeholder="t('form.enter_product_code')" type="text"
+                                        :name="t('form.product_code')" :rules="'required'" :required="true"
+                                        prefixIcon="material-symbols-light:barcode-scanner-rounded" v-model="formData.productCode" />
                                 </div>
 
                                 <div class="mb-4">
@@ -694,7 +701,7 @@
                                             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
                                         </div>
                                         <span class="text-sm font-medium text-gray-900 ms-3">{{ $t('form.hot_deal')
-                                            }}</span>
+                                        }}</span>
                                     </label>
 
                                     <div v-if="formData.isHotDeal"
@@ -748,7 +755,7 @@
                                 <div class="mb-4">
                                     <label for="availability" class="block mb-2 font-medium text-gray-700">{{
                                         $t('form.availability')
-                                        }}</label>
+                                    }}</label>
                                     <select id="availability" :name="t('form.availability')"
                                         v-model="formData.availability"
                                         class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -769,7 +776,7 @@
                                 <div class="mb-4" v-if="userRole?.role !== 'market_owner'">
                                     <label for="country" class="block mb-2 font-medium text-gray-700">{{
                                         $t('form.select_market_country')
-                                        }}</label>
+                                    }}</label>
                                     <select id="country" :name="t('form.select_market_country')"
                                         v-model="selectedCountry" @change="updateMarketValues"
                                         class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-blue-400">
@@ -897,6 +904,7 @@ const formData = ref({
     titleAr: '',
     description: '',
     descriptionAr: '',
+    productCode: '',
     originalPrice: null,
     discountedPrice: null,
     commission: null,
@@ -1092,6 +1100,7 @@ const resetForm = () => {
         titleAr: '',
         description: '',
         descriptionAr: '',
+        productCode: '',
         originalPrice: null,
         discountedPrice: null,
         commission: null,
