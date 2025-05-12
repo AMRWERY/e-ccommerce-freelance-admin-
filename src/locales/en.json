@@ -380,7 +380,8 @@
     "shipping_costs": "Shipping costs",
     "market": "Market",
     "settings": "General Settings",
-    "product_code": "Product code"
+    "product_code": "Product code",
+    "offer": "Offer"
   },
   "tooltip": {
     "download_excel": "Download Excel",

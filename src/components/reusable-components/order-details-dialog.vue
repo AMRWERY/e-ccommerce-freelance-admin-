@@ -60,6 +60,15 @@
                     </p>
                   </div>
                 </div>
+
+                <div v-if="orderData.cart?.length">
+                <h4 class="font-medium">{{ $t('dashboard.offer') }}:</h4>
+                 <ul class="list-disc list-inside">
+                 <li v-for="(item, idx) in orderData.cart" :key="idx" class="flex items-center p-2 list-none bg-green-200 rounded-lg">
+                    {{ item.selectedOffer }}
+                </li>
+               </ul>
+               </div>
               </div>
 
               <!-- Order Status -->

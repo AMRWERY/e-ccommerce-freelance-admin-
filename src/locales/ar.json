@@ -379,7 +379,8 @@
     "shipping_costs": "مصاريف الشحن",
     "market": "السوق",
     "settings": "الإعدادات العامة",
-    "product_code": "كود المنتج"
+    "product_code": "كود المنتج",
+    "offer": "عرض"
   },
   "tooltip": {
     "download_excel": "تنزيل إكسل",
