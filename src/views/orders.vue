@@ -203,7 +203,7 @@
                 <p class="font-semibold">{{ item.productCode }}</p>
               </td>
               <td class="p-4" v-if="userRole?.role !== 'market_owner'">
-                <p>{{ order.deliveryDetails.email
+                <p>{{ order.deliveryDetails?.email
                 }}</p>
               </td>
               <td class="p-4">
