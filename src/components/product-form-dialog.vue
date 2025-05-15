@@ -1193,32 +1193,67 @@ const safeEmbedUrl = computed(() => {
         // Supported platforms with embed patterns
         const embedPatterns = {
             'youtube.com': (u) => {
-                const id = u.match(/v=([^&]+)|youtu\.be\/([^?]+)/)?.[1] || u.match(/embed\/([^/]+)/)?.[1];
-                return id ? `https://www.youtube-nocookie.com/embed/${id}?modestbranding=1` : null;
+                let id = u.searchParams.get('v') || u.pathname.split('/').pop();
+                // Handle youtu.be links
+                if (!id && u.hostname === 'youtu.be') {
+                    id = u.pathname.slice(1);
+                }
+                // Handle playlist
+                const playlist = u.searchParams.get('list');
+                const params = playlist ? `?playlist=${playlist}` : '';
+                return id ? `https://www.youtube-nocookie.com/embed/${id}${params}` : null;
             },
             'vimeo.com': (u) => {
                 const id = u.pathname.split('/').pop();
-                return id ? `https://player.vimeo.com/video/${id}` : null;
+                return id ? `https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0` : null;
             },
             'facebook.com': (u) => {
-                const videoId = u.match(/videos\/(\d+)/)?.[1];
-                return videoId ? `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}` : null;
+                // Handle both video and watch URLs
+                const videoId = u.pathname.match(/(?:videos|watch)(?:\/|%2F)(\d+)/)?.[1];
+                return videoId ? `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0` : null;
             },
             'instagram.com': (u) => {
-                const postId = u.pathname.split('/').pop();
-                return postId ? `https://www.instagram.com/p/${postId}/embed` : null;
+                const postId = u.pathname.split('/')[2]; // Handle both /p/ and /reel/ URLs
+                return postId ? `https://www.instagram.com/p/${postId}/embed/` : null;
             },
             'tiktok.com': (u) => {
-                const videoId = u.pathname.split('/').pop();
+                const videoId = u.pathname.split('/video/')[1]?.split('/')[0];
                 return videoId ? `https://www.tiktok.com/embed/v2/${videoId}` : null;
             },
             'twitter.com': (u) => {
-                const tweetId = u.pathname.split('/').pop();
-                return tweetId ? `https://twitframe.com/show?url=${encodeURIComponent(url)}` : null;
+                const tweetId = u.pathname.split('/status/')[1]?.split('/')[0];
+                return tweetId ? `https://platform.twitter.com/embed/Tweet.html?id=${tweetId}` : null;
             },
             'dailymotion.com': (u) => {
-                const videoId = u.pathname.split('/video/').pop();
-                return videoId ? `https://www.dailymotion.com/embed/video/${videoId}` : null;
+                const videoId = u.pathname.match(/video\/([^/?]+)/)?.[1];
+                return videoId ? `https://www.dailymotion.com/embed/video/${videoId}?autoplay=0` : null;
+            },
+            'streamable.com': (u) => {
+                const videoId = u.pathname.split('/')[1];
+                return videoId ? `https://streamable.com/e/${videoId}` : null;
+            },
+            'twitch.tv': (u) => {
+                const clipId = u.pathname.split('/clip/')[1];
+                const videoId = u.pathname.split('/videos/')[1];
+                if (clipId) {
+                    return `https://clips.twitch.tv/embed?clip=${clipId}`;
+                } else if (videoId) {
+                    return `https://player.twitch.tv/?video=${videoId}&parent=${window.location.hostname}`;
+                }
+                const channel = u.pathname.split('/')[1];
+                return channel ? `https://player.twitch.tv/?channel=${channel}&parent=${window.location.hostname}` : null;
+            },
+            'bitchute.com': (u) => {
+                const videoId = u.pathname.split('/video/')[1];
+                return videoId ? `https://www.bitchute.com/embed/${videoId}/` : null;
+            },
+            'odysee.com': (u) => {
+                const path = u.pathname + u.search;
+                return path ? `https://odysee.com/$/embed${path}` : null;
+            },
+            'rumble.com': (u) => {
+                const videoId = u.pathname.split('/')[1];
+                return videoId ? `https://rumble.com/embed/${videoId}/` : null;
             }
         };
         // Find matching platform
@@ -1241,8 +1276,29 @@ const safeEmbedUrl = computed(() => {
 });
 
 const isDirectVideoFile = (url) => {
-    const videoExtensions = ['mp4', 'webm', 'ogg', 'mov', 'm4v', 'mkv'];
-    return videoExtensions.some(ext => url.toLowerCase().endsWith(`.${ext}`));
+    // Check common video file extensions
+    const videoExtensions = ['mp4', 'webm', 'ogg', 'mov', 'm4v', 'mkv', 'avi', 'wmv', 'flv', '3gp'];
+    const isVideoFile = videoExtensions.some(ext => url.toLowerCase().endsWith(`.${ext}`));
+    
+    // Check for common video content URLs
+    const videoContentUrls = [
+        'drive.google.com/file',  // Google Drive videos
+        'dropbox.com/s',          // Dropbox shared files
+        'mediafire.com',          // MediaFire files
+        'cdn.',                   // Generic CDN links
+        's3.amazonaws.com'        // AWS S3 storage
+    ];
+    const isVideoUrl = videoContentUrls.some(domain => url.toLowerCase().includes(domain));
+    
+    // Check common video mime types in URL
+    const videoMimeTypes = [
+        'video/',
+        'application/x-mpegURL',  // HLS streams
+        'application/dash+xml'    // DASH streams
+    ];
+    const hasMimeType = videoMimeTypes.some(type => url.toLowerCase().includes(type));
+    
+    return isVideoFile || isVideoUrl || hasMimeType;
 };
 
 const nextStep = () => {
