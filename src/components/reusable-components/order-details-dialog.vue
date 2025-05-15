@@ -62,12 +62,14 @@
                 </div>
 
                 <div v-if="orderData.cart?.length">
-                <h4 class="font-medium">{{ $t('dashboard.offer') }}:</h4>
+                <div v-if="orderData.cart?.selectedOffer">
+                  <h4 class="font-medium">{{ $t('dashboard.offer') }}:</h4>
                  <ul class="list-disc list-inside">
                  <li v-for="(item, idx) in orderData.cart" :key="idx" class="flex items-center p-2 list-none bg-green-200 rounded-lg">
                     {{ item.selectedOffer }}
                 </li>
                </ul>
+                </div>
                </div>
               </div>
 
@@ -352,14 +354,14 @@ const formatDate = (timestamp) => {
     }
     // Handle regular date string
     const date = new Date(timestamp);
-    if (isNaN(date)) return timestamp;
+    if (isNaN(date)) return 'N/A';
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
   } catch (error) {
     console.error('Error formatting date:', error);
-    return timestamp;
+    return 'N/A';
   }
 };
 

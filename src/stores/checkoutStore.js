@@ -98,11 +98,30 @@ export const useCheckoutStore = defineStore("checkout", {
     async updateOrderStatus(orderId, newStatus) {
       try {
         const docRef = doc(db, "checkout", orderId);
-        await updateDoc(docRef, { statusId: newStatus });
+        
+        // Get the status object to check if it's "Shipped"
+        const statusObj = this.status.find(s => s.id === newStatus);
+        
+        const updateData = { statusId: newStatus };
+        
+        // If status is "Shipped", calculate and add estimated delivery date
+        if (statusObj?.status === "Shipped") {
+          // Calculate estimated delivery date (3-5 days from now)
+          const today = new Date();
+          const estimatedDate = new Date(today);
+          estimatedDate.setDate(today.getDate() + 5); // Set to 5 days from now
+          updateData.estimatedDelivery = estimatedDate.toISOString();
+        }
+    
+        await updateDoc(docRef, updateData);
+        
         // Update local state
         const orderIndex = this.orders.findIndex((o) => o.id === orderId);
         if (orderIndex !== -1) {
-          this.orders[orderIndex].statusId = newStatus;
+          this.orders[orderIndex] = {
+            ...this.orders[orderIndex],
+            ...updateData
+          };
           this.paginatedOrders = [...this.orders]; // Force reactivity
         }
         return { success: true, message: "Status updated successfully" };
@@ -111,24 +130,6 @@ export const useCheckoutStore = defineStore("checkout", {
         return { success: false, message: error.message };
       }
     },
-    // updateOrderStatus(orderId, newStatus) {
-    //   updateDoc(doc(collection(db, "checkout"), orderId), {
-    //     statusId: newStatus,
-    //   })
-    //     .then(() => {
-    //       const orderIndex = this.orders.findIndex(
-    //         (order) => order.id === orderId
-    //       );
-    //       if (orderIndex !== -1) {
-    //         this.orders[orderIndex].statusId = newStatus;
-    //         this.paginatedOrders = [...this.orders];
-    //       }
-    //       this.updatePagination();
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error updating order status:", error);
-    //     });
-    // },
 
     fetchTotalCheckouts() {
       getDocs(collection(db, "checkout"))

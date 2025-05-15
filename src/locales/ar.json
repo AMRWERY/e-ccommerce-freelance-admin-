@@ -1,5 +1,6 @@
 {
   "form": {
+    "logo_image": "صورة الشعار",
     "email": "البريد الإلكتروني",
     "enter_your_email": "أدخل بريدك الإلكتروني",
     "password": "كلمة المرور",
@@ -216,6 +217,7 @@
     "the_page_you_are_looking_for_does_not_exist": "الصفحة التي تبحث عنها غير موجودة."
   },
   "toast": {
+    "logo_updated": "تم تحديث الشعار",
     "successfully_logged_in": "تم تسجيل الدخول بنجاح",
     "failed_logged_in": "فشل تسجيل الدخول",
     "successfully_sign_up": "تم التسجيل بنجاح",

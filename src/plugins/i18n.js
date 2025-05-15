@@ -3,13 +3,6 @@ import en from "@/locales/en.json";
 import ar from "@/locales/ar.json";
 
 function loadLocaleMessages() {
-  // const locales = [{ en: en }, { ar: ar }];
-  // const messages = {};
-  // locales.forEach((lang) => {
-  //   const key = Object.keys(lang);
-  //   messages[key] = lang[key];
-  // });
-  // return messages;
   return { en, ar };
 }
 
@@ -47,17 +40,18 @@ const datetimeFormats = {
   },
 };
 
-const numberFormats = {
-  "en-US": {
+const numberFormats = {  "en-US": {
     currency: {
       style: "currency",
       currency: "EGP",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
       notation: "standard",
     },
     decimal: {
       style: "decimal",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     },
     percent: {
       style: "percent",
@@ -68,13 +62,15 @@ const numberFormats = {
     currency: {
       style: "currency",
       currency: "EGP",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
       useGrouping: true,
       currencyDisplay: "symbol",
     },
     decimal: {
       style: "decimal",
-      minimumSignificantDigits: 3,
-      maximumSignificantDigits: 5,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     },
     percent: {
       style: "percent",
@@ -85,12 +81,14 @@ const numberFormats = {
     currency: {
       style: "currency",
       currency: "SAR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
       notation: "standard",
     },
     decimal: {
       style: "decimal",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     },
     percent: {
       style: "percent",
@@ -101,13 +99,15 @@ const numberFormats = {
     currency: {
       style: "currency",
       currency: "SAR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
       useGrouping: true,
       currencyDisplay: "symbol",
     },
     decimal: {
       style: "decimal",
-      minimumSignificantDigits: 3,
-      maximumSignificantDigits: 5,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     },
     percent: {
       style: "percent",
@@ -119,7 +119,6 @@ const numberFormats = {
 export default createI18n({
   legacy: false,
   locale: "ar",
-  // locales: ["en", "ar"],
   fallbackLocale: "en",
   messages: loadLocaleMessages(),
   datetimeFormats,

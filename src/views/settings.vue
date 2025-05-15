@@ -172,12 +172,34 @@
                                     :placeholder="t('form.enter_logo_name')" />
                             </div>
                         </div>
+
+                        <div class="sm:col-span-full">
+                            <label for="logo-image" class="block font-medium text-gray-900 text-sm/6">{{ $t('form.logo_image') }}</label>
+                            <div class="relative">
+                                <div v-if="logoForm.imagePreview" class="relative mt-3 mb-2 w-28 h-28">
+                                    <img :src="logoForm.imagePreview" class="object-cover w-full h-full rounded-lg" />
+                                    <button type="button" @click="removeLogoImage"
+                                        class="absolute p-0.5 text-white bg-red-500 rounded-full -top-2 -end-2 hover:bg-red-600 flex items-center">
+                                        <iconify-icon icon="material-symbols:close-small-rounded" width="20" height="20"></iconify-icon>
+                                    </button>
+                                </div>
+                                <div v-else class="p-4 mb-2 border border-indigo-500 rounded-lg shadow-md w-28 h-28 bg-gray-50">
+                                    <label for="logo-image-input" class="flex flex-col items-center justify-center h-full gap-2 cursor-pointer">
+                                        <iconify-icon icon="material-symbols:photo" width="30" height="30" class="text-indigo-600"></iconify-icon>
+                                        <p class="font-medium text-center text-gray-600">{{ $t('form.upload_file') }}</p>
+                                    </label>
+                                </div>
+                                <input id="logo-image-input" type="file" class="hidden" accept="image/*" @change="handleLogoImageUpload" />
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="flex items-center justify-end mt-6 gap-x-6">
-                        <button type="submit" :disabled="isLogoLoading"
+                    <div class="flex justify-end mt-4">
+                        <button type="submit"
                             class="px-3 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-md shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                            <iconify-icon icon="eos-icons:loading" class="text-lg animate-spin" v-if="isLogoLoading" />
+                            <span v-if="logoForm.loading" class="flex items-center gap-2">
+                                <iconify-icon icon="eos-icons:loading" class="text-lg animate-spin" />
+                            </span>
                             <span v-else>{{ $t('btn.save') }}</span>
                         </button>
                     </div>
@@ -422,9 +444,68 @@
 </template>
 
 <script setup>
+import { reactive } from 'vue'
+import { useSettingsStore } from '@/stores/settingsStore'
+import { useI18n } from 'vue-i18n'
+import { useToast } from '@/composables/useToast'
+
+const settingsStore = useSettingsStore()
 const { t } = useI18n()
-const settingsStore = useSettingsStore();
-const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast();
+const { showToast, toastMessage, toastType, toastIcon, triggerToast } = useToast()
+
+const logoForm = reactive({
+    name: '',
+    loading: false,
+    imagePreview: null,
+    imageFile: null
+})
+
+const handleLogoImageUpload = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+        if (file.type.startsWith('image/')) {
+            logoForm.imageFile = file
+            const reader = new FileReader()
+            reader.onload = (e) => {
+                logoForm.imagePreview = e.target.result
+            }
+            reader.readAsDataURL(file)
+        } else {
+            triggerToast('error', t('toast.invalid_file_type'), 'material-symbols:error-rounded')
+        }
+    }
+}
+
+const removeLogoImage = () => {
+    logoForm.imageFile = null
+    logoForm.imagePreview = null
+    const input = document.getElementById('logo-image-input')
+    if (input) input.value = ''
+}
+
+const handleLogoSubmit = async () => {
+    try {
+        logoForm.loading = true
+        const formData = new FormData()
+        formData.append('name', logoForm.name)
+        if (logoForm.imageFile) {
+            formData.append('logo', logoForm.imageFile)
+        }
+        
+        await settingsStore.updateLogo(formData)
+        triggerToast('success', t('toast.logo_updated'), 'material-symbols:check-circle-rounded')
+        
+        // Reset form after successful submission
+        logoForm.name = ''
+        removeLogoImage()
+    } catch (error) {
+        console.error('Error updating logo:', error)
+        triggerToast('error', t('toast.update_failed'), 'material-symbols:error-rounded')
+    } finally {
+        logoForm.loading = false
+    }
+}
+
 const isSocialLoading = ref(false);
 const isContactLoading = ref(false);
 const isLogoLoading = ref(false);
@@ -444,10 +525,6 @@ const contactNumbersForm = ref({
     anotherWhatsapp: ''
 });
 
-const logoForm = ref({
-    name: ''
-});
-
 const homeSlidersFiles = ref({});
 const homeSlidersRemoved = ref({});
 const homeSlidersPreviews = ref({
@@ -461,7 +538,8 @@ onMounted(async () => {
     if (settings) {
         socialMediaForm.value = { ...settings.socialMedia };
         contactNumbersForm.value = { ...settings.contactNumbers };
-        logoForm.value.name = settings.logo?.name || '';
+        logoForm.name = settings.logo?.name || '';
+        logoForm.imagePreview = settings.logo?.imageUrl || null;
         for (let i = 1; i <= 8; i++) {
             const key = `imageUrl${i}`;
             homeSlidersPreviews.value[key] = settings.homeSliders?.[key] || '';
@@ -524,26 +602,6 @@ const handleContactNumbersSubmit = async () => {
         });
     } finally {
         isContactLoading.value = false
-    }
-};
-
-const handleLogoSubmit = async () => {
-    try {
-        isLogoLoading.value = true
-        await settingsStore.saveSection('logo', { name: logoForm.value.name });
-        triggerToast({
-            message: t('toast.brand_name_updated'),
-            type: 'success',
-            icon: 'material-symbols:check-circle',
-        });
-    } catch (error) {
-        triggerToast({
-            message: t('toast.update_failed'),
-            type: 'error',
-            icon: 'material-symbols:error',
-        });
-    } finally {
-        isLogoLoading.value = false;
     }
 };
 

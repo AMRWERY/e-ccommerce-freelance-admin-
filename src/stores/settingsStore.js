@@ -77,28 +77,42 @@ export const useSettingsStore = defineStore("settings", {
       }
     },
 
-    // async saveSection(section, data, imageFiles = {}, removedImages = {}) {
-    //   try {
-    //     this.loading = true;
-    //     let processedData = data;
-    //     if (section === "homeSliders") {
-    //       const imageUrls = await this.handleHomeSliderImages(
-    //         imageFiles,
-    //         removedImages
-    //       );
-    //       processedData = imageUrls;
-    //     }
-    //     await setDoc(
-    //       doc(db, "settings", "appSettings"),
-    //       { [section]: processedData },
-    //       { merge: true }
-    //     );
-    //     await this.fetchSettings();
-    //   } catch (error) {
-    //   } finally {
-    //     this.loading = false;
-    //   }
-    // },
+    async updateLogo(formData) {
+      this.loading = true;
+      const settingsRef = doc(db, "settings", "appSettings");
+      try {
+        const updateData = {
+          'logo.name': formData.get('name')
+        };
+
+        // Handle logo image if provided
+        if (formData.get('logo')) {
+          // Delete old logo if exists
+          if (this.settings?.logo?.imageUrl) {
+            const oldPath = decodeURIComponent(
+              this.settings.logo.imageUrl.split("/o/")[1].split("?")[0]
+            );
+            await deleteObject(storageRef(storage, oldPath));
+          }
+
+          // Upload new logo
+          const file = formData.get('logo');
+          const path = `settings/logo_${Date.now()}_${file.name}`;
+          const fileRef = storageRef(storage, path);
+          await uploadBytes(fileRef, file);
+          const imageUrl = await getDownloadURL(fileRef);
+          updateData['logo.imageUrl'] = imageUrl;
+        }
+
+        await updateDoc(settingsRef, updateData);
+        await this.fetchSettings();
+      } catch (error) {
+        console.error('Error updating logo:', error);
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
 
     async handleHomeSliderImages(imageFiles, removedImages) {
       const imageUrls = { ...this.settings.homeSliders };

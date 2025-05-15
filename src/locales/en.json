@@ -1,5 +1,6 @@
 {
   "form": {
+    "logo_image": "Logo image",
     "email": "Email",
     "enter_your_email": "Enter your email",
     "password": "Password",
@@ -217,6 +218,7 @@
     "the_page_you_are_looking_for_does_not_exist": "The page you're looking for doesn't exist."
   },
   "toast": {
+    "logo_updated": "Logo updated",
     "successfully_logged_in": "Successfully logged in",
     "failed_logged_in": "Failed logged in",
     "successfully_sign_up": "Successfully sign up",
