@@ -1,7 +1,6 @@
 <template>
     <div>
-        <div v-if="isDialogOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div class="w-full max-w-2xl p-6 bg-white rounded-lg">
+        <div v-if="isDialogOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">            <div class="w-full max-w-2xl p-6 bg-white rounded-lg" style="height: 408px;">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold">{{ countryName }}</h3>
                     <button @click="close" class="text-gray-500 hover:text-gray-700">
@@ -9,7 +8,7 @@
                     </button>
                 </div>
 
-                <div class="space-y-4">
+                <div class="space-y-4 overflow-y-auto h-[calc(408px-88px)] pr-2 scrollbar-hide">
                     <!-- Add Governorate Button -->
                     <div class="pb-4 border-b">
                         <button v-if="!showAddGovernorate" @click="showAddGovernorate = true"
@@ -254,3 +253,14 @@ const deleteGovernorate = async (governorate) => {
     }
 };
 </script>
+
+<style scoped>
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+}
+</style>
