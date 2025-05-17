@@ -5,12 +5,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  // apiKey: "AIzaSyBTlIUxtXq-f0_ADqT2UsK4mZlz8GFyQMQ",
-  // authDomain: "todo-362dc.firebaseapp.com",
-  // projectId: "todo-362dc",
-  // storageBucket: "todo-362dc.appspot.com",
-  // messagingSenderId: "532045916013",
-  // appId: "1:532045916013:web:e6fe2436225403804a5c64",
+  apiKey: "AIzaSyBTlIUxtXq-f0_ADqT2UsK4mZlz8GFyQMQ",
+  authDomain: "todo-362dc.firebaseapp.com",
+  projectId: "todo-362dc",
+  storageBucket: "todo-362dc.appspot.com",
+  messagingSenderId: "532045916013",
+  appId: "1:532045916013:web:e6fe2436225403804a5c64",
 };
 
 // Initialize Firebase
