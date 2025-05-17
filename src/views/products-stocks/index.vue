@@ -150,11 +150,11 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex flex-col">
-                                        <p class="text-sm font-semibold text-gray-900">
+                                        <p class="text-lg font-semibold text-gray-900">
                                             {{ $n(parseFloat(product.discountedPrice), 'currency',
                                                 currencyLocale(product.targetMarket)) }}
                                         </p>
-                                        <p class="text-xs text-gray-500 line-through">
+                                        <p class="text-lg text-gray-500 line-through">
                                             {{ $n(parseFloat(product.originalPrice), 'currency',
                                                 currencyLocale(product.targetMarket)) }}
                                         </p>
