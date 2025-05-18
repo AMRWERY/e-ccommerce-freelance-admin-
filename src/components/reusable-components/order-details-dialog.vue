@@ -61,15 +61,15 @@
                   </div>
                 </div>
 
-                <div v-if="orderData.cart?.length">
-                <div v-if="orderData.cart?.selectedOffer">
+                <div v-if="hasOffers">
+                <!-- <div v-if="orderData.cart?.selectedOffer"> -->
                   <h4 class="font-medium">{{ $t('dashboard.offer') }}:</h4>
                  <ul class="list-disc list-inside">
                  <li v-for="(item, idx) in orderData.cart" :key="idx" class="flex items-center p-2 list-none bg-green-200 rounded-lg">
                     {{ item.selectedOffer }}
                 </li>
                </ul>
-                </div>
+                <!-- </div> -->
                </div>
               </div>
 
@@ -544,6 +544,10 @@ const getStatusIcon = (status) => {
 }
 
 const statusIcon = computed(() => getStatusIcon(currentStatusText.value))
+
+const hasOffers = computed(() => {
+  return props.orderData.cart?.some(item => item.selectedOffer)
+})
 
 const { currencyLocale } = useCurrencyLocale()
 </script>
