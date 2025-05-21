@@ -524,9 +524,15 @@ const nextStatusId = computed(() => {
 
 const calculateTotal = (cartItems) => {
   if (!cartItems || !cartItems.length) return 0
-  return cartItems.reduce((total, item) => {
+  if (hasOffers.value) {
+    return cartItems.reduce((total, item) => {
+    return total + (parseFloat(item.offerPrice || 0))
+  }, 0)
+  } else {
+    return cartItems.reduce((total, item) => {
     return total + (parseFloat(item.discountedPrice || 0) * (item.quantity || 1))
   }, 0)
+  }
 }
 
 const getStatusIcon = (status) => {
