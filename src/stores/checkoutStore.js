@@ -98,12 +98,9 @@ export const useCheckoutStore = defineStore("checkout", {
     async updateOrderStatus(orderId, newStatus) {
       try {
         const docRef = doc(db, "checkout", orderId);
-        
         // Get the status object to check if it's "Shipped"
         const statusObj = this.status.find(s => s.id === newStatus);
-        
-        const updateData = { statusId: newStatus };
-        
+        const updateData = { statusId: newStatus }; 
         // If status is "Shipped", calculate and add estimated delivery date
         if (statusObj?.status === "Shipped") {
           // Calculate estimated delivery date (3-5 days from now)
@@ -112,9 +109,7 @@ export const useCheckoutStore = defineStore("checkout", {
           estimatedDate.setDate(today.getDate() + 5); // Set to 5 days from now
           updateData.estimatedDelivery = estimatedDate.toISOString();
         }
-    
-        await updateDoc(docRef, updateData);
-        
+        await updateDoc(docRef, updateData);    
         // Update local state
         const orderIndex = this.orders.findIndex((o) => o.id === orderId);
         if (orderIndex !== -1) {

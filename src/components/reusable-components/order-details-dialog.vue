@@ -66,7 +66,7 @@
                   <h4 class="font-medium">{{ $t('dashboard.offer') }}:</h4>
                  <ul class="list-disc list-inside">
                  <li v-for="(item, idx) in orderData.cart" :key="idx" class="flex items-center p-2 list-none bg-green-200 rounded-lg">
-                    {{ item.selectedOffer }}
+                    {{ item.offerText }}
                 </li>
                </ul>
                 <!-- </div> -->
@@ -263,7 +263,10 @@
                         <div class="inline-flex items-center px-2 py-1 bg-indigo-100 rounded-md">
                           <span class="text-xs font-medium text-indigo-700">{{ $t('dashboard.price')
                           }}:</span>
-                          <span class="text-xs text-indigo-700 ms-1">{{ $n((parseFloat(item.discountedPrice || 0) *
+                          <span class="text-xs text-indigo-700 ms-1" v-if="item.offerPrice">{{ $n((parseFloat(item.offerPrice || 0) *
+                            (item.quantity || 1)), 'currency',
+                            currencyLocale(orderData.market === 'ksa' ? 'Saudi Arabia' : 'Egypt')) }}</span>
+                          <span class="text-xs text-indigo-700 ms-1" v-else>{{ $n((parseFloat(item.discountedPrice || 0) *
                             (item.quantity || 1)), 'currency',
                             currencyLocale(orderData.market === 'ksa' ? 'Saudi Arabia' : 'Egypt')) }}</span>
                         </div>
